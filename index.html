@@ -1,90 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>회의 일정 조율</title>
-  <style>
-    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Pretendard,'Noto Sans KR',sans-serif;background:#f6f8fb;color:#191f28} .app{max-width:1180px;margin:0 auto;padding:36px 24px 80px} .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px}.brand{font-weight:800;font-size:22px}.title{font-size:42px;line-height:1.18;margin:18px 0 10px;font-weight:850;letter-spacing:-1.2px}.sub{font-size:18px;color:#6b7684;line-height:1.6;margin:0}.badge{background:#111827;color:#fff;border-radius:12px;padding:12px 16px;font-weight:750}.shell{display:grid;grid-template-columns:280px 1fr;gap:22px}.side,.panel{background:#fff;border:1px solid #e5e8ef;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.04)}.side{padding:18px;align-self:start;position:sticky;top:24px}.step{display:flex;gap:12px;align-items:center;padding:14px;border-radius:10px;color:#8b95a1;font-weight:700}.step.active{background:#eef3ff;color:#3366ff}.num{width:26px;height:26px;border-radius:8px;background:#f2f4f6;display:grid;place-items:center;font-size:14px}.active .num{background:#3366ff;color:#fff}.panel{padding:28px;min-height:650px}.screen{display:none}.screen.active{display:block}.section-title{font-size:28px;font-weight:850;margin:0 0 8px;letter-spacing:-.7px}.section-desc{font-size:16px;color:#6b7684;margin:0 0 26px;line-height:1.55}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{margin-bottom:18px}.label{display:block;font-size:14px;font-weight:800;margin-bottom:8px;color:#333d4b}input,select{width:100%;height:54px;border:1px solid #d9dee8;border-radius:10px;padding:0 15px;font-size:16px;background:#fff;color:#191f28}input:focus,select:focus{outline:none;border-color:#3366ff;box-shadow:0 0 0 3px rgba(51,102,255,.1)}.date-range{display:grid;grid-template-columns:1fr 1fr;gap:12px}.participant-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.person{border:1px solid #e5e8ef;background:#fff;border-radius:12px;padding:16px;cursor:pointer;transition:.15s}.person:hover{border-color:#b8c5ff;transform:translateY(-1px)}.person.selected{border-color:#3366ff;background:#f4f7ff}.person.required{border-color:#ff7a45;background:#fff5ef}.person-top{display:flex;justify-content:space-between;align-items:center}.name{font-weight:850;font-size:17px}.role{font-size:13px;color:#8b95a1;margin-top:5px}.chip{font-size:12px;font-weight:800;border-radius:999px;padding:5px 8px;background:#f2f4f6;color:#6b7684}.required .chip{background:#ffeadf;color:#e85829}.hint{background:#f8fafc;border:1px solid #edf1f5;border-radius:12px;padding:16px;color:#6b7684;line-height:1.55;margin-top:18px}.criteria{display:flex;flex-direction:column;gap:10px}.criterion{display:flex;align-items:center;gap:12px;border:1px solid #e5e8ef;border-radius:12px;background:#fff;padding:15px 16px;cursor:grab;user-select:none}.criterion.dragging{opacity:.45}.handle{color:#b0b8c1;font-size:20px}.rank{width:28px;height:28px;border-radius:8px;background:#eef3ff;color:#3366ff;display:grid;place-items:center;font-weight:850}.criterion-title{font-weight:850}.criterion-desc{font-size:13px;color:#8b95a1;margin-top:3px}.actions{display:flex;justify-content:space-between;margin-top:28px}.btn{border:0;border-radius:10px;padding:15px 22px;font-size:16px;font-weight:850;cursor:pointer}.btn.secondary{background:#f2f4f6;color:#4e5968}.btn.primary{background:#3366ff;color:#fff}.btn:disabled{opacity:.45;cursor:not-allowed}.results{display:flex;flex-direction:column;gap:14px}.result-card{border:1px solid #e5e8ef;border-radius:14px;background:#fff;padding:22px;position:relative}.result-card.best{border-color:#3366ff;background:linear-gradient(180deg,#f5f8ff,#fff)}.tag{display:inline-flex;border-radius:999px;background:#eef3ff;color:#3366ff;font-weight:850;font-size:13px;padding:7px 10px;margin-bottom:12px}.time{font-size:27px;font-weight:900;letter-spacing:-.7px}.score{margin:10px 0;color:#6b7684;font-weight:700}.reasons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.reason{background:#f8fafc;border-radius:9px;padding:11px 12px;font-size:14px;color:#4e5968;font-weight:650}.reason strong{color:#191f28}.people{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.pill{border-radius:8px;background:#f2f4f6;color:#6b7684;font-weight:800;font-size:13px;padding:7px 9px}.pill.req{background:#ffeadf;color:#e85829}.share-box{border:1px solid #e5e8ef;background:#f8fafc;border-radius:14px;padding:22px}.share-title{font-size:24px;font-weight:900;margin-bottom:10px}.share-link{display:flex;gap:10px;margin-top:18px} .share-link input{font-size:14px;color:#6b7684}.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#191f28;color:#fff;border-radius:10px;padding:13px 18px;font-weight:800;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;bottom:42px}@media(max-width:860px){.shell{grid-template-columns:1fr}.side{position:static}.grid,.participant-grid,.reasons{grid-template-columns:1fr}.top{display:block}.badge{display:none}.title{font-size:34px}}
-  </style>
-</head>
-<body>
-  <div class="app">
-    <div class="top">
-      <div>
-        <div class="brand">MeetFit</div>
-        <h1 class="title">회의에 가장 적합한 시간을<br/>찾아드릴게요</h1>
-        <p class="sub">가능한 시간만 나열하지 않고, 참석자와 회의 조건을 비교해 추천합니다.</p>
-      </div>
-      <div class="badge">Best Time Recommendation</div>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeetFit | 회의 일정 조율</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">M</div>
+          <div>
+            <strong>MeetFit</strong>
+            <span>Best meeting time</span>
+          </div>
+        </div>
 
-    <div class="shell">
-      <aside class="side">
-        <div class="step active" data-step-label="0"><span class="num">1</span>회의 정보</div>
-        <div class="step" data-step-label="1"><span class="num">2</span>참석자</div>
-        <div class="step" data-step-label="2"><span class="num">3</span>추천 기준</div>
-        <div class="step" data-step-label="3"><span class="num">4</span>추천 결과</div>
-        <div class="step" data-step-label="4"><span class="num">5</span>공유</div>
+        <div class="mode-switch" role="tablist">
+          <button class="mode-btn active" data-mode="organizer">주최자</button>
+          <button class="mode-btn" data-mode="participant">참석자</button>
+        </div>
+
+        <nav class="steps" id="stepNav"></nav>
       </aside>
 
-      <main class="panel">
-        <section class="screen active">
-          <h2 class="section-title">회의 정보를 입력해주세요</h2>
-          <p class="section-desc">회의 기간은 다음 주 안에서 선택할 수 있어요.</p>
-          <div class="field"><label class="label">회의명</label><input value="프로젝트 방향성 회의" /></div>
-          <div class="grid">
-            <div class="field"><label class="label">회의 소요 시간</label><select><option>1시간</option><option>30분</option><option>1시간 30분</option></select></div>
-            <div class="field"><label class="label">회의 목적</label><select><option>의사결정</option><option>킥오프</option><option>진행 상황 공유</option><option>브레인스토밍</option><option>회고</option></select></div>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="flowLabel">Organizer Flow</p>
+            <h1 id="pageTitle">회의 만들기</h1>
           </div>
-          <div class="field"><label class="label">회의 가능 기간</label><div class="date-range"><input type="date" value="2026-07-13"/><input type="date" value="2026-07-17"/></div></div>
-          <div class="hint">회의 목적과 기간은 추천 결과의 정렬 기준에 반영됩니다.</div>
-        </section>
+          <div class="progress-wrap">
+            <span id="progressText">1 / 7</span>
+            <div class="progress"><div id="progressBar"></div></div>
+          </div>
+        </header>
 
-        <section class="screen">
-          <h2 class="section-title">참석자 6명을 확인해주세요</h2>
-          <p class="section-desc">꼭 참석해야 하는 사람은 필수 참석자로 지정할 수 있어요.</p>
-          <div class="participant-grid" id="people"></div>
-          <div class="hint">카드를 클릭하면 일반 참석자와 필수 참석자를 전환할 수 있습니다.</div>
-        </section>
+        <section class="screen active" data-screen="org-1">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Step 1</p>
+              <h2>회의에 필요한 정보를 입력해주세요</h2>
+              <p>
+                회의 목적과 기간을 기준으로 적합한 시간 추천 기준이 달라져요.
+              </p>
+            </div>
 
-        <section class="screen">
-          <h2 class="section-title">추천 기준 우선순위를 정해주세요</h2>
-          <p class="section-desc">드래그해서 이번 회의에서 중요한 기준을 위로 올려주세요.</p>
-          <div class="criteria" id="criteria"></div>
-        </section>
+            <div class="form-grid">
+              <label class="field full">
+                <span>회의명</span>
+                <input value="신규 서비스 기획 회의" />
+              </label>
 
-        <section class="screen">
-          <h2 class="section-title">추천된 회의 시간이에요</h2>
-          <p class="section-desc">설정한 기준에 따라 가장 적합한 순서로 정렬했어요.</p>
-          <div class="results">
-            <div class="result-card best"><span class="tag">Best Match</span><div class="time">07월 15일(수) 10:00 ~ 11:00</div><div class="score">추천 점수 96점 · 필수 참석자 전원 참석</div><div class="reasons"><div class="reason"><strong>필수 참석자</strong> 3명 모두 가능</div><div class="reason"><strong>참석률</strong> 6명 중 5명 가능</div><div class="reason"><strong>반복 일정</strong> 충돌 가능성 낮음</div><div class="reason"><strong>회의 목적</strong> 의사결정 회의에 적합</div></div><div class="people"><span class="pill req">박서윤 · 필수</span><span class="pill req">최현우 · 필수</span><span class="pill req">정다은 · 필수</span><span class="pill">이지훈</span><span class="pill">한유진</span></div></div>
-            <div class="result-card"><span class="tag">Alternative</span><div class="time">07월 14일(화) 15:00 ~ 16:00</div><div class="score">추천 점수 88점 · 참석률은 높지만 반복 일정과 일부 겹쳐요</div><div class="reasons"><div class="reason"><strong>필수 참석자</strong> 모두 가능</div><div class="reason"><strong>참석률</strong> 6명 중 6명 가능</div></div></div>
-            <div class="result-card"><span class="tag">Alternative</span><div class="time">07월 16일(목) 11:00 ~ 12:00</div><div class="score">추천 점수 81점 · 필수 참석자 1명의 이동 직후 시간이에요</div><div class="reasons"><div class="reason"><strong>필수 참석자</strong> 2명 가능, 1명 주의</div><div class="reason"><strong>참석률</strong> 6명 중 5명 가능</div></div></div>
+              <label class="field">
+                <span>회의 목적</span>
+                <select>
+                  <option>의사결정</option>
+                  <option>킥오프</option>
+                  <option>브레인스토밍</option>
+                  <option>진행 상황 공유</option>
+                  <option>회고</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>회의 길이</span>
+                <select>
+                  <option>1시간</option>
+                  <option>30분</option>
+                  <option>1시간 30분</option>
+                </select>
+              </label>
+
+              <label class="field full">
+                <span>회의 가능 기간</span>
+                <div class="range-card">
+                  <button class="range active">다음 주</button>
+                  <button class="range">이번 주</button>
+                  <button class="range">직접 선택</button>
+                  <div class="date-range">07.13 월 — 07.17 금</div>
+                </div>
+              </label>
+            </div>
           </div>
         </section>
 
-        <section class="screen">
-          <h2 class="section-title">일정을 공유할까요?</h2>
-          <p class="section-desc">추천된 시간을 확정하고 참석자에게 바로 공유할 수 있어요.</p>
-          <div class="share-box"><div class="share-title">프로젝트 방향성 회의</div><p>07월 15일(수) 10:00 ~ 11:00</p><p>필수 참석자 전원 참석 · 총 5명 참석 가능</p><div class="share-link"><input value="https://meetfit.app/share/meeting-1527" readonly/><button class="btn primary" onclick="toast()">복사</button></div></div>
+        <section class="screen" data-screen="org-2">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Step 2</p>
+              <h2>참석자 6명을 초대해요</h2>
+              <p>
+                과제 조건에 맞춰 6명의 참석자를 기준으로 플로우를 구성했어요.
+              </p>
+            </div>
+
+            <div class="people-grid">
+              <article class="person selected">
+                <span>이지훈</span><em>PM</em>
+              </article>
+              <article class="person selected">
+                <span>김민서</span><em>Design</em>
+              </article>
+              <article class="person selected">
+                <span>박서윤</span><em>Marketing</em>
+              </article>
+              <article class="person selected">
+                <span>최현우</span><em>Frontend</em>
+              </article>
+              <article class="person selected">
+                <span>정다은</span><em>Data</em>
+              </article>
+              <article class="person selected">
+                <span>한유진</span><em>Business</em>
+              </article>
+            </div>
+          </div>
         </section>
 
-        <div class="actions"><button class="btn secondary" id="prev">이전</button><button class="btn primary" id="next">다음</button></div>
+        <section class="screen" data-screen="org-3">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Step 3</p>
+              <h2>필수 참석자를 지정해주세요</h2>
+              <p>
+                참석률이 같더라도 필수 참석자가 포함된 시간이 먼저 추천돼요.
+              </p>
+            </div>
+
+            <div class="essential-list">
+              <button class="essential active">이지훈 <span>필수</span></button>
+              <button class="essential active">김민서 <span>필수</span></button>
+              <button class="essential">박서윤 <span>일반</span></button>
+              <button class="essential">최현우 <span>일반</span></button>
+              <button class="essential">정다은 <span>일반</span></button>
+              <button class="essential">한유진 <span>일반</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="org-4">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Step 4</p>
+              <h2>추천 기준의 우선순위를 정해주세요</h2>
+              <p>
+                드래그해서 이번 회의에서 가장 중요한 기준을 위로 올릴 수 있어요.
+              </p>
+            </div>
+
+            <div class="priority-box">
+              <div class="priority-card" draggable="true">
+                <b>필수 참석자 참석</b
+                ><span>꼭 필요한 사람이 모두 가능한 시간</span>
+              </div>
+              <div class="priority-card" draggable="true">
+                <b>회의 목적 적합성</b><span>의사결정 회의에 맞는 시간대</span>
+              </div>
+              <div class="priority-card" draggable="true">
+                <b>참석률 최대</b><span>가장 많은 사람이 참석 가능한 시간</span>
+              </div>
+              <div class="priority-card" draggable="true">
+                <b>반복 일정 고려</b
+                ><span>자주 잡히는 요일·시간대 충돌 최소화</span>
+              </div>
+              <div class="priority-card" draggable="true">
+                <b>가장 빠른 일정</b><span>가능한 기간 내 가장 빠른 후보</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="org-5">
+          <div class="panel wide split-panel">
+            <div>
+              <div class="section-head">
+                <p class="eyebrow">Step 5</p>
+                <h2>초대 링크를 공유해요</h2>
+                <p>
+                  참석자는 링크에서 캘린더 연동 또는 직접 입력을 선택할 수
+                  있어요.
+                </p>
+              </div>
+              <div class="share-link">meetfit.app/invite/F92A7</div>
+              <button class="primary small">링크 복사</button>
+            </div>
+            <div class="status-card">
+              <h3>응답 현황</h3>
+              <div class="status-row done"><span>이지훈</span><b>완료</b></div>
+              <div class="status-row done"><span>김민서</span><b>완료</b></div>
+              <div class="status-row done"><span>박서윤</span><b>완료</b></div>
+              <div class="status-row pending">
+                <span>최현우</span><b>대기</b>
+              </div>
+              <div class="status-row pending">
+                <span>정다은</span><b>대기</b>
+              </div>
+              <div class="status-row pending">
+                <span>한유진</span><b>대기</b>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="org-6">
+          <div class="panel wide center-panel">
+            <div class="loader"></div>
+            <h2>6명의 조건을 분석하고 있어요</h2>
+            <p>
+              필수 참석자, 회의 목적, 참석률, 반복 일정 패턴을 비교해 가장
+              적합한 시간을 찾는 중이에요.
+            </p>
+            <div class="analysis-tags">
+              <span>필수 참석자 2명</span><span>다음 주 5일</span
+              ><span>후보 18개</span><span>반복 일정 4개</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="org-7">
+          <div class="result-layout">
+            <article class="result-card best">
+              <div class="rank">Best Match</div>
+              <h2>07.15 수요일<br />10:00 — 11:00</h2>
+              <p>
+                회의 목적과 참석자 조건을 종합했을 때 가장 적합한 시간이에요.
+              </p>
+              <ul>
+                <li>필수 참석자 2명 모두 참석 가능</li>
+                <li>의사결정 회의에 적합한 오전 시간대</li>
+                <li>참석률 5/6</li>
+                <li>반복 일정과 충돌 없음</li>
+              </ul>
+              <button class="primary">이 시간으로 확정하기</button>
+            </article>
+
+            <div class="alternatives">
+              <article class="alt-card">
+                <b>2순위</b><span>07.14 화 14:00 — 15:00</span
+                ><em>참석률 6/6 · 필수 참석자 가능</em>
+              </article>
+              <article class="alt-card">
+                <b>3순위</b><span>07.17 금 11:00 — 12:00</span
+                ><em>필수 참석자 가능 · 반복 일정 1건 근접</em>
+              </article>
+              <article class="share-done">
+                <h3>확정 후 바로 공유</h3>
+                <p>참석자에게 알림을 보내고 캘린더에 등록할 수 있어요.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="part-1">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Participant</p>
+              <h2>초대받은 회의 정보를 확인해요</h2>
+              <p>
+                주최자가 설정한 회의 조건을 확인하고 나의 일정 조건을 제출해요.
+              </p>
+            </div>
+            <div class="meeting-summary">
+              <div><span>회의명</span><b>신규 서비스 기획 회의</b></div>
+              <div><span>기간</span><b>07.13 월 — 07.17 금</b></div>
+              <div><span>길이</span><b>1시간</b></div>
+              <div><span>목적</span><b>의사결정</b></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="part-2">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Participant</p>
+              <h2>일정을 어떻게 입력할까요?</h2>
+              <p>캘린더 연동은 선택이에요. 직접 입력으로도 제출할 수 있어요.</p>
+            </div>
+            <div class="method-grid">
+              <button class="method recommended">
+                <strong>캘린더 연동</strong
+                ><span>기존 일정을 자동으로 불러와요</span><em>권장</em>
+              </button>
+              <button class="method">
+                <strong>직접 입력</strong
+                ><span>가능 요일과 제외 시간만 입력해요</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="part-3">
+          <div class="panel wide">
+            <div class="section-head">
+              <p class="eyebrow">Participant</p>
+              <h2>나의 조건을 간단히 알려주세요</h2>
+              <p>시간을 하나하나 칠하지 않아도, 조건을 시간 후보로 변환해요.</p>
+            </div>
+            <div class="condition-grid">
+              <div class="condition-card">
+                <h3>가능한 요일</h3>
+                <div class="chips">
+                  <button class="on">월</button><button class="on">화</button
+                  ><button>수</button><button class="on">목</button
+                  ><button>금</button>
+                </div>
+              </div>
+              <div class="condition-card">
+                <h3>선호 시간</h3>
+                <div class="chips">
+                  <button class="on">오전</button><button>오후</button
+                  ><button>상관없음</button>
+                </div>
+              </div>
+              <div class="condition-card">
+                <h3>제외 시간</h3>
+                <p>12:00 — 13:00 점심 직후 제외</p>
+                <p>16:00 이후 집중 업무</p>
+              </div>
+              <div class="condition-card">
+                <h3>반복 일정</h3>
+                <p>화요일 10:00 정기 스크럼</p>
+                <p>목요일 오후 고객 미팅 가능성 높음</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="part-4">
+          <div class="panel wide center-panel">
+            <div class="checkmark">✓</div>
+            <h2>조건 제출이 완료됐어요</h2>
+            <p>
+              주최자가 모든 응답을 확인한 뒤 가장 적합한 회의 시간을 공유할
+              예정이에요.
+            </p>
+          </div>
+        </section>
+
+        <footer class="actions">
+          <button class="secondary" id="prevBtn">이전</button>
+          <button class="primary" id="nextBtn">다음</button>
+        </footer>
       </main>
     </div>
-  </div>
-  <div class="toast" id="toast">공유 링크를 복사했어요</div>
-<script>
-const screens=[...document.querySelectorAll('.screen')];const steps=[...document.querySelectorAll('.step')];let current=0;const prev=document.getElementById('prev');const next=document.getElementById('next');
-function render(){screens.forEach((s,i)=>s.classList.toggle('active',i===current));steps.forEach((s,i)=>s.classList.toggle('active',i===current));prev.disabled=current===0;next.textContent=current===screens.length-1?'완료':'다음'}
-prev.onclick=()=>{if(current>0){current--;render()}};next.onclick=()=>{if(current<screens.length-1){current++;render()}else toast()};
-const peopleData=[['이지훈','PM'],['김민서','디자이너'],['박서윤','개발자'],['최현우','기획자'],['정다은','마케팅'],['한유진','데이터']];
-const people=document.getElementById('people');peopleData.forEach((p,i)=>{const el=document.createElement('div');el.className='person '+(i>=2&&i<=4?'required selected':'selected');el.innerHTML=`<div class="person-top"><div><div class="name">${p[0]}</div><div class="role">${p[1]}</div></div><span class="chip">${i>=2&&i<=4?'필수':'일반'}</span></div>`;el.onclick=()=>{el.classList.toggle('required');el.querySelector('.chip').textContent=el.classList.contains('required')?'필수':'일반'};people.appendChild(el)});
-const criteriaData=[['필수 참석자 우선','꼭 참석해야 하는 사람이 가능한 시간을 먼저 봅니다.'],['반복 일정 충돌 최소화','특정 요일·시간에 자주 잡히는 일정을 피합니다.'],['참석률 최대','가장 많은 사람이 참석할 수 있는 시간을 고려합니다.'],['가장 빠른 일정','기간 안에서 가장 이른 후보를 우선합니다.'],['업무 집중 시간 보호','업무 시작 전후 흐름과 집중 시간을 고려합니다.']];
-const criteria=document.getElementById('criteria');let dragged=null;function refreshRanks(){[...criteria.children].forEach((el,i)=>el.querySelector('.rank').textContent=i+1)}
-criteriaData.forEach((c,i)=>{const el=document.createElement('div');el.className='criterion';el.draggable=true;el.innerHTML=`<span class="handle">☰</span><span class="rank">${i+1}</span><div><div class="criterion-title">${c[0]}</div><div class="criterion-desc">${c[1]}</div></div>`;el.addEventListener('dragstart',()=>{dragged=el;el.classList.add('dragging')});el.addEventListener('dragend',()=>{dragged=null;el.classList.remove('dragging');refreshRanks()});el.addEventListener('dragover',e=>{e.preventDefault();const after=[...criteria.querySelectorAll('.criterion:not(.dragging)')].find(child=>e.clientY<=child.getBoundingClientRect().top+child.offsetHeight/2);if(after)criteria.insertBefore(dragged,after);else criteria.appendChild(dragged)});criteria.appendChild(el)});
-function toast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}render();
-</script>
-</body>
+
+    <script src="script.js"></script>
+  </body>
 </html>
