@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeetFit Admin</title>
+    <link rel="stylesheet" href="meetfit.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="brand">
+          <div class="logo">M</div>
+          <div><strong>MeetFit</strong><span>Organizer</span></div>
+        </div>
+        <nav>
+          <button class="nav-item active" data-target="setup">
+            <span>1</span>회의 설정
+          </button>
+          <button class="nav-item" data-target="share">
+            <span>2</span>링크 공유
+          </button>
+          <button class="nav-item" data-target="status">
+            <span>3</span>응답 현황
+          </button>
+          <button class="nav-item" data-target="result">
+            <span>4</span>추천 결과
+          </button>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+        <section class="admin-hero">
+          <div>
+            <p class="eyebrow">ORGANIZER DASHBOARD</p>
+            <h1>
+              가능한 시간이 아니라,<br />회의에 가장 적합한 시간을 찾습니다.
+            </h1>
+            <p>
+              필수 참석자, 회의 목적, 참석자 조건, 추천 기준을 종합해 최적의
+              회의 시간을 추천합니다.
+            </p>
+          </div>
+          <a class="ghost-link" href="join.html">참석자 화면 보기</a>
+        </section>
+
+        <section id="setup" class="admin-section active">
+          <div class="grid-two">
+            <article class="panel input-panel">
+              <div class="panel-head">
+                <span>INPUT</span>
+                <h2>회의 조건 설정</h2>
+              </div>
+              <label>회의명<input value="프로젝트 킥오프 미팅" /></label>
+              <div class="form-row">
+                <label
+                  >회의 목적<select>
+                    <option>킥오프</option>
+                    <option>의사결정</option>
+                    <option>진행 상황 공유</option>
+                    <option>브레인스토밍</option>
+                  </select></label
+                >
+                <label
+                  >회의 시간<select>
+                    <option>1시간</option>
+                    <option>30분</option>
+                    <option>1시간 30분</option>
+                  </select></label
+                >
+              </div>
+              <label
+                >회의 진행 기간
+                <div class="date-inputs">
+                  <input type="date" value="2026-07-13" /><input
+                    type="date"
+                    value="2026-07-17"
+                  /></div
+              ></label>
+
+              <div class="people-list">
+                <div class="person essential">
+                  <b>김도윤</b><span>PM</span><em>필수</em>
+                </div>
+                <div class="person essential">
+                  <b>박민재</b><span>디자인 리드</span><em>필수</em>
+                </div>
+                <div class="person essential">
+                  <b>정유진</b><span>개발 리드</span><em>필수</em>
+                </div>
+                <div class="person">
+                  <b>이하은</b><span>마케팅</span><em>선택</em>
+                </div>
+                <div class="person">
+                  <b>최서연</b><span>콘텐츠</span><em>선택</em>
+                </div>
+                <div class="person">
+                  <b>강도윤</b><span>운영</span><em>선택</em>
+                </div>
+              </div>
+
+              <h3>추천 기준 우선순위</h3>
+              <p class="hint">
+                카드를 드래그해서 이번 회의에서 더 중요한 기준을 위로
+                올려보세요.
+              </p>
+              <div class="priority-list" id="priorityList">
+                <div class="priority" draggable="true">
+                  <span class="handle">☰</span><b>필수 참석자 우선</b
+                  ><small>꼭 참석해야 하는 사람이 모두 가능한 시간</small>
+                </div>
+                <div class="priority" draggable="true">
+                  <span class="handle">☰</span><b>회의 목적 적합도</b
+                  ><small>킥오프에 적합한 오전 시간 우선</small>
+                </div>
+                <div class="priority" draggable="true">
+                  <span class="handle">☰</span><b>참석률 최대</b
+                  ><small>가능한 인원이 많은 후보 우선</small>
+                </div>
+                <div class="priority" draggable="true">
+                  <span class="handle">☰</span><b>반복 일정 고려</b
+                  ><small>고정 회의·외근 패턴과 충돌 최소화</small>
+                </div>
+              </div>
+            </article>
+
+            <div class="right-flow">
+              <article class="summary-card">
+                <div class="step-badge">1</div>
+                <h2>조건을 먼저 수집합니다</h2>
+                <div class="metric-grid">
+                  <div><b>07/13 - 07/17</b><span>회의 후보 기간</span></div>
+                  <div><b>6명</b><span>전체 참석자</span></div>
+                  <div><b>3명</b><span>필수 참석자</span></div>
+                  <div><b>킥오프</b><span>회의 목적</span></div>
+                </div>
+              </article>
+
+              <article class="summary-card">
+                <div class="step-badge">2</div>
+                <h2>후보 시간을 비교합니다</h2>
+                <table class="time-table">
+                  <thead>
+                    <tr>
+                      <th>시간</th>
+                      <th>07/13</th>
+                      <th>07/14</th>
+                      <th>07/15</th>
+                      <th>07/16</th>
+                      <th>07/17</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>10:00</td>
+                      <td class="selected">
+                        5/6 가능
+                        <div class="dots">
+                          <i></i><i></i><i></i><i class="off"></i
+                          ><i class="off"></i><i class="off"></i>
+                        </div>
+                      </td>
+                      <td>
+                        5/6 가능
+                        <div class="dots">
+                          <i></i><i></i><i class="off"></i><i class="off"></i
+                          ><i class="off"></i><i class="off"></i>
+                        </div>
+                      </td>
+                      <td class="good">
+                        6/6 가능
+                        <div class="dots">
+                          <i></i><i></i><i></i><i></i><i class="off"></i
+                          ><i class="off"></i>
+                        </div>
+                      </td>
+                      <td>5/6 가능</td>
+                      <td>5/6 가능</td>
+                    </tr>
+                    <tr>
+                      <td>14:00</td>
+                      <td>5/6 가능</td>
+                      <td>4/6 가능</td>
+                      <td class="good">6/6 가능</td>
+                      <td>5/6 가능</td>
+                      <td>5/6 가능</td>
+                    </tr>
+                    <tr>
+                      <td>16:00</td>
+                      <td>5/6 가능</td>
+                      <td>5/6 가능</td>
+                      <td>5/6 가능</td>
+                      <td class="good">6/6 가능</td>
+                      <td>4/6 가능</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="share" class="admin-section">
+          <article class="panel narrow-panel">
+            <p class="eyebrow">INVITATION LINK</p>
+            <h2>참석자에게 조건 입력 링크를 공유하세요</h2>
+            <p class="subcopy">
+              참석자는 캘린더 연동 또는 직접 입력 중 편한 방식으로 조건을 제출할
+              수 있습니다.
+            </p>
+            <div class="link-box">https://meetfit.app/join/kickoff-24</div>
+            <button class="primary">링크 복사하기</button>
+          </article>
+        </section>
+
+        <section id="status" class="admin-section">
+          <article class="panel narrow-panel">
+            <p class="eyebrow">RESPONSE STATUS</p>
+            <h2>6명 중 4명이 조건을 제출했어요</h2>
+            <div class="progress-line"><span style="width: 66%"></span></div>
+            <div class="status-list">
+              <div><b>김도윤</b><span class="done">제출 완료</span></div>
+              <div><b>박민재</b><span class="done">제출 완료</span></div>
+              <div><b>정유진</b><span class="done">제출 완료</span></div>
+              <div><b>이하은</b><span class="done">제출 완료</span></div>
+              <div><b>최서연</b><span class="wait">대기 중</span></div>
+              <div><b>강도윤</b><span class="wait">대기 중</span></div>
+            </div>
+            <button class="secondary">미응답자에게 다시 알림</button>
+          </article>
+        </section>
+
+        <section id="result" class="admin-section">
+          <div class="result-grid">
+            <article class="result-card best">
+              <div class="result-top">
+                <span>BEST MATCH</span><strong>92</strong>
+              </div>
+              <h2>07/15(수) 10:00 ~ 11:00</h2>
+              <p>
+                필수 참석자와 회의 목적을 가장 우선 반영해 산출한 추천
+                결과입니다.
+              </p>
+              <div class="reason-grid">
+                <div>필수 참석자 3/3명 참석</div>
+                <div>참석률 6/6명 가능</div>
+                <div>킥오프에 적합한 오전 시간</div>
+                <div>반복 일정 충돌 가능성 낮음</div>
+                <div>불참 예상 강도 낮음</div>
+                <div>공유 확정 후 참석자에게 바로 전달</div>
+              </div>
+              <button class="primary">이 시간으로 확정</button
+              ><button class="secondary">대안으로 보관</button>
+            </article>
+            <aside class="alternatives">
+              <article>
+                <b>2순위</b><span>07/13(월) 10:00 ~ 11:00</span
+                ><em>필수 참석자 모두 가능 · 참석률 5/6</em>
+              </article>
+              <article>
+                <b>3순위</b><span>07/16(목) 16:00 ~ 17:00</span
+                ><em>참석률 6/6 · 킥오프 시간 적합도 낮음</em>
+              </article>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="admin.js"></script>
+  </body>
+</html>

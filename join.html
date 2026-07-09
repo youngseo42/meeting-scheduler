@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeetFit Join</title>
+    <link rel="stylesheet" href="meetfit.css" />
+  </head>
+  <body class="join-body">
+    <main class="phone-frame">
+      <section class="join-screen active" id="invite">
+        <div class="mobile-top">
+          <div class="logo small">M</div>
+          <a href="admin.html">관리자 화면</a>
+        </div>
+        <p class="eyebrow">MEETING INVITATION</p>
+        <h1>프로젝트 킥오프 미팅에 초대되었어요</h1>
+        <div class="invite-card">
+          <div><span>기간</span><b>07/13 - 07/17</b></div>
+          <div><span>소요 시간</span><b>1시간</b></div>
+          <div><span>회의 목적</span><b>킥오프</b></div>
+          <div><span>주최자</span><b>김도윤 PM</b></div>
+        </div>
+        <button class="primary full" data-next>내 조건 입력하기</button>
+      </section>
+
+      <section class="join-screen" id="method">
+        <button class="back" data-prev>←</button>
+        <p class="eyebrow">STEP 1</p>
+        <h1>어떻게 일정을 불러올까요?</h1>
+        <button class="method-card recommended" data-next>
+          <em>추천</em><strong>캘린더 연동</strong
+          ><span
+            >기존 일정을 자동으로 불러와 더 정확하게 추천할 수 있어요.</span
+          >
+        </button>
+        <button class="method-card" data-next>
+          <strong>직접 입력</strong
+          ><span
+            >가능한 요일과 피하고 싶은 시간만 간단히 입력할 수 있어요.</span
+          >
+        </button>
+      </section>
+
+      <section class="join-screen" id="conditions">
+        <button class="back" data-prev>←</button>
+        <p class="eyebrow">STEP 2</p>
+        <h1>회의 조건을 알려주세요</h1>
+        <div class="question">
+          <h3>선호하는 시간대</h3>
+          <div class="chip-row">
+            <button class="on">오전</button><button>오후</button
+            ><button>상관없음</button>
+          </div>
+        </div>
+        <div class="question">
+          <h3>피하고 싶은 시간</h3>
+          <div class="chip-row">
+            <button class="on">점심 직후</button><button>퇴근 직전</button
+            ><button>없음</button>
+          </div>
+        </div>
+        <div class="question">
+          <h3>고정 일정</h3>
+          <textarea
+            placeholder="예: 수요일 오후 외근, 금요일 오전 고객 미팅"
+          ></textarea>
+        </div>
+        <button class="primary full" data-next>조건 제출하기</button>
+      </section>
+
+      <section class="join-screen" id="done">
+        <div class="complete-mark">✓</div>
+        <h1>조건이 제출되었어요</h1>
+        <p>
+          주최자가 모든 참석자의 조건을 확인한 뒤 가장 적합한 회의 시간을 공유할
+          예정입니다.
+        </p>
+        <div class="invite-card compact">
+          <div><span>내 조건</span><b>오전 선호 · 점심 직후 제외</b></div>
+          <div><span>입력 방식</span><b>직접 입력</b></div>
+        </div>
+        <button class="secondary full" data-reset>처음으로 돌아가기</button>
+      </section>
+    </main>
+    <script src="join.js"></script>
+  </body>
+</html>
