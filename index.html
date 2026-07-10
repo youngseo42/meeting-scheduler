@@ -3498,13 +3498,59 @@
 
               <div class="confirm-block">
                 <h3>추가로 반영할 조건</h3>
-                <div class="chips">
-                  <button class="chip on">오전 선호</button
-                  ><button class="chip on">점심 직후 제외</button
-                  ><button class="chip">회의 연속 회피</button
-                  ><button class="chip on">꼭 참석 필요</button>
+
+                <div class="condition-groups">
+                  <div class="condition-group">
+                    <p class="condition-group-title">선호 시간</p>
+
+                    <div class="chips">
+                      <button type="button" class="chip on">오전 선호</button>
+                      <button type="button" class="chip on">
+                        점심 직후 제외
+                      </button>
+                      <button type="button" class="chip">퇴근 직전 제외</button>
+                    </div>
+                  </div>
+
+                  <div class="condition-group">
+                    <p class="condition-group-title">업무 흐름</p>
+
+                    <div id="workflowConditionChips" class="chips">
+                      <button type="button" class="chip">회의 연속 회피</button>
+
+                      <button
+                        type="button"
+                        class="chip condition-add"
+                        onclick="showCustomConditionInput(event)"
+                      >
+                        ＋ 직접 입력
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div id="customConditionRow" class="custom-condition-row hidden">
+                <input
+                  id="customConditionInput"
+                  type="text"
+                  placeholder="예: 금요일 오후 제외"
+                  onkeydown="
+                    if (event.key === 'Enter') {
+                      event.preventDefault();
+                      addCustomCondition();
+                    }
+                  "
+                />
+
+                <button
+                  type="button"
+                  class="primary"
+                  onclick="addCustomCondition()"
+                >
+                  조건 추가
+                </button>
+              </div>
+
               <button class="primary" style="width: 100%" onclick="joinNext()">
                 다음
               </button>
@@ -3525,7 +3571,7 @@
             <div class="confirm-block">
               <h3>반영된 조건</h3>
               <p class="muted" id="conditionSummaryText">
-                오전 선호 · 점심 직후 제외 · 꼭 참석 필요
+                오전 선호 · 점심 직후 제외
               </p>
             </div>
             <button class="primary" style="width: 100%" onclick="submitJoin()">
@@ -4745,6 +4791,47 @@
           e.target.classList.toggle("on");
       });
       renderAll();
+      function showCustomConditionInput(event) {
+        event?.preventDefault();
+        event?.stopPropagation();
+
+        const row = document.getElementById("customConditionRow");
+        if (!row) return;
+
+        row.classList.remove("hidden");
+
+        setTimeout(() => {
+          document.getElementById("customConditionInput")?.focus();
+        }, 0);
+      }
+
+      function addCustomCondition() {
+        const input = document.getElementById("customConditionInput");
+        const list = document.getElementById("workflowConditionChips");
+        const row = document.getElementById("customConditionRow");
+
+        if (!input || !list) return;
+
+        const value = input.value.trim();
+
+        if (!value) {
+          input.focus();
+          return;
+        }
+
+        const chip = document.createElement("button");
+
+        chip.type = "button";
+        chip.className = "chip on custom-condition";
+        chip.textContent = value;
+
+        list.insertBefore(chip, list.querySelector(".condition-add"));
+
+        input.value = "";
+        row?.classList.add("hidden");
+
+        showToastMessage("조건이 추가되었습니다.");
+      }
     </script>
   </body>
 </html>
