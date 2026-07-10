@@ -2400,6 +2400,88 @@
         }
       }
 
+      /* ===== additional conditions grouped by meaning ===== */
+      .condition-groups {
+        display: grid;
+        gap: 22px;
+        margin-top: 18px;
+      }
+      .condition-group {
+        display: grid;
+        gap: 11px;
+      }
+      .condition-group-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 900;
+        color: #4e5968;
+      }
+      .condition-group .chips {
+        gap: 10px;
+      }
+      .condition-add {
+        border: 1px dashed #cfd6df;
+        background: #fff;
+        color: var(--sub);
+      }
+      .condition-add:hover {
+        border-color: #9cc7ff;
+        background: #f7fbff;
+        color: var(--blue);
+      }
+      .condition-custom {
+        width: 100%;
+        min-width: 0;
+        display: grid;
+        gap: 12px;
+        padding-top: 2px;
+      }
+      .condition-custom .chips {
+        width: 100%;
+      }
+      .condition-custom .condition-add {
+        justify-self: start;
+      }
+      .custom-condition-row {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 112px;
+        align-items: stretch;
+        gap: 10px;
+        margin: 0;
+        padding: 14px;
+        border-radius: 14px;
+        background: #f7f9fc;
+      }
+      .custom-condition-row input {
+        width: 100%;
+        min-width: 0;
+        height: 48px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .custom-condition-row .primary {
+        width: 112px;
+        min-width: 112px;
+        height: 48px;
+        padding: 0 16px;
+        border-radius: 12px;
+        white-space: nowrap;
+      }
+      @media (max-width: 560px) {
+        .custom-condition-row {
+          grid-template-columns: 1fr;
+        }
+        .custom-condition-row .primary {
+          width: 100%;
+          min-width: 0;
+        }
+      }
+
       /* ===== manual input calendar layout fix ===== */
       .join-step[data-step="4"] {
         width: 100%;
@@ -3497,90 +3579,60 @@
               </div>
 
               <div class="confirm-block">
-                <h3>추가 선호 조건</h3>
-
+                <h3>추가로 반영할 조건</h3>
                 <div class="condition-groups">
                   <div class="condition-group">
                     <p class="condition-group-title">선호 시간</p>
-
                     <div class="chips">
                       <button type="button" class="chip on">오전 선호</button>
-                      <button type="button" class="chip on">오후 선호</button>
                       <button type="button" class="chip on">
                         점심 직후 제외
                       </button>
-                      <button type="button" class="chip">출근 직후 제외</button>
                       <button type="button" class="chip">퇴근 직전 제외</button>
                     </div>
                   </div>
-
                   <div class="condition-group">
                     <p class="condition-group-title">업무 흐름</p>
-
-                    <div id="workflowConditionChips" class="chips">
+                    <div class="chips">
                       <button type="button" class="chip">회의 연속 회피</button>
-                      <button type="button" class="chip">
-                        집중 업무 시간 보호
+                    </div>
+                  </div>
+                  <div class="condition-custom">
+                    <div id="customConditionChips" class="chips">
+                      <button
+                        type="button"
+                        class="chip condition-add"
+                        onclick="showCustomConditionInput(event)"
+                      >
+                        ＋ 직접 입력
                       </button>
-                      <button type="button" class="chip">
-                        미팅 전후 30분 제외
+                    </div>
+                    <div
+                      id="customConditionRow"
+                      class="custom-condition-row hidden"
+                    >
+                      <input
+                        id="customConditionInput"
+                        type="text"
+                        placeholder="예: 금요일 오후 제외"
+                        onkeydown="
+                          if (event.key === 'Enter') {
+                            event.preventDefault();
+                            addCustomCondition();
+                          }
+                        "
+                      />
+                      <button
+                        type="button"
+                        class="primary"
+                        onclick="addCustomCondition()"
+                      >
+                        조건 추가
                       </button>
                     </div>
                   </div>
                 </div>
-                <div class="condition-custom">
-                  <div id="customConditionChips" class="chips">
-                    <button
-                      type="button"
-                      class="chip condition-add"
-                      onclick="showCustomConditionInput(event)"
-                    >
-                      ＋ 직접 입력
-                    </button>
-                  </div>
-
-                  <div
-                    id="customConditionRow"
-                    class="custom-condition-row hidden"
-                  >
-                    <input
-                      id="customConditionInput"
-                      type="text"
-                      placeholder="예: 금요일 오후 제외"
-                    />
-
-                    <button
-                      type="button"
-                      class="primary"
-                      onclick="addCustomCondition()"
-                    >
-                      조건 추가
-                    </button>
-                  </div>
-                </div>
               </div>
-              <div id="customConditionRow" class="custom-condition-row hidden">
-                <input
-                  id="customConditionInput"
-                  type="text"
-                  placeholder="예: 금요일 오후 제외"
-                  onkeydown="
-                    if (event.key === 'Enter') {
-                      event.preventDefault();
-                      addCustomCondition();
-                    }
-                  "
-                />
-
-                <button
-                  type="button"
-                  class="primary"
-                  onclick="addCustomCondition()"
-                >
-                  조건 추가
-                </button>
-              </div>
-
               <button class="primary" style="width: 100%" onclick="joinNext()">
                 다음
               </button>
@@ -3661,7 +3713,7 @@
             role: "PM",
             essential: true,
             done: true,
-            conditions: "Google Calendar · 오전 선호 · 점심 제외",
+            conditions: "Google Calendar · 오전 선호 · 점심 직후 제외",
           },
           {
             name: "이지훈",
@@ -3689,7 +3741,7 @@
             role: "Content",
             essential: true,
             done: true,
-            conditions: "직접 입력 · 화/수/목 가능 · 꼭 참석 필요",
+            conditions: "직접 입력 · 화/수/목 가능",
           },
         ],
         selected: "",
@@ -4751,6 +4803,41 @@
         }
         return chips.join(" · ");
       }
+      function showCustomConditionInput(event) {
+        event?.preventDefault();
+        event?.stopPropagation();
+        const row = document.getElementById("customConditionRow");
+        if (!row) return;
+        row.classList.remove("hidden");
+        setTimeout(
+          () => document.getElementById("customConditionInput")?.focus(),
+          0,
+        );
+      }
+      function addCustomCondition() {
+        const input = document.getElementById("customConditionInput");
+        const list = document.getElementById("customConditionChips");
+        const row = document.getElementById("customConditionRow");
+        if (!input || !list) return;
+        const value = input.value.trim();
+        if (!value) {
+          input.focus();
+          return;
+        }
+        const duplicate = [
+          ...list.querySelectorAll(".chip:not(.condition-add)"),
+        ].some((chip) => chip.textContent.trim() === value);
+        if (!duplicate) {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "chip on custom-condition";
+          chip.textContent = value;
+          list.insertBefore(chip, list.querySelector(".condition-add"));
+          showToastMessage("조건이 추가되었습니다.");
+        }
+        input.value = "";
+        row?.classList.add("hidden");
+      }
 
       function showParticipantStatus() {
         joinStep = 7;
@@ -4817,51 +4904,13 @@
         syncAccessInfo();
       }
       document.addEventListener("click", (e) => {
-        if (e.target.classList.contains("chip"))
+        if (
+          e.target.classList.contains("chip") &&
+          !e.target.classList.contains("condition-add")
+        )
           e.target.classList.toggle("on");
       });
       renderAll();
-      function showCustomConditionInput(event) {
-        event?.preventDefault();
-        event?.stopPropagation();
-
-        const row = document.getElementById("customConditionRow");
-        if (!row) return;
-
-        row.classList.remove("hidden");
-
-        setTimeout(() => {
-          document.getElementById("customConditionInput")?.focus();
-        }, 0);
-      }
-
-      function addCustomCondition() {
-        const input = document.getElementById("customConditionInput");
-        const list = document.getElementById("workflowConditionChips");
-        const row = document.getElementById("customConditionRow");
-
-        if (!input || !list) return;
-
-        const value = input.value.trim();
-
-        if (!value) {
-          input.focus();
-          return;
-        }
-
-        const chip = document.createElement("button");
-
-        chip.type = "button";
-        chip.className = "chip on custom-condition";
-        chip.textContent = value;
-
-        list.insertBefore(chip, list.querySelector(".condition-add"));
-
-        input.value = "";
-        row?.classList.add("hidden");
-
-        showToastMessage("조건이 추가되었습니다.");
-      }
     </script>
   </body>
 </html>
