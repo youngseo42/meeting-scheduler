@@ -717,6 +717,14 @@
         white-space: normal;
         line-height: 1.25;
       }
+      #createdInvite .manage-time-button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .side-tabs {
+        margin-bottom: 22px;
+      }
       .side-tabs {
         margin-bottom: 22px;
       }
@@ -2725,7 +2733,10 @@
                   링크 복사</button
                 ><button class="secondary" onclick="copyCodeToast()">
                   코드 복사</button
-                ><button class="primary" onclick="go('manage')">
+                ><button
+                  class="primary manage-time-button"
+                  onclick="go('manage')"
+                >
                   회의 시간 정하기
                 </button>
               </div>
@@ -3497,8 +3508,8 @@
                   <div class="extra-schedule">
                     <div class="extra-schedule-head">
                       <div>
-                        <h4>불러오지 않은 일정이 있나요?</h4>
-                        <p>추가한 일정도 회의 후보 시간에서 제외됩니다.</p>
+                        <h4>추가할 일정이 있나요?</h4>
+                        <p>추가된 일정도 회의 후보 시간에서 제외됩니다.</p>
                       </div>
                       <button
                         id="extraScheduleToggleBtn"
@@ -3644,7 +3655,7 @@
                         집중 업무 시간 보호
                       </button>
                       <button type="button" class="chip">
-                        외부 미팅 전후 여유 확보
+                        외부 일정 전후 여유 확보
                       </button>
                     </div>
                   </div>
