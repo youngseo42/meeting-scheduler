@@ -2401,10 +2401,49 @@
       }
 
       /* ===== additional conditions grouped by meaning ===== */
+      .condition-card {
+        width: 100%;
+        padding: 24px;
+        overflow: hidden;
+      }
+      .condition-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .condition-card-copy {
+        min-width: 0;
+      }
+      .condition-card-head h3 {
+        margin: 0;
+      }
+      .condition-card-description {
+        margin: 8px 0 0;
+        color: var(--sub);
+        font-size: 14px;
+        line-height: 1.55;
+        word-break: keep-all;
+      }
+      .condition-input-button {
+        flex: 0 0 auto;
+        height: 44px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--blue);
+        font-weight: 900;
+        white-space: nowrap;
+      }
+      .condition-input-button:hover {
+        border-color: #9cc7ff;
+        background: #f7fbff;
+      }
       .condition-groups {
         display: grid;
         gap: 22px;
-        margin-top: 18px;
+        margin-top: 24px;
       }
       .condition-group {
         display: grid;
@@ -2419,29 +2458,6 @@
       .condition-group .chips {
         gap: 10px;
       }
-      .condition-add {
-        border: 1px dashed #cfd6df;
-        background: #fff;
-        color: var(--sub);
-      }
-      .condition-add:hover {
-        border-color: #9cc7ff;
-        background: #f7fbff;
-        color: var(--blue);
-      }
-      .condition-custom {
-        width: 100%;
-        min-width: 0;
-        display: grid;
-        gap: 12px;
-        padding-top: 2px;
-      }
-      .condition-custom .chips {
-        width: 100%;
-      }
-      .condition-custom .condition-add {
-        justify-self: start;
-      }
       .custom-condition-row {
         position: static;
         width: 100%;
@@ -2450,7 +2466,7 @@
         grid-template-columns: minmax(0, 1fr) 112px;
         align-items: stretch;
         gap: 10px;
-        margin: 0;
+        margin-top: 22px;
         padding: 14px;
         border-radius: 14px;
         background: #f7f9fc;
@@ -2472,7 +2488,17 @@
         border-radius: 12px;
         white-space: nowrap;
       }
+      .custom-condition-chips {
+        margin-top: 14px;
+      }
       @media (max-width: 560px) {
+        .condition-card-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .condition-input-button {
+          width: 100%;
+        }
         .custom-condition-row {
           grid-template-columns: 1fr;
         }
@@ -2896,6 +2922,15 @@
                   <div class="mg-priority-copy">
                     <b>가장 빠른 일정</b
                     ><span>가능한 빠르게 진행 가능한 시간 우선</span>
+                  </div>
+                </div>
+                <div class="mg-priority-item">
+                  <div class="mg-order">6</div>
+                  <div class="mg-priority-copy">
+                    <b>개인 선호 조건 반영</b
+                    ><span
+                      >참석자가 선택한 선호 시간과 업무 흐름 조건 반영</span
+                    >
                   </div>
                 </div>
               </div>
@@ -3578,16 +3613,33 @@
                 </div>
               </div>
 
-              <div class="confirm-block">
-                <h3>추가로 반영할 조건</h3>
+              <div class="confirm-block condition-card">
+                <div class="condition-card-head">
+                  <div class="condition-card-copy">
+                    <h3>추가 선호 조건</h3>
+                    <p class="condition-card-description">
+                      선택한 조건은 필수 반영 사항이 아니며, 후보 시간을 추천할
+                      때 선호도로 반영됩니다.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="condition-input-button"
+                    onclick="showCustomConditionInput(event)"
+                  >
+                    ＋ 직접 입력
+                  </button>
+                </div>
                 <div class="condition-groups">
                   <div class="condition-group">
                     <p class="condition-group-title">선호 시간</p>
                     <div class="chips">
                       <button type="button" class="chip on">오전 선호</button>
+                      <button type="button" class="chip on">오후 선호</button>
                       <button type="button" class="chip on">
                         점심 직후 제외
                       </button>
+                      <button type="button" class="chip">출근 직후 제외</button>
                       <button type="button" class="chip">퇴근 직전 제외</button>
                     </div>
                   </div>
@@ -3595,43 +3647,42 @@
                     <p class="condition-group-title">업무 흐름</p>
                     <div class="chips">
                       <button type="button" class="chip">회의 연속 회피</button>
-                    </div>
-                  </div>
-                  <div class="condition-custom">
-                    <div id="customConditionChips" class="chips">
-                      <button
-                        type="button"
-                        class="chip condition-add"
-                        onclick="showCustomConditionInput(event)"
-                      >
-                        ＋ 직접 입력
+                      <button type="button" class="chip">
+                        집중 업무 시간 보호
                       </button>
-                    </div>
-                    <div
-                      id="customConditionRow"
-                      class="custom-condition-row hidden"
-                    >
-                      <input
-                        id="customConditionInput"
-                        type="text"
-                        placeholder="예: 금요일 오후 제외"
-                        onkeydown="
-                          if (event.key === 'Enter') {
-                            event.preventDefault();
-                            addCustomCondition();
-                          }
-                        "
-                      />
-                      <button
-                        type="button"
-                        class="primary"
-                        onclick="addCustomCondition()"
-                      >
-                        조건 추가
+                      <button type="button" class="chip">
+                        미팅 전후 30분 제외
                       </button>
                     </div>
                   </div>
                 </div>
+                <div
+                  id="customConditionRow"
+                  class="custom-condition-row hidden"
+                >
+                  <input
+                    id="customConditionInput"
+                    type="text"
+                    placeholder="예: 금요일 오후 제외"
+                    onkeydown="
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        addCustomCondition();
+                      }
+                    "
+                  />
+                  <button
+                    type="button"
+                    class="primary"
+                    onclick="addCustomCondition()"
+                  >
+                    조건 추가
+                  </button>
+                </div>
+                <div
+                  id="customConditionChips"
+                  class="chips custom-condition-chips"
+                ></div>
               </div>
               <button class="primary" style="width: 100%" onclick="joinNext()">
                 다음
@@ -3768,6 +3819,10 @@
         {
           title: "반복 일정 패턴 고려",
           desc: "반복되는 일정과 겹치지 않는 시간을 우선 추천합니다.",
+        },
+        {
+          title: "개인 선호 조건 반영",
+          desc: "참석자가 선택한 선호 시간과 업무 흐름 조건을 우선 반영합니다.",
         },
       ];
       function syncAccessInfo() {
@@ -4308,6 +4363,45 @@
               ],
             ],
           },
+          "개인 선호 조건 반영": {
+            summary:
+              "참석자가 선택한 선호 시간과 업무 흐름 조건을 우선 반영했습니다.",
+            data: [
+              [
+                "BEST MATCH",
+                "07/15(수) 10:00 ~ 11:00",
+                "96",
+                [
+                  "오전 선호 충족",
+                  "점심 직후 제외",
+                  "회의 연속 없음",
+                  "필수 참석자 모두 가능",
+                ],
+              ],
+              [
+                "OPTION 2",
+                "07/16(목) 16:00 ~ 17:00",
+                "92",
+                [
+                  "집중 업무 시간 보호",
+                  "미팅 전후 여유 확보",
+                  "참석률 6/6",
+                  "필수 참석자 모두 가능",
+                ],
+              ],
+              [
+                "OPTION 3",
+                "07/14(화) 14:00 ~ 15:00",
+                "89",
+                [
+                  "오후 선호 충족",
+                  "출근 직후 제외",
+                  "참석률 4/6",
+                  "반복 일정 충돌 낮음",
+                ],
+              ],
+            ],
+          },
         };
         return presets[top] || presets["필수 참석자 우선"];
       }
@@ -4824,15 +4918,15 @@
           input.focus();
           return;
         }
-        const duplicate = [
-          ...list.querySelectorAll(".chip:not(.condition-add)"),
-        ].some((chip) => chip.textContent.trim() === value);
+        const duplicate = [...list.querySelectorAll(".chip")].some(
+          (chip) => chip.textContent.trim() === value,
+        );
         if (!duplicate) {
           const chip = document.createElement("button");
           chip.type = "button";
           chip.className = "chip on custom-condition";
           chip.textContent = value;
-          list.insertBefore(chip, list.querySelector(".condition-add"));
+          list.appendChild(chip);
           showToastMessage("조건이 추가되었습니다.");
         }
         input.value = "";
