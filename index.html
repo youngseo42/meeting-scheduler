@@ -3497,7 +3497,7 @@
               </div>
 
               <div class="confirm-block">
-                <h3>추가로 반영할 조건</h3>
+                <h3>추가 선호 조건</h3>
 
                 <div class="condition-groups">
                   <div class="condition-group">
@@ -3505,9 +3505,11 @@
 
                     <div class="chips">
                       <button type="button" class="chip on">오전 선호</button>
+                      <button type="button" class="chip on">오후 선호</button>
                       <button type="button" class="chip on">
                         점심 직후 제외
                       </button>
+                      <button type="button" class="chip">출근 직후 제외</button>
                       <button type="button" class="chip">퇴근 직전 제외</button>
                     </div>
                   </div>
@@ -3517,15 +3519,43 @@
 
                     <div id="workflowConditionChips" class="chips">
                       <button type="button" class="chip">회의 연속 회피</button>
-
-                      <button
-                        type="button"
-                        class="chip condition-add"
-                        onclick="showCustomConditionInput(event)"
-                      >
-                        ＋ 직접 입력
+                      <button type="button" class="chip">
+                        집중 업무 시간 보호
+                      </button>
+                      <button type="button" class="chip">
+                        미팅 전후 30분 제외
                       </button>
                     </div>
+                  </div>
+                </div>
+                <div class="condition-custom">
+                  <div id="customConditionChips" class="chips">
+                    <button
+                      type="button"
+                      class="chip condition-add"
+                      onclick="showCustomConditionInput(event)"
+                    >
+                      ＋ 직접 입력
+                    </button>
+                  </div>
+
+                  <div
+                    id="customConditionRow"
+                    class="custom-condition-row hidden"
+                  >
+                    <input
+                      id="customConditionInput"
+                      type="text"
+                      placeholder="예: 금요일 오후 제외"
+                    />
+
+                    <button
+                      type="button"
+                      class="primary"
+                      onclick="addCustomCondition()"
+                    >
+                      조건 추가
+                    </button>
                   </div>
                 </div>
               </div>
