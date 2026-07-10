@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeetFit</title>
+  <style>
+    :root{--blue:#3182f6;--blue-2:#eaf3ff;--text:#191f28;--sub:#6b7684;--line:#e5e8eb;--bg:#f6f8fb;--card:#fff;--r:18px;--shadow:0 18px 50px rgba(25,31,40,.08)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Pretendard,"Noto Sans KR",sans-serif} button,input,select{font:inherit} button{border:0;cursor:pointer}.page{display:none;min-height:100vh;padding:54px 64px}.page.active{display:block;animation:fade .22s ease}@keyframes fade{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .wrap{max-width:1280px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}.brand{font-size:24px;font-weight:900}.ghost{height:54px;padding:0 24px;border-radius:14px;background:white;border:1px solid var(--line);font-weight:850;color:var(--text)}.primary{height:58px;padding:0 28px;border-radius:14px;background:var(--blue);color:#fff;font-weight:900}.secondary{height:58px;padding:0 28px;border-radius:14px;background:white;border:1px solid var(--line);font-weight:900}.muted{color:var(--sub)}
+    h1{font-size:54px;line-height:1.14;margin:0 0 18px;letter-spacing:-.04em} h2{font-size:38px;margin:0 0 14px;letter-spacing:-.035em} h3{font-size:24px;margin:0 0 10px}.lead{font-size:21px;line-height:1.7;color:var(--sub);margin:0 0 38px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:34px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.entry{min-height:240px;text-align:left;transition:.18s}.entry:hover{transform:translateY(-4px);border-color:#bcd6ff}.entry .icon{font-size:36px;margin-bottom:26px}.entry p{color:var(--sub);line-height:1.6}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:99px;background:#eef4ff;color:var(--blue);font-weight:900;padding:9px 14px;font-size:14px}.layout{display:grid;grid-template-columns:380px 1fr;gap:28px;align-items:start}.stack{display:flex;flex-direction:column;gap:18px}.field{display:flex;flex-direction:column;gap:9px;margin-top:20px}.field label{font-weight:900}.field input,.field select{height:58px;border:1px solid var(--line);border-radius:14px;padding:0 18px;background:white}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hostbox{background:#f7f9fc;border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:10px}.hostbox b{font-size:18px}.checkrow{display:flex;align-items:center;gap:12px;margin-top:16px;padding:18px;border:1px solid #bcd6ff;background:#f7fbff;border-radius:14px;font-weight:900}.checkrow input{width:22px;height:22px;accent-color:var(--blue)}.section{margin-bottom:22px}.people-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.addline{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;margin-bottom:22px}.addline input{height:58px;border:1px solid var(--line);border-radius:14px;padding:0 18px}.people-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.person{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;background:white}.avatar{width:46px;height:46px;border-radius:14px;background:#eef2f7;color:#5f6b7a;display:grid;place-items:center;font-weight:900}.person-info{flex:1}.person-info b{display:block;font-size:17px}.person-info span{color:var(--sub)}.mini-check{width:26px;height:26px;accent-color:var(--blue)}.remove{width:36px;height:36px;border-radius:12px;background:#f2f4f6;color:#6b7684;font-weight:900}.criteria{display:flex;flex-direction:column;gap:12px}.criterion{border:1px solid var(--line);border-radius:15px;background:white;padding:18px;display:grid;grid-template-columns:28px 42px 1fr;gap:12px;align-items:center}.handle{color:#8b95a1}.num{width:30px;height:30px;border-radius:50%;background:var(--blue-2);color:var(--blue);display:grid;place-items:center;font-weight:900}.small{font-size:14px;color:var(--sub);margin-top:3px}.invite-card{border:1px solid #bcd6ff;background:#f7fbff;border-radius:18px;padding:26px;margin-top:22px}.code{font-size:50px;font-weight:950;letter-spacing:.08em;color:var(--blue);margin:14px 0 22px}.btnrow{display:flex;gap:12px;flex-wrap:wrap}.side-tabs{display:flex;flex-direction:column;gap:14px}.tab{width:100%;height:74px;border-radius:16px;text-align:left;padding:0 22px;font-size:20px;font-weight:900;background:#eef4ff;color:var(--blue)}.tab.off{background:transparent;color:#6b7684}.dashboard{display:grid;grid-template-columns:360px 1fr;gap:26px}.status-list{display:flex;flex-direction:column;gap:12px}.status-person{border:1px solid var(--line);border-radius:15px;background:white;padding:16px;display:flex;gap:12px;align-items:center}.badge{border-radius:99px;padding:7px 10px;font-size:13px;font-weight:900;background:#f2f4f6;color:#6b7684}.done{background:#e9f8f2;color:#00a87e}.pending{background:#f2f4f6;color:#6b7684}.bar{height:12px;background:#edf1f6;border-radius:99px;overflow:hidden;margin:14px 0 4px}.bar>div{height:100%;width:50%;background:var(--blue)}.results{display:flex;flex-direction:column;gap:16px}.result{border:1px solid var(--line);border-radius:18px;background:white;padding:26px}.result.best{border-color:#9cc7ff;background:#fbfdff}.result-top{display:flex;justify-content:space-between;gap:20px}.score{font-size:34px;font-weight:950;color:var(--blue);text-align:right}.reason{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.reason span{background:#f7f9fc;border-radius:12px;padding:12px;font-weight:800;color:#4e5968}.hidden{display:none!important}.modal{position:fixed;inset:0;background:rgba(25,31,40,.38);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}.modal.show{display:flex}.modalbox{width:min(520px,100%);background:white;border-radius:22px;padding:32px;box-shadow:var(--shadow)}
+    .phone-wrap{max-width:520px;margin:0 auto}.phone{background:white;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:28px}.progress{height:8px;border-radius:99px;background:#edf1f6;overflow:hidden;margin:18px 0 32px}.progress div{height:100%;background:var(--blue);transition:.2s}.join-step{display:none}.join-step.active{display:block}.choice{width:100%;text-align:left;border:1px solid var(--line);border-radius:18px;background:white;padding:22px;margin:12px 0}.choice.selected,.choice:hover{border-color:#9cc7ff;background:#f7fbff}.choice b{font-size:20px}.choice p{color:var(--sub);margin:8px 0 0}.name-list{display:flex;flex-direction:column;gap:12px}.name-card{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;transition:.18s}.name-card:not(.disabled){cursor:pointer}.name-card:not(.disabled):hover{border-color:#9cc7ff;background:#f7fbff}.name-card.selected{border:2px solid var(--blue);background:#eff6ff}.name-card.selected .badge{background:var(--blue);color:white}.name-card.disabled{opacity:.48;background:#f7f9fc}.primary:disabled{opacity:.38;cursor:not-allowed;filter:grayscale(.1)}.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{height:46px;padding:0 16px;border-radius:99px;background:#f2f4f6;font-weight:900;color:#6b7684}.chip.on{background:var(--blue);color:white}.confirm-block{border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);background:#191f28;color:white;padding:14px 18px;border-radius:14px;font-weight:850;display:none}.toast.show{display:block;animation:toast 1.3s ease}@keyframes toast{0%{opacity:0;transform:translate(-50%,10px)}20%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px)}}
+    @media(max-width:900px){.page{padding:28px 18px}.grid3,.layout,.dashboard{grid-template-columns:1fr}.addline,.people-grid,.reason{grid-template-columns:1fr}h1{font-size:38px}.card{padding:24px}}
+
+
+    /* ===== layout hotfix: prevent card/input overlap and keep sections visually separated ===== */
+    html,body{overflow-x:hidden}
+    .wrap{max-width:1360px;width:100%;}
+    .layout{grid-template-columns:minmax(420px,460px) minmax(0,1fr);gap:32px;}
+    .dashboard{grid-template-columns:minmax(360px,420px) minmax(0,1fr);gap:32px;}
+    .layout>* , .dashboard>* , .row>* , .addline>*{min-width:0;}
+    .card{overflow:hidden;}
+    .field input,.field select,.addline input{width:100%;min-width:0;}
+    .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;}
+    .addline{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 160px;align-items:stretch;}
+    .addline .secondary{height:58px;white-space:nowrap;}
+    .people-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .person{min-width:0;}
+    .person-info{min-width:0;}
+    .person-info b,.person-info span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .hostbox{background:#f6f8fb;border-color:#dfe4ea;box-shadow:none;}
+    .hostbox .pill{width:max-content;}
+    .invite-card{overflow:hidden;}
+    .code{font-size:42px;line-height:1.1;word-break:break-all;}
+    .btnrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .btnrow button{width:100%;min-width:0;white-space:normal;line-height:1.25;}
+    .side-tabs{margin-bottom:22px;}
+    .tab{display:flex;align-items:center;}
+    .reason{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .result-top{align-items:flex-start;}
+    .choice b{display:block;font-size:20px;line-height:1.3;margin-bottom:6px;}
+    .choice p{display:block;color:var(--sub);font-size:16px;line-height:1.45;margin:0;}
+
+    @media(max-width:1120px){
+      .layout,.dashboard{grid-template-columns:1fr;}
+      .page{padding:40px 28px;}
+    }
+    @media(max-width:760px){
+      .page{padding:28px 18px;}
+      .row,.addline,.people-grid,.reason,.btnrow{grid-template-columns:1fr;}
+      .code{font-size:34px;}
+      .primary,.secondary,.ghost{height:52px;padding:0 18px;}
+      h1{font-size:36px}h2{font-size:30px}
+    }
+
+
+    /* ===== manage page: restored previous dashboard layout ===== */
+    .manage-hero{display:flex;justify-content:space-between;gap:28px;margin:28px 0 34px;align-items:flex-start}
+    .manage-hero h1{font-size:42px;line-height:1.16;letter-spacing:-.045em;margin:0 0 14px}
+    .manage-hero p{font-size:17px;line-height:1.7;color:#4b5563;margin:0;max-width:720px}
+    .manage-grid{display:grid;grid-template-columns:390px minmax(0,1fr);gap:26px;align-items:start}
+    .mg-setting,.mg-section{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+    .mg-setting{position:sticky;top:24px;overflow:hidden}
+    .mg-head{padding:24px 26px;border-bottom:1px solid var(--line)}
+    .mg-eyebrow{font-weight:900;color:var(--blue);font-size:13px;letter-spacing:.08em;margin-bottom:8px}
+    .mg-head h2,.mg-section h2{font-size:24px;margin:0;letter-spacing:-.03em}
+    .mg-form{padding:24px 26px}.mg-label{font-weight:900;font-size:14px;margin:18px 0 10px}.mg-input{height:52px;border:1px solid var(--line);border-radius:14px;background:#fafbfc;padding:0 16px;font-weight:800;width:100%;display:flex;align-items:center}.mg-dates{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mg-hint{font-size:13px;color:var(--sub);line-height:1.5;margin-top:10px}.mg-people{display:flex;flex-direction:column;gap:10px}.mg-person{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:13px 14px;background:#fff}.mg-person.host{background:#f6f8fb}.mg-pinfo{flex:1;min-width:0}.mg-pinfo b{display:block}.mg-pinfo span{font-size:13px;color:var(--sub)}.mg-box{width:22px;height:22px;border-radius:6px;border:1px solid #a8b1bd;display:grid;place-items:center;font-weight:900}.mg-box.on{background:var(--blue);border-color:var(--blue);color:white}.mg-priority{display:flex;flex-direction:column;gap:12px}.mg-priority-item{display:grid;grid-template-columns:22px 34px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}.mg-order{width:28px;height:28px;border-radius:50%;background:#eaf3ff;color:var(--blue);display:grid;place-items:center;font-weight:900}.mg-priority-item span{font-size:12px;color:var(--sub);line-height:1.35}.mg-right{display:flex;flex-direction:column;gap:22px}.mg-section{padding:24px}.mg-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:16px}.mg-title h2{display:flex;gap:12px;align-items:center}.mg-num{width:36px;height:36px;border-radius:12px;background:#111827;color:#fff;display:grid;place-items:center;font-size:16px}.mg-tag{height:34px;border-radius:999px;background:#f1f5f9;color:#526172;display:inline-flex;align-items:center;padding:0 14px;font-weight:900;font-size:13px;white-space:nowrap}.mg-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.mg-summary div{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fafbfc}.mg-summary b{font-size:21px;display:block;margin-bottom:8px}.mg-summary span{font-size:13px;color:var(--sub)}.mg-schedule{border:1px solid var(--line);border-radius:18px;overflow:hidden}.mg-row{display:grid;grid-template-columns:120px repeat(5,1fr)}.mg-cell{min-height:58px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px;background:#fff;font-weight:900}.mg-cell:last-child{border-right:0}.mg-headcell{background:#fafbfc;text-align:center}.mg-time{color:#64748b;background:#fafbfc}.mg-slot{background:#ecfdf5}.mg-slot.warn{background:#fff7e8}.mg-slot.active{outline:3px solid var(--blue);outline-offset:-3px;background:#eaf3ff}.mg-total{font-size:15px;font-weight:950;line-height:1.25;color:var(--text)}
+.mg-required{display:inline-flex;align-items:center;margin-top:8px;padding:5px 8px;border-radius:8px;background:rgba(255,255,255,.72);color:#526172;font-size:12px;font-weight:850;line-height:1.2}.mg-slot.active .mg-required{background:#fff;color:var(--blue)}
+    .manage-grid .results .result{border-radius:18px;padding:24px}.manage-grid .result.best{border-color:#99c4ff;background:linear-gradient(180deg,#f8fbff,#fff)}
+    @media(max-width:1120px){.manage-grid{grid-template-columns:1fr}.mg-setting{position:relative;top:auto}.mg-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.mg-row{grid-template-columns:78px repeat(5,1fr);font-size:12px}.mg-cell{padding:8px}.manage-hero{display:block}.manage-hero h1{font-size:34px}}
+    @media(max-width:760px){.mg-summary{grid-template-columns:1fr}.mg-row{grid-template-columns:64px repeat(5,1fr);font-size:11px}.mg-cell{min-height:54px;padding:6px}.manage-hero h1{font-size:30px}}
+
+  
+
+    /* ===== final polish for manage/create spacing and read-only condition view ===== */
+    .hostbox{margin-bottom:28px;}
+    .addline{margin-top:22px;margin-bottom:28px;}
+    .mg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;}
+    .mg-label.with-action{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .text-btn{height:38px;padding:0 14px;border-radius:11px;background:#eef4ff;color:var(--blue);font-weight:900;white-space:nowrap;}
+    .mg-role-badge{margin-left:auto;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;white-space:nowrap;}
+    .mg-role-badge.required{background:#eef4ff;color:var(--blue);}
+    .mg-role-badge.optional{background:#f2f4f6;color:#6b7684;}
+    .mg-priority.readonly .mg-priority-item{grid-template-columns:42px minmax(0,1fr);cursor:default;}
+    .mg-priority.readonly .mg-priority-item b{display:block;line-height:1.35;margin-bottom:4px;}
+    .mg-priority.readonly .mg-priority-item span{display:block;line-height:1.45;}
+    .mg-priority.readonly .handle{display:none;}
+    .mg-person.host{padding:18px 20px;background:#f7f9fc;}
+    .mg-person.host .mg-tag{margin-left:auto;}
+
+
+    /* ===== create page criteria drag polish ===== */
+    .criteria-header{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+    .criteria-header h2{margin:0;}
+    .criteria-help{margin:0;color:var(--sub);font-size:15px;line-height:1.55;}
+    .criteria{gap:14px;}
+    .criterion{grid-template-columns:34px 46px minmax(0,1fr);padding:20px 22px;cursor:grab;transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;}
+    .criterion:hover{border-color:#bcd6ff;background:#fbfdff;}
+    .criterion:active{cursor:grabbing;}
+    .criterion.dragging{opacity:.42;transform:scale(.99);}
+    .criterion.drag-over{border-color:var(--blue);background:#f7fbff;}
+    .criterion .handle{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#8b95a1;background:#f7f9fc;font-size:18px;}
+    .criterion b{display:block;line-height:1.35;margin-bottom:4px;}
+    .criterion .small{line-height:1.45;margin:0;}
+    .num{width:34px;height:34px;}
+    .hostbox{margin-bottom:32px;}
+    .addline{margin-top:24px;margin-bottom:30px;}
+
+    .access-wrap{max-width:560px;margin:0 auto}.access-card{background:white;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:38px}.access-card h1{font-size:38px;margin:0 0 12px;letter-spacing:-.045em}.access-card .lead{font-size:17px;margin-bottom:28px}.access-help{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.access-help span{background:#f2f6ff;color:var(--blue);border-radius:99px;padding:8px 12px;font-weight:850;font-size:13px}.password-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.invite-meta{margin-top:16px;color:var(--sub);font-size:14px;line-height:1.6}.pass-chip{display:inline-flex;align-items:center;gap:8px;background:#f3f7ff;color:var(--blue);font-weight:900;border-radius:999px;padding:8px 12px;margin-top:10px}
+
+    /* ===== manage criteria inline edit ===== */
+    .mg-priority-help{font-size:13px;color:var(--sub);line-height:1.5;margin:0 0 12px;display:none}
+    .mg-priority.editing + .mg-priority-help{display:block}
+    .mg-priority.editing .mg-priority-item{grid-template-columns:26px 42px minmax(0,1fr);cursor:grab;transition:.16s}
+    .mg-priority.editing .mg-priority-item:active{cursor:grabbing}
+    .mg-priority.editing .handle{display:block;color:#8b95a1;font-weight:900;text-align:center}
+    .mg-priority.editing .mg-priority-item.dragging{opacity:.55;transform:scale(.995)}
+    .mg-priority.editing .mg-priority-item.drag-over{border-color:#9cc7ff;background:#f7fbff}
+    .mg-priority.readonly .handle{display:none}
+
+
+    /* ===== fix: manage criteria edit layout should not collapse ===== */
+    #manageCriteriaList.editing{gap:12px;}
+    #manageCriteriaList.editing .mg-priority-item{
+      display:flex !important;
+      align-items:center;
+      gap:14px;
+      min-height:92px;
+      padding:18px 20px;
+      cursor:grab;
+    }
+    #manageCriteriaList.editing .mg-priority-item:active{cursor:grabbing;}
+    #manageCriteriaList.editing .handle{
+      display:grid !important;
+      width:26px;
+      min-width:26px;
+      place-items:center;
+      color:#8b95a1;
+      font-weight:900;
+      font-size:20px;
+    }
+    #manageCriteriaList.editing .mg-order{
+      width:42px;
+      height:42px;
+      min-width:42px;
+      font-size:19px;
+    }
+    #manageCriteriaList.editing .mg-priority-item > div:last-child{
+      flex:1;
+      min-width:0;
+    }
+    #manageCriteriaList.editing .mg-priority-item b{
+      display:block;
+      font-size:20px;
+      line-height:1.35;
+      word-break:keep-all;
+      overflow-wrap:normal;
+      white-space:normal;
+      margin-bottom:5px;
+    }
+    #manageCriteriaList.editing .mg-priority-item span:not(.handle){
+      display:block;
+      font-size:14px;
+      line-height:1.45;
+      color:var(--sub);
+      word-break:keep-all;
+      overflow-wrap:normal;
+      white-space:normal;
+    }
+    #manageCriteriaList.editing .mg-priority-item.dragging{
+      opacity:.6;
+      box-shadow:0 12px 28px rgba(25,31,40,.12);
+      transform:scale(.995);
+    }
+    #manageCriteriaList.editing .mg-priority-item.drag-over{
+      border-color:#9cc7ff;
+      background:#f7fbff;
+    }
+    #manageCriteriaHelp{
+      margin:0 0 14px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:#f7fbff;
+      color:#4e5968;
+    }
+    @media(max-width:760px){
+      #manageCriteriaList.editing .mg-priority-item{padding:16px;gap:12px;}
+      #manageCriteriaList.editing .mg-priority-item b{font-size:18px;}
+    }
+
+    /* ===== definitive fix: manage criteria edit cards keep a stable horizontal layout ===== */
+    #manageCriteriaList{width:100%;min-width:0;}
+    #manageCriteriaList .mg-priority-item{width:100%;min-width:0;}
+    #manageCriteriaList.editing .mg-priority-item{
+      display:grid !important;
+      grid-template-columns:30px 44px minmax(0,1fr) !important;
+      align-items:center !important;
+      column-gap:14px !important;
+      min-height:88px !important;
+      padding:18px 20px !important;
+      width:100% !important;
+      min-width:0 !important;
+    }
+    #manageCriteriaList.editing .mg-priority-copy{
+      display:block !important;
+      width:100% !important;
+      min-width:0 !important;
+      max-width:none !important;
+    }
+    #manageCriteriaList.editing .mg-priority-copy b,
+    #manageCriteriaList.editing .mg-priority-copy span{
+      display:block !important;
+      width:auto !important;
+      max-width:none !important;
+      white-space:normal !important;
+      word-break:keep-all !important;
+      overflow-wrap:break-word !important;
+      writing-mode:horizontal-tb !important;
+    }
+    #manageCriteriaList.editing .mg-priority-copy b{font-size:18px !important;line-height:1.35 !important;margin:0 0 5px !important;}
+    #manageCriteriaList.editing .mg-priority-copy span{font-size:13px !important;line-height:1.5 !important;color:var(--sub) !important;}
+    #manageCriteriaList.editing .handle{width:30px !important;min-width:30px !important;}
+    #manageCriteriaList.editing .mg-order{width:42px !important;height:42px !important;min-width:42px !important;}
+    @media(max-width:1120px){
+      #manageCriteriaList.editing .mg-priority-item{grid-template-columns:28px 42px minmax(0,1fr) !important;}
+    }
+    @media(max-width:560px){
+      #manageCriteriaList.editing .mg-priority-item{grid-template-columns:24px 38px minmax(0,1fr) !important;padding:15px 14px !important;column-gap:10px !important;}
+      #manageCriteriaList.editing .mg-priority-copy b{font-size:16px !important;}
+      #manageCriteriaList.editing .mg-priority-copy span{font-size:12px !important;}
+    }
+
+  
+    /* ===== priority save feedback ===== */
+    #recommend{position:relative;transition:min-height .35s ease,padding .35s ease}
+    #recommend.is-loading{min-height:520px}
+    #recommend.is-loading .mg-title{margin-bottom:0}
+    #recommend.is-loading .results{opacity:0;pointer-events:none}
+    .recalc-banner{display:none;position:absolute;left:24px;right:24px;top:106px;bottom:24px;align-items:center;justify-content:center;flex-direction:column;gap:16px;border:1px solid #d7e7ff;background:linear-gradient(180deg,#f8fbff,#f3f8ff);border-radius:18px;color:var(--blue);font-weight:900;text-align:center;padding:32px}
+    #recommend.is-loading .recalc-banner{display:flex;animation:loadingPanelIn .3s ease both}
+    .recalc-spinner{width:42px;height:42px;border:5px solid #d6e7ff;border-top-color:var(--blue);border-radius:50%;animation:spinRecalc .75s linear infinite}
+    .recalc-banner span:last-child{font-size:18px;line-height:1.55}
+    .results{transition:opacity .2s ease,transform .2s ease}
+    .results.updated{animation:resultsUpdated .7s cubic-bezier(.2,.8,.2,1)}
+    .result.rank-change{animation:rankPulse .85s ease}
+    @keyframes spinRecalc{to{transform:rotate(360deg)}}
+    @keyframes loadingPanelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes resultsUpdated{0%{opacity:.25;transform:translateY(14px)}100%{opacity:1;transform:none}}
+    @keyframes rankPulse{0%{box-shadow:0 0 0 0 rgba(49,130,246,.28)}65%{box-shadow:0 0 0 12px rgba(49,130,246,0)}100%{box-shadow:none}}
+    @media(max-width:760px){#recommend.is-loading{min-height:430px}.recalc-banner{left:18px;right:18px;top:96px;bottom:18px}}
+
+    /* ===== recommendation selection + schedule sync ===== */
+    .result{position:relative;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease,transform .2s ease}
+    .result.selected{border:2px solid #111827 !important;background:#f8fafc !important;box-shadow:0 0 0 4px rgba(17,24,39,.08),0 16px 36px rgba(17,24,39,.10);transform:translateY(-1px)}
+    .result.selected .primary{background:#111827}
+    .result.selected .primary::before{content:'✓ ';}
+    .selection-badge{display:none;position:absolute;right:22px;top:22px;border-radius:999px;padding:8px 12px;background:#111827;color:#fff;font-size:13px;font-weight:900}
+    .result.selected .selection-badge{display:inline-flex}
+    .result.selected .score{margin-top:42px}
+    .mg-slot.active{position:relative;outline:3px solid var(--blue);outline-offset:-3px;background:#eaf3ff;z-index:1}
+    .mg-slot.active::after{content:'BEST';position:absolute;right:7px;top:6px;padding:3px 6px;border-radius:999px;background:var(--blue);color:#fff;font-size:9px;font-weight:950;letter-spacing:.04em}
+
+
+    /* ===== recommendation more button ===== */
+    .more-results-wrap{
+      display:flex;
+      justify-content:center;
+      margin-top:18px;
+    }
+    .more-results-btn{
+      width:100%;
+      min-height:56px;
+      padding:0 24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      color:var(--text);
+      font-size:16px;
+      font-weight:900;
+      line-height:1;
+      box-shadow:none;
+      transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease;
+    }
+    .more-results-btn:hover{
+      background:#f7f9fc;
+      border-color:#cfd7e3;
+    }
+    .more-results-btn:active{transform:translateY(1px);}
+
+
+    /* ===== more button icon alignment fix ===== */
+    .more-results-btn{
+      gap:10px;
+      line-height:1.2;
+    }
+    .more-results-btn #moreResultsText{
+      display:inline-flex;
+      align-items:center;
+      line-height:1.2;
+    }
+    .more-results-icon{
+      width:18px;
+      height:18px;
+      display:inline-block;
+      flex:0 0 18px;
+      position:relative;
+      transform:translateY(0);
+      transition:transform .22s ease;
+    }
+    .more-results-icon::before,
+    .more-results-icon::after{
+      content:"";
+      position:absolute;
+      top:8px;
+      width:10px;
+      height:2px;
+      border-radius:2px;
+      background:currentColor;
+    }
+    .more-results-icon::before{left:1px;transform:rotate(45deg);}
+    .more-results-icon::after{right:1px;transform:rotate(-45deg);}
+    .more-results-btn.open .more-results-icon{transform:rotate(180deg);}
+
+  </style>
+</head>
+<body>
+  <section id="home" class="page active">
+    <div class="wrap">
+      <div class="top"><div class="brand">MeetFit</div><span class="pill">Best time recommendation</span></div>
+      <h1>가능한 시간이 아니라,<br/>회의에 가장 적합한 시간을 추천합니다.</h1>
+      <p class="lead">회의 목적, 필수 참석자, 참석자의 가능 조건을 반영해 주최자가 바로 결정할 수 있는 후보 시간을 정리합니다.</p>
+      <div class="grid3">
+        <button class="card entry" onclick="go('create')"><div class="icon">＋</div><h3>회의 만들기</h3><p>회의 기준을 설정하고 초대코드를 생성합니다.</p></button>
+        <button class="card entry" onclick="startJoin()"><div class="icon">↗</div><h3>초대코드 입력하기</h3><p>초대코드로 들어와 내 조건을 제출합니다.</p></button>
+        <button class="card entry" onclick="startManageGate()"><div class="icon">✓</div><h3>회의 시간 정하기</h3><p>초대코드와 비밀번호로 응답 현황을 확인합니다.</p></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="create" class="page">
+    <div class="wrap">
+      <button class="ghost" onclick="go('home')">← 홈으로</button>
+      <div class="layout" style="margin-top:28px">
+        <aside class="card">
+          <h2>회의 만들기</h2>
+          <p class="muted">회의 시간 추천에 필요한 기준을 설정합니다.</p>
+          <div class="field"><label>회의명</label><input id="meetingTitle" value="프로젝트 킥오프" oninput="syncMeeting()"></div>
+          <div class="field"><label>회의 목적</label><select id="meetingPurpose" onchange="syncMeeting()"><option>킥오프</option><option>의사결정</option><option>브레인스토밍</option><option>진행 상황 공유</option></select></div>
+          <div class="row"><div class="field"><label>시작일</label><input id="startDate" value="07/13" oninput="syncMeeting()"></div><div class="field"><label>종료일</label><input id="endDate" value="07/17" oninput="syncMeeting()"></div></div>
+          <div class="field"><label>회의 길이</label><select id="meetingLength" onchange="syncMeeting()"><option>30분</option><option selected>1시간</option><option>1시간 30분</option><option>2시간</option><option>2시간 30분</option><option>3시간</option></select></div>
+          <div class="field"><label>관리 비밀번호</label><input id="meetingPassword" type="password" value="2407" oninput="syncAccessInfo()" placeholder="회의 시간 정하기에서 사용"></div>
+          <hr style="border:0;border-top:1px solid var(--line);margin:28px 0">
+          <h3>주최자 정보</h3>
+          <div class="field"><label>내 이름</label><input id="hostName" value="박서연" oninput="syncHost()"></div>
+          <div class="field"><label>역할</label><input id="hostRole" value="PM" oninput="syncHost()"></div>
+          <label class="checkrow"><input id="hostEssential" type="checkbox" checked onchange="syncHost()">저는 필수 참석자입니다.</label>
+          <button class="primary" style="width:100%;margin-top:24px" onclick="showInvite()">회의 정보 저장하기</button>
+          <div id="createdInvite" class="invite-card hidden"><span class="pill">초대코드</span><div class="code">XCZ7NS</div><div class="pass-chip">비밀번호 <span id="createdPassword">2407</span></div><div class="btnrow"><button class="secondary" onclick="copyToast()">링크 복사</button><button class="secondary" onclick="copyCodeToast()">코드 복사</button><button class="primary" onclick="go('manage')">회의 시간 정하기</button></div></div>
+        </aside>
+        <main class="stack">
+          <div class="card">
+            <div class="people-head"><div><h2>참가자 추가</h2><p class="muted">주최자를 포함해 참석자를 관리합니다.</p></div><span class="pill" id="totalCount">총 6명</span></div>
+            <div class="hostbox"><span class="pill">HOST</span><b id="hostPreviewName">박서연</b><span id="hostPreviewRole" class="muted">PM · 필수 참석자</span></div>
+            <div class="addline"><input id="newName" placeholder="이름"><input id="newRole" placeholder="역할"><button class="secondary" onclick="addPerson()">참가자 추가</button></div>
+            <div id="peopleList" class="people-grid"></div>
+          </div>
+          <div class="card">
+            <div class="criteria-header"><h2>추천 기준 우선순위</h2><p class="criteria-help">회의에 중요한 기준을 위로 드래그하여 추천 우선순위를 변경해보세요.</p></div>
+            <div id="criteriaList" class="criteria"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <section id="manageGate" class="page">
+    <div class="wrap">
+      <button class="ghost" onclick="go('home')">← 홈으로</button>
+      <div class="access-wrap" style="margin-top:28px">
+        <div class="access-card">
+          <h1>회의 정보를 입력해주세요.</h1>
+          <p class="lead">주최자만 회의 응답 현황과 추천 결과를 확인할 수 있습니다.</p>
+          <div class="field"><label>초대코드</label><input id="manageCodeInput" value="XCZ7NS" placeholder="초대코드 입력" oninput="checkManageGate()"></div>
+          <div class="field"><label>관리 비밀번호</label><input id="managePasswordInput" type="text" value="2407" placeholder="비밀번호 입력" oninput="checkManageGate()"></div>
+          <button id="manageEnterBtn" class="primary" style="width:100%;margin-top:22px" onclick="enterManage()" disabled>회의 시간 정하기</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="manage" class="page">
+    <div class="wrap">
+      <button class="ghost" onclick="go('home')">← 홈으로</button>
+      <div class="manage-hero">
+        <div>
+          <h1>가능한 시간이 아니라,<br>회의에 가장 적합한 시간을 추천합니다.</h1>
+          <p>참석자의 응답 현황과 필수 참석자, 회의 목적, 추천 기준을 함께 비교해 가장 적합한 후보 시간을 확인합니다.</p>
+        </div>
+        <div class="invite-card" style="min-width:280px;margin-top:0">
+          <span class="pill">초대코드</span>
+          <div class="code" style="font-size:36px">XCZ7NS</div>
+          <div class="btnrow"><button class="secondary" onclick="copyToast()">링크 복사</button><button class="secondary" onclick="copyCodeToast()">코드 복사</button></div>
+        </div>
+      </div>
+
+      <div class="manage-grid">
+        <aside class="mg-setting">
+          <div class="mg-head"><div><div class="mg-eyebrow">MEETING</div><h2>회의 조건</h2></div><button class="text-btn" onclick="go('create')">조건 수정</button></div>
+          <div class="mg-form">
+            <div class="mg-label">회의명</div><div class="mg-input">프로젝트 킥오프</div>
+            <div class="mg-label">회의 진행 기간</div><div class="mg-dates"><div id="manageStartDate" class="mg-input">07/13</div><div id="manageEndDate" class="mg-input">07/17</div></div>
+            <div class="mg-label">회의 길이</div><div id="manageMeetingLength" class="mg-input">1시간</div>
+            <div class="mg-label">주최자</div>
+            <div class="mg-person host"><div class="avatar">박</div><div class="mg-pinfo"><b>박서연</b><span>PM · 필수 참석자</span></div><span class="mg-tag">HOST</span></div>
+            <div class="mg-label">참석자</div>
+            <div class="mg-people">
+              <div class="mg-person"><div class="avatar">김</div><div class="mg-pinfo"><b>김민준</b><span>PM</span></div><span class="mg-role-badge required">필수</span></div>
+              <div class="mg-person"><div class="avatar">이</div><div class="mg-pinfo"><b>이지훈</b><span>Developer</span></div><span class="mg-role-badge required">필수</span></div>
+              <div class="mg-person"><div class="avatar">최</div><div class="mg-pinfo"><b>최유진</b><span>Marketing</span></div><span class="mg-role-badge optional">선택</span></div>
+              <div class="mg-person"><div class="avatar">한</div><div class="mg-pinfo"><b>한도윤</b><span>Operation</span></div><span class="mg-role-badge optional">선택</span></div>
+              <div class="mg-person"><div class="avatar">정</div><div class="mg-pinfo"><b>정수민</b><span>Content</span></div><span class="mg-role-badge required">필수</span></div>
+            </div>
+            <div class="mg-label with-action"><span>추천 기준 우선순위</span><button id="manageCriteriaBtn" class="text-btn" onclick="toggleManageCriteriaEdit()">우선순위 수정</button></div>
+            <p id="manageCriteriaHelp" class="mg-priority-help">회의에 중요한 기준을 위로 드래그하여 추천 우선순위를 변경해보세요.</p>
+            <div id="manageCriteriaList" class="mg-priority readonly">
+              <div class="mg-priority-item"><div class="mg-order">1</div><div class="mg-priority-copy"><b>필수 참석자 우선</b><span>꼭 참석해야 하는 사람이 모두 가능한 시간을 우선 추천</span></div></div>
+              <div class="mg-priority-item"><div class="mg-order">2</div><div class="mg-priority-copy"><b>참석률 최대</b><span>가능한 많은 사람이 참석할 수 있는 시간 우선</span></div></div>
+              <div class="mg-priority-item"><div class="mg-order">3</div><div class="mg-priority-copy"><b>회의 목적에 맞는 시간</b><span>회의 목적과 잘 맞는 시간대 반영</span></div></div>
+              <div class="mg-priority-item"><div class="mg-order">4</div><div class="mg-priority-copy"><b>반복 일정 패턴 고려</b><span>자주 잡히는 고정 일정 패턴 반영</span></div></div>
+              <div class="mg-priority-item"><div class="mg-order">5</div><div class="mg-priority-copy"><b>가장 빠른 일정</b><span>가능한 빠르게 진행 가능한 시간 우선</span></div></div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="mg-right">
+          <section id="status" class="mg-section">
+            <div class="mg-title"><h2><span class="mg-num">1</span>응답 현황을 확인합니다</h2><span class="mg-tag">3 / 5 제출</span></div>
+            <div class="bar"><div style="width:60%"></div></div>
+            <div id="statusList" class="status-list"></div>
+          </section>
+
+          <section class="mg-section">
+            <div class="mg-title"><h2><span class="mg-num">2</span>조건을 먼저 수집합니다</h2><span class="mg-tag">회의 목적 · 기간 · 필수 참석자</span></div>
+            <div class="mg-summary"><div><b id="summaryDates">07/13 - 07/17</b><span>회의 진행 가능 기간</span></div><div><b id="summaryMeetingLength">1시간</b><span>회의 길이</span></div><div><b id="summaryTotalPeople">6명</b><span>주최자 포함 참석자</span></div><div><b id="summaryRequiredPeople">4명</b><span>필수 참석자</span></div><div><b id="summaryPurpose">킥오프</b><span>회의 목적</span></div></div>
+          </section>
+
+          <section class="mg-section">
+            <div class="mg-title"><h2><span class="mg-num">3</span>후보 시간을 비교합니다</h2><span class="mg-tag">전체 참석 가능 인원 · 필수 참석 가능 인원</span></div>
+            <div class="mg-schedule">
+              <div class="mg-row"><div class="mg-cell mg-headcell">시간</div><div class="mg-cell mg-headcell">07/13(월)</div><div class="mg-cell mg-headcell">07/14(화)</div><div class="mg-cell mg-headcell">07/15(수)</div><div class="mg-cell mg-headcell">07/16(목)</div><div class="mg-cell mg-headcell">07/17(금)</div></div>
+              <div class="mg-row"><div class="mg-cell mg-time">10:00</div><div class="mg-cell mg-slot active"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 4/4 가능</div></div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 2/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 4/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 2/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 3/4 가능</div></div></div>
+              <div class="mg-row"><div class="mg-cell mg-time">14:00</div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 2/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 4/6 가능</div><div class="mg-required">필수 3/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 6/6 가능</div><div class="mg-required">필수 4/4 가능</div></div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 2/4 가능</div></div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 1/4 가능</div></div></div>
+              <div class="mg-row"><div class="mg-cell mg-time">16:00</div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 2/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 3/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 5/6 가능</div><div class="mg-required">필수 3/4 가능</div></div><div class="mg-cell mg-slot"><div class="mg-total">전체 6/6 가능</div><div class="mg-required">필수 3/4 가능</div></div><div class="mg-cell mg-slot warn"><div class="mg-total">전체 4/6 가능</div><div class="mg-required">필수 2/4 가능</div></div></div>
+            </div>
+          </section>
+
+          <section id="recommend" class="mg-section">
+            <div class="mg-title"><h2><span class="mg-num">4</span>가장 적합한 시간을 순서대로 추천합니다</h2></div>
+            <div id="recalcBanner" class="recalc-banner"><span class="recalc-spinner"></span><span id="recalcText">우선순위를 반영해 추천 결과를 다시 계산하고 있어요.</span></div>
+            <div class="results" id="results"></div>
+            <div class="more-results-wrap"><button id="moreResultsBtn" class="more-results-btn" onclick="toggleMore()"><span id="moreResultsText">다른 후보 시간 더보기</span><span class="more-results-icon" aria-hidden="true"></span></button></div>
+          </section>
+
+          <section id="confirm" class="mg-section">
+            <div class="mg-title"><h2><span class="mg-num">5</span>일정 확정</h2></div>
+            <div id="shareArea" class="hidden invite-card"><h3>회의 시간이 확정되었습니다.</h3><p class="muted">07/15(수) 10:00 ~ 11:00</p><button class="primary" onclick="copyToast()">확정 일정 링크 복사</button></div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" class="page">
+    <div class="phone-wrap">
+      <button class="ghost" onclick="joinPrev()">← 이전</button>
+      <button class="ghost" style="float:right" onclick="go('home')">처음으로</button>
+      <div style="clear:both"></div>
+      <div class="phone" style="margin-top:22px">
+        <div class="progress"><div id="joinProgress" style="width:16%"></div></div>
+        <div class="join-step active" data-step="0"><h2>초대코드를 입력해주세요.</h2><p class="lead">받은 초대코드로 회의에 참여합니다.</p><div class="field"><input value="XCZ7NS"></div><button class="primary" style="width:100%;margin-top:20px" onclick="joinNext()">참여하기</button></div>
+        <div class="join-step" data-step="1"><h2>회의 정보를 확인해주세요.</h2><div class="confirm-block"><b id="joinTitle">프로젝트 킥오프</b><p class="muted"><span id="joinDates">07/13 ~ 07/17</span> · <span id="joinLength">1시간</span></p></div><h3>누구신가요?</h3><div class="name-list" id="identityList"></div><button id="identityNext" class="primary" style="width:100%;margin-top:20px" onclick="joinNext()" disabled>다음</button></div>
+        <div class="join-step" data-step="2"><h2>입력 방식을 선택해주세요.</h2><button class="choice" onclick="selectMethod('calendar')"><b>📅 캘린더 가져오기</b><p>기존 일정을 자동으로 반영</p></button><button class="choice" onclick="selectMethod('manual')"><b>✍️ 직접 입력하기</b><p>가능한 요일과 조건만 선택</p></button></div>
+        <div class="join-step" data-step="3"><h2 id="conditionTitle">조건을 선택해주세요.</h2><div class="confirm-block" id="calendarBlock"><h3>캘린더 선택</h3><div class="btnrow"><button class="secondary">Google Calendar</button><button class="secondary">Outlook</button></div></div><div class="confirm-block"><h3>가능한 요일</h3><div class="chips"><button class="chip on">월</button><button class="chip on">화</button><button class="chip on">수</button><button class="chip on">목</button><button class="chip">금</button></div></div><div class="confirm-block"><h3>반영할 조건</h3><div class="chips"><button class="chip on">오전 선호</button><button class="chip on">점심 직후 제외</button><button class="chip">회의 연속 회피</button><button class="chip on">꼭 참석 필요</button></div></div><button class="primary" style="width:100%" onclick="joinNext()">다음</button></div>
+        <div class="join-step" data-step="4"><h2>이 조건으로 제출할까요?</h2><div class="confirm-block"><h3>참가자</h3><p class="muted" id="selectedIdentityText">선택한 참가자 정보가 표시됩니다.</p></div><div class="confirm-block"><h3>입력 방식</h3><p class="muted" id="methodText">직접 입력하기</p></div><div class="confirm-block"><h3>반영된 조건</h3><p class="muted">오전 선호 · 점심 직후 제외 · 꼭 참석 필요</p></div><button class="primary" style="width:100%" onclick="submitJoin()">조건 제출</button></div>
+        <div class="join-step" data-step="5"><h2>제출이 완료되었습니다.</h2><p class="lead" id="doneText">최유진님의 조건이 반영되었습니다.</p><div class="btnrow"><button class="secondary" onclick="go('home')">홈으로</button><button class="primary" onclick="go('manage')">회의 시간 정하기에서 확인</button></div></div>
+      </div>
+    </div>
+  </section>
+  <div id="toast" class="toast">복사되었습니다.</div>
+<script>
+  const state={host:{name:'박서연',role:'PM',essential:true}, people:[{name:'김민준',role:'PM',essential:true,done:true,conditions:'Google Calendar · 오전 선호 · 점심 제외'},{name:'이지훈',role:'Developer',essential:true,done:true,conditions:'직접 입력 · 월/수 가능 · 오전 선호'},{name:'최유진',role:'Marketing',essential:false,done:false,conditions:''},{name:'한도윤',role:'Operation',essential:false,done:false,conditions:''},{name:'정수민',role:'Content',essential:true,done:true,conditions:'직접 입력 · 화/수/목 가능 · 꼭 참석 필요'}], selected:'', method:'직접 입력하기'};
+  const criteria=[
+    {title:'회의 목적에 맞는 시간', desc:'회의 목적에 적합한 시간대를 우선 추천합니다.'},
+    {title:'필수 참석자 우선', desc:'필수 참석자가 모두 가능한 시간을 우선 추천합니다.'},
+    {title:'가장 빠른 일정', desc:'설정한 기간 안에서 가장 빠른 시간을 우선 추천합니다.'},
+    {title:'참석률 최대', desc:'가장 많은 사람이 참석 가능한 시간을 우선 추천합니다.'},
+    {title:'반복 일정 패턴 고려', desc:'반복되는 일정과 겹치지 않는 시간을 우선 추천합니다.'}
+  ];
+  function syncAccessInfo(){const p=document.getElementById('meetingPassword')?.value || '2407';const cp=document.getElementById('createdPassword');if(cp)cp.textContent=p;checkManageGate();}
+  function startManageGate(){go('manageGate');const code=document.getElementById('manageCodeInput');const pw=document.getElementById('managePasswordInput');const meetingPw=document.getElementById('meetingPassword')?.value || '2407';if(code)code.value='XCZ7NS';if(pw)pw.value=meetingPw;checkManageGate();}
+  function checkManageGate(){const code=document.getElementById('manageCodeInput');const pw=document.getElementById('managePasswordInput');const btn=document.getElementById('manageEnterBtn');if(!btn||!code||!pw)return;const meetingPw=document.getElementById('meetingPassword')?.value || '2407';btn.disabled=!(code.value.trim().length>0 && pw.value.trim()===meetingPw);}
+  function enterManage(){const btn=document.getElementById('manageEnterBtn');if(!btn.disabled)go('manage');}
+
+  function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);renderAll();}
+  function getMeetingLengthText(){
+    return document.getElementById('meetingLength')?.value || '1시간';
+  }
+  function getMeetingDurationMinutes(){
+    const text=getMeetingLengthText();
+    const hourMatch=text.match(/(\d+)시간/);
+    const minuteMatch=text.match(/(\d+)분/);
+    return (hourMatch?Number(hourMatch[1])*60:0)+(minuteMatch?Number(minuteMatch[1]):0) || 60;
+  }
+  function applyMeetingDuration(timeText){
+    const match=String(timeText||'').match(/^(.*?)(\d{2}):(\d{2})\s*~\s*(\d{2}):(\d{2})$/);
+    if(!match)return timeText;
+    const prefix=match[1];
+    const startHour=Number(match[2]);
+    const startMinute=Number(match[3]);
+    const endTotal=startHour*60+startMinute+getMeetingDurationMinutes();
+    const endHour=String(Math.floor(endTotal/60)%24).padStart(2,'0');
+    const endMinute=String(endTotal%60).padStart(2,'0');
+    return `${prefix}${match[2]}:${match[3]} ~ ${endHour}:${endMinute}`;
+  }
+  function syncMeeting(){
+    const title=document.getElementById('meetingTitle')?.value || '프로젝트 킥오프';
+    const start=document.getElementById('startDate')?.value || '07/13';
+    const end=document.getElementById('endDate')?.value || '07/17';
+    const length=getMeetingLengthText();
+    const purpose=document.getElementById('meetingPurpose')?.value || '킥오프';
+    const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+    setText('joinTitle',title);
+    setText('joinDates',`${start} ~ ${end}`);
+    setText('joinLength',length);
+    setText('manageStartDate',start);
+    setText('manageEndDate',end);
+    setText('manageMeetingLength',length);
+    setText('summaryDates',`${start} - ${end}`);
+    setText('summaryMeetingLength',length);
+    setText('summaryPurpose',purpose);
+    renderResults();
+  }
+  function syncHost(){state.host.name=document.getElementById('hostName').value;state.host.role=document.getElementById('hostRole').value;state.host.essential=document.getElementById('hostEssential').checked;renderPeople();}
+  function renderPeople(){document.getElementById('hostPreviewName').textContent=state.host.name;document.getElementById('hostPreviewRole').textContent=state.host.role+' · '+(state.host.essential?'필수 참석자':'일반 참석자');document.getElementById('totalCount').textContent='주최자 포함 총 '+(state.people.length+1)+'명';const box=document.getElementById('peopleList');box.innerHTML='';state.people.forEach((p,i)=>{box.insertAdjacentHTML('beforeend',`<div class="person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><input class="mini-check" type="checkbox" ${p.essential?'checked':''} onchange="state.people[${i}].essential=this.checked"><button class="remove" onclick="removePerson(${i})">×</button></div>`)});renderIdentity();renderStatus();}
+  function addPerson(){const n=document.getElementById('newName').value.trim(), r=document.getElementById('newRole').value.trim();if(!n||!r)return;state.people.push({name:n,role:r,essential:false,done:false,conditions:''});document.getElementById('newName').value='';document.getElementById('newRole').value='';renderPeople();}
+  function removePerson(i){state.people.splice(i,1);renderPeople();}
+  function renderCriteria(){
+    const box=document.getElementById('criteriaList');
+    if(!box)return;
+    box.innerHTML='';
+    criteria.forEach((c,i)=>box.insertAdjacentHTML('beforeend',`<div class="criterion" draggable="true" data-index="${i}"><span class="handle" aria-hidden="true">☰</span><span class="num">${i+1}</span><div><b>${c.title}</b><div class="small">${c.desc}</div></div></div>`));
+    enableDrag();
+  }
+  function enableDrag(){
+    const list=document.getElementById('criteriaList');
+    if(!list)return;
+    let dragged=null;
+    list.querySelectorAll('.criterion').forEach(card=>{
+      card.addEventListener('dragstart',e=>{
+        dragged=card;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed='move';
+        e.dataTransfer.setData('text/plain','');
+      });
+      card.addEventListener('dragend',()=>{
+        card.classList.remove('dragging');
+        list.querySelectorAll('.criterion').forEach(item=>item.classList.remove('drag-over'));
+        dragged=null;
+        updateCriteriaNumbers();
+      });
+      card.addEventListener('dragover',e=>{
+        e.preventDefault();
+        if(!dragged || dragged===card)return;
+        card.classList.add('drag-over');
+        const rect=card.getBoundingClientRect();
+        const after=e.clientY>rect.top+rect.height/2;
+        list.insertBefore(dragged, after ? card.nextSibling : card);
+      });
+      card.addEventListener('dragleave',()=>card.classList.remove('drag-over'));
+      card.addEventListener('drop',e=>{
+        e.preventDefault();
+        card.classList.remove('drag-over');
+        updateCriteriaNumbers();
+      });
+    });
+  }
+  function updateCriteriaNumbers(){
+    const cards=[...document.querySelectorAll('#criteriaList .criterion')];
+    cards.forEach((card,i)=>{
+      const num=card.querySelector('.num');
+      if(num)num.textContent=i+1;
+    });
+    // 화면에서 바꾼 우선순위를 회의 시간 정하기의 읽기 전용 조건에도 반영
+    const titles=cards.map(card=>({
+      title:card.querySelector('b')?.textContent || '',
+      desc:card.querySelector('.small')?.textContent || ''
+    }));
+    criteria.splice(0, criteria.length, ...titles);
+    renderManageCriteria();
+  }
+
+  let manageCriteriaEditing=false;
+  function renderManageCriteria(){
+    const box=document.getElementById('manageCriteriaList');
+    if(!box)return;
+    box.classList.toggle('editing', manageCriteriaEditing);
+    box.classList.toggle('readonly', !manageCriteriaEditing);
+    box.innerHTML=criteria.map((c,i)=>`<div class="mg-priority-item" ${manageCriteriaEditing?'draggable="true"':''}>${manageCriteriaEditing?'<span class="handle" aria-hidden="true">☰</span>':''}<div class="mg-order">${i+1}</div><div class="mg-priority-copy"><b>${c.title}</b><span>${c.desc}</span></div></div>`).join('');
+    const btn=document.getElementById('manageCriteriaBtn');
+    if(btn)btn.textContent=manageCriteriaEditing?'수정 완료':'우선순위 수정';
+    const help=document.getElementById('manageCriteriaHelp');
+    if(help)help.style.display=manageCriteriaEditing?'block':'none';
+    if(manageCriteriaEditing) enableManageCriteriaDrag();
+  }
+  function toggleManageCriteriaEdit(){
+    const wasEditing=manageCriteriaEditing;
+    manageCriteriaEditing=!manageCriteriaEditing;
+    renderManageCriteria();
+    if(wasEditing && !manageCriteriaEditing){
+      recalculateRecommendations();
+    }
+  }
+  function enableManageCriteriaDrag(){
+    const list=document.getElementById('manageCriteriaList');
+    if(!list)return;
+    let dragged=null;
+    list.querySelectorAll('.mg-priority-item').forEach(card=>{
+      card.addEventListener('dragstart',e=>{
+        dragged=card;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed='move';
+        e.dataTransfer.setData('text/plain','');
+      });
+      card.addEventListener('dragend',()=>{
+        card.classList.remove('dragging');
+        list.querySelectorAll('.mg-priority-item').forEach(item=>item.classList.remove('drag-over'));
+        updateManageCriteriaFromDom();
+        dragged=null;
+      });
+      card.addEventListener('dragover',e=>{
+        e.preventDefault();
+        if(!dragged || dragged===card)return;
+        card.classList.add('drag-over');
+        const rect=card.getBoundingClientRect();
+        const after=e.clientY>rect.top+rect.height/2;
+        list.insertBefore(dragged, after ? card.nextSibling : card);
+        updateManageCriteriaNumbersOnly();
+      });
+      card.addEventListener('dragleave',()=>card.classList.remove('drag-over'));
+      card.addEventListener('drop',e=>{
+        e.preventDefault();
+        card.classList.remove('drag-over');
+        updateManageCriteriaFromDom();
+      });
+    });
+  }
+  function updateManageCriteriaNumbersOnly(){
+    document.querySelectorAll('#manageCriteriaList .mg-order').forEach((n,i)=>n.textContent=i+1);
+  }
+  function updateManageCriteriaFromDom(){
+    const cards=[...document.querySelectorAll('#manageCriteriaList .mg-priority-item')];
+    const next=cards.map(card=>({
+      title:card.querySelector('b')?.textContent || '',
+      desc:card.querySelector('span:not(.handle)')?.textContent || card.querySelector('div span')?.textContent || ''
+    }));
+    if(next.length){
+      criteria.splice(0, criteria.length, ...next);
+      updateManageCriteriaNumbersOnly();
+      renderCriteria();
+    }
+  }
+
+    function showInvite(){document.getElementById('createdInvite').classList.remove('hidden');copyToast();}
+  function renderStatus(){const box=document.getElementById('statusList');if(!box)return;box.innerHTML='';state.people.forEach(p=>box.insertAdjacentHTML('beforeend',`<div class="status-person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span><div class="small">${p.done?p.conditions:'아직 조건을 제출하지 않았습니다.'}</div></div><span class="badge ${p.done?'done':'pending'}">${p.done?'제출 완료':'대기 중'}</span>${p.done?'':'<button class="secondary" onclick="copyToast()">링크 복사</button>'}</div>`));}
+  function getRecommendationPreset(){
+    const top=(criteria[0]?.title||'필수 참석자 우선');
+    const presets={
+      '필수 참석자 우선':{summary:'필수 참석자 참석 여부를 가장 먼저 반영했습니다.',data:[['BEST MATCH','07/15(수) 10:00 ~ 11:00','92',['필수 참석자 모두 가능','참석률 5/6','회의 목적에 맞는 시간','반복 일정 충돌 낮음']],['OPTION 2','07/15(수) 14:00 ~ 15:00','90',['필수 참석자 모두 가능','참석률 6/6','오후 시간대','반복 일정 충돌 보통']],['OPTION 3','07/16(목) 10:00 ~ 11:00','89',['필수 참석자 모두 가능','참석률 5/6','오전 선호 반영','반복 일정 충돌 낮음']]]},
+      '가장 빠른 일정':{summary:'설정한 기간 안에서 가장 빠른 시간을 우선 반영했습니다.',data:[['BEST MATCH','07/13(월) 10:00 ~ 11:00','94',['가장 빠른 후보','필수 참석자 모두 가능','참석률 5/6','킥오프 오전 적합']],['OPTION 2','07/13(월) 14:00 ~ 15:00','91',['같은 날 진행 가능','필수 참석자 모두 가능','참석률 5/6','오후 시간대']],['OPTION 3','07/14(화) 10:00 ~ 11:00','88',['두 번째로 빠른 날','필수 참석자 일부 가능','참석률 5/6','반복 일정 충돌 낮음']]]},
+      '회의 목적에 맞는 시간':{summary:'킥오프 목적에 적합한 오전 시간대를 우선 반영했습니다.',data:[['BEST MATCH','07/14(화) 10:00 ~ 11:00','93',['킥오프에 적합한 오전','필수 참석자 모두 가능','참석률 5/6','업무 시작 전 정렬']],['OPTION 2','07/15(수) 10:00 ~ 11:00','91',['킥오프에 적합한 오전','필수 참석자 모두 가능','참석률 5/6','반복 일정 충돌 낮음']],['OPTION 3','07/13(월) 10:00 ~ 11:00','89',['가장 빠른 오전','필수 참석자 모두 가능','참석률 5/6','준비 시간 짧음']]]},
+      '참석률 최대':{summary:'가장 많은 사람이 참석 가능한 시간을 우선 반영했습니다.',data:[['BEST MATCH','07/15(수) 14:00 ~ 15:00','95',['참석률 6/6','필수 참석자 모두 가능','회의 목적과 비교적 적합','반복 일정 충돌 보통']],['OPTION 2','07/16(목) 16:00 ~ 17:00','92',['참석률 6/6','필수 참석자 모두 가능','가장 늦은 후보','반복 일정 충돌 낮음']],['OPTION 3','07/15(수) 10:00 ~ 11:00','89',['참석률 5/6','필수 참석자 모두 가능','킥오프 오전 적합','반복 일정 충돌 낮음']]]},
+      '반복 일정 패턴 고려':{summary:'반복 일정과의 충돌 가능성이 낮은 시간을 우선 반영했습니다.',data:[['BEST MATCH','07/16(목) 10:00 ~ 11:00','93',['반복 일정 충돌 가장 낮음','필수 참석자 모두 가능','참석률 5/6','오전 선호 반영']],['OPTION 2','07/15(수) 10:00 ~ 11:00','91',['반복 일정 충돌 낮음','필수 참석자 모두 가능','참석률 5/6','킥오프 오전 적합']],['OPTION 3','07/14(화) 14:00 ~ 15:00','88',['반복 일정 충돌 낮음','필수 참석자 일부 가능','참석률 4/6','오후 시간대']]]}
+    };
+    return presets[top]||presets['필수 참석자 우선'];
+  }
+  let selectedRecommendationTime='';
+  let moreResultsOpen=false;
+  function normalizeSlotKey(timeText){
+    const m=String(timeText||'').match(/(\d{2}\/\d{2}).*?(\d{2}:\d{2})/);
+    return m?`${m[1]}-${m[2]}`:'';
+  }
+  function ensureScheduleSlotKeys(){
+    const dates=['07/13','07/14','07/15','07/16','07/17'];
+    const rows=[...document.querySelectorAll('.mg-schedule .mg-row')].slice(1);
+    rows.forEach(row=>{
+      const time=row.querySelector('.mg-time')?.textContent.trim();
+      [...row.querySelectorAll('.mg-slot')].forEach((cell,i)=>cell.dataset.slot=`${dates[i]}-${time}`);
+    });
+  }
+  function syncScheduleBestMatch(){
+    ensureScheduleSlotKeys();
+    const bestKey=normalizeSlotKey(getRecommendationPreset().data[0][1]);
+    document.querySelectorAll('.mg-slot').forEach(cell=>cell.classList.toggle('active',cell.dataset.slot===bestKey));
+  }
+  function renderResults(animate=false){
+    const preset=getRecommendationPreset();
+    const results=document.getElementById('results');
+    if(!results)return;
+    results.innerHTML=preset.data.map((r,i)=>{const displayTime=applyMeetingDuration(r[1]);const selected=selectedRecommendationTime===displayTime;const extraClass=i>1?`more-result ${moreResultsOpen?'':'hidden'}`:'';return `<div class="result ${i===0?'best':''} ${selected?'selected':''} ${extraClass} ${animate?'rank-change':''}" data-time="${displayTime}"><span class="selection-badge">선택됨</span><div class="result-top"><div><span class="pill">${r[0]}</span><h3>${displayTime}</h3><p class="muted">${preset.summary} · 회의 길이 ${getMeetingLengthText()}</p></div><div class="score">${r[2]}<div class="small">적합도</div></div></div><div class="reason">${r[3].map(x=>`<span>${x}</span>`).join('')}<span>회의 길이 ${getMeetingLengthText()}</span></div><button class="primary" onclick="selectRecommendation('${displayTime}')">${selected?'선택됨':'확정하기'}</button></div>`}).join('');
+    const moreBtn=document.getElementById('moreResultsBtn');
+    if(moreBtn){
+      const label=moreBtn.querySelector('#moreResultsText');
+      if(label)label.textContent=moreResultsOpen?'후보 시간 접기':'다른 후보 시간 더보기';
+      moreBtn.classList.toggle('open',moreResultsOpen);
+    }
+    syncScheduleBestMatch();
+    if(animate){
+      results.classList.remove('updated');
+      void results.offsetWidth;
+      results.classList.add('updated');
+      setTimeout(()=>results.classList.remove('updated'),800);
+    }
+  }
+  function recalculateRecommendations(){
+    const recommend=document.getElementById('recommend');
+    const results=document.getElementById('results');
+    const banner=document.getElementById('recalcBanner');
+    const text=document.getElementById('recalcText');
+    if(!recommend||!results||!banner)return;
+
+    if(text)text.textContent='변경한 우선순위를 반영해 추천 결과를 다시 계산하고 있어요.';
+    recommend.classList.add('is-loading');
+    recommend.scrollIntoView({behavior:'smooth',block:'start'});
+
+    setTimeout(()=>{
+      selectedRecommendationTime='';
+      moreResultsOpen=false;
+      renderResults(true);
+      recommend.classList.remove('is-loading');
+      showToastMessage('추천 결과가 업데이트되었습니다.');
+    },1100);
+  }
+  function toggleMore(){
+    moreResultsOpen=!moreResultsOpen;
+    document.querySelectorAll('.more-result').forEach(item=>item.classList.toggle('hidden',!moreResultsOpen));
+    const btn=document.getElementById('moreResultsBtn');
+    if(btn){
+      const label=btn.querySelector('#moreResultsText');
+      if(label)label.textContent=moreResultsOpen?'후보 시간 접기':'다른 후보 시간 더보기';
+      btn.classList.toggle('open',moreResultsOpen);
+    }
+  }
+  function selectRecommendation(time){
+    selectedRecommendationTime=time;
+    renderResults();
+    const area=document.getElementById('shareArea');
+    area.classList.remove('hidden');
+    const p=area.querySelector('p');
+    if(p)p.textContent=time;
+    showToastMessage('선택한 시간으로 일정이 확정되었습니다.');
+  }
+  function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+  function showToastMessage(message){const t=document.getElementById('toast');t.textContent=message;t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.textContent='복사되었습니다.'},1500)}
+  function copyCodeToast(){const t=document.getElementById('toast');t.textContent='초대코드가 복사되었습니다.';t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.textContent='복사되었습니다.'},1300)}
+  function copyToast(){const t=document.getElementById('toast');t.textContent='복사되었습니다.';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1300)}
+  let joinStep=0;function startJoin(){joinStep=0;state.selected='';go('join');renderJoin();}
+  function joinNext(){if(joinStep===1&&!state.selected)return;if(joinStep<5)joinStep++;renderJoin();}
+  function joinPrev(){if(joinStep>0)joinStep--;else go('home');renderJoin();}
+  function renderJoin(){document.querySelectorAll('.join-step').forEach((s,i)=>s.classList.toggle('active',i===joinStep));document.getElementById('joinProgress').style.width=((joinStep+1)/6*100)+'%';renderIdentity();}
+  function renderIdentity(){const box=document.getElementById('identityList');if(!box)return;box.innerHTML='';state.people.forEach(p=>{const selected=state.selected===p.name;box.insertAdjacentHTML('beforeend',`<button class="name-card ${p.done?'disabled':''} ${selected?'selected':''}" ${p.done?'disabled':''} onclick="selectIdentity('${p.name}','${p.role}')"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><span class="badge ${p.done?'done':'pending'}">${p.done?'제출 완료':selected?'선택됨':'선택'}</span></button>`)});const btn=document.getElementById('identityNext');if(btn)btn.disabled=!state.selected;}
+  function selectIdentity(n,r){state.selected=n;document.getElementById('selectedIdentityText').textContent=n+' · '+r;renderIdentity();}
+  function selectMethod(m){state.method=m==='calendar'?'캘린더 가져오기':'직접 입력하기';document.getElementById('methodText').textContent=state.method;document.getElementById('calendarBlock').style.display=m==='calendar'?'block':'none';document.getElementById('conditionTitle').textContent=m==='calendar'?'반영할 조건을 선택해주세요.':'가능한 시간과 조건을 선택해주세요.';joinNext();}
+  
+  function getSelectedConditions(){
+    const chips=[...document.querySelectorAll('.join-step[data-step="3"] .chip.on')].map(c=>c.textContent.trim());
+    return chips.join(' · ');
+  }
+  function submitJoin(){
+    const person=state.people.find(p=>p.name===state.selected);
+    if(person){
+      person.done=true;
+      person.conditions=state.method+' · '+getSelectedConditions();
+    }
+    document.getElementById('doneText').textContent=state.selected+'님의 조건이 반영되었습니다.';
+    renderStatus();
+    renderResults();
+    renderIdentity();
+    joinNext();
+  }
+
+  function renderAll(){renderPeople();renderCriteria();renderManageCriteria();renderStatus();renderResults();syncMeeting();syncAccessInfo();}
+  document.addEventListener('click',e=>{if(e.target.classList.contains('chip'))e.target.classList.toggle('on')});renderAll();
+</script>
+</body>
+</html>
