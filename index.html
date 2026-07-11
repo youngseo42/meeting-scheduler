@@ -3064,11 +3064,11 @@
             <span class="landing-eyebrow">AI MEETING SCHEDULER</span>
             <h1>
               모두가 참석 가능한 시간이 아니라,<br />회의에 가장 적합한 시간을
-              추천합니다.
+              추천해요.
             </h1>
             <p class="landing-description">
               참석 가능 여부부터 필수 참석자, 회의 목적과 개인 선호 조건까지
-              비교해 가장 적합한 회의 시간을 추천합니다.
+              비교해 가장 적합한 회의 시간을 추천해요.
             </p>
             <div class="landing-actions">
               <button class="primary landing-primary" onclick="go('create')">
@@ -3150,7 +3150,7 @@
         <div class="layout" style="margin-top: 28px">
           <aside class="card">
             <h2>회의 만들기</h2>
-            <p class="muted">회의 시간 추천에 필요한 정보를 입력합니다.</p>
+            <p class="muted">회의 시간 추천에 필요한 정보를 입력해주세요.</p>
             <div class="field">
               <label>회의명</label
               ><input
@@ -3238,7 +3238,7 @@
                 type="checkbox"
                 checked
                 onchange="syncHost()"
-              />저는 필수 참석자입니다.</label
+              />저는 필수 참석자예요.</label
             >
             <button
               class="primary"
@@ -3272,7 +3272,10 @@
               <div class="people-head">
                 <div>
                   <h2>참가자 추가</h2>
-                  <p class="muted">회의 참석자를 관리합니다.</p>
+                  <p class="muted">
+                    함께 회의할 참가자를 추가하고, 역할과 필수 참석 여부를
+                    설정해주세요.
+                  </p>
                 </div>
                 <span class="pill" id="totalCount">총 6명</span>
               </div>
@@ -3316,7 +3319,7 @@
           <div class="access-card">
             <h1>회의 정보를 입력해주세요.</h1>
             <p class="lead">
-              주최자만 회의 응답 현황과 추천 결과를 확인할 수 있습니다.
+              관리 정보를 입력하고 참석자 응답 현황과 추천 시간을 확인해보세요.
             </p>
             <div class="field">
               <label>초대코드</label
@@ -3361,7 +3364,7 @@
             </h1>
             <p>
               참석자의 응답 현황과 입력한 회의 정보를 바탕으로 회의에 가장
-              적합한 시간을 추천합니다.
+              적합한 시간을 추천해요.
             </p>
           </div>
           <div class="invite-card" style="min-width: 280px; margin-top: 0">
@@ -3618,7 +3621,7 @@
           </div>
           <div class="join-step active" data-step="0">
             <h2>초대코드를 입력해주세요.</h2>
-            <p class="lead">받은 초대코드로 회의에 참여합니다.</p>
+            <p class="lead">받은 초대코드로 회의에 참여해요.</p>
             <div class="field"><input value="XCZ7NS" /></div>
             <button
               class="primary"
@@ -3653,15 +3656,15 @@
             <h2>입력 방식을 선택해주세요.</h2>
             <button class="choice" onclick="selectMethod('calendar')">
               <b>📅 캘린더 가져오기</b>
-              <p>등록된 일정을 확인하고 조건만 추가합니다.</p></button
+              <p>등록된 일정을 확인하고 선호 조건만 추가해요.</p></button
             ><button class="choice" onclick="selectMethod('manual')">
               <b>✍️ 직접 입력하기</b>
-              <p>회의 기간의 날짜별 가능한 시간을 직접 선택합니다.</p>
+              <p>회의 기간 동안 참석 가능한 시간을 날짜별로 선택해요.</p>
             </button>
           </div>
           <div class="join-step" data-step="3">
             <h2>연결할 캘린더를 선택해주세요.</h2>
-            <p class="lead">일정을 불러올 캘린더 하나를 선택합니다.</p>
+            <p class="lead">일정을 불러올 캘린더를 선택해주세요.</p>
             <div class="calendar-options">
               <button
                 class="calendar-option"
@@ -3671,7 +3674,7 @@
                 <span class="calendar-icon">G</span>
                 <div>
                   <b>Google Calendar</b
-                  ><span>Google 계정의 일정을 확인합니다.</span>
+                  ><span>Google 계정에 등록된 일정을 불러와요.</span>
                 </div></button
               ><button
                 class="calendar-option"
@@ -3680,8 +3683,7 @@
               >
                 <span class="calendar-icon">▦</span>
                 <div>
-                  <b>기본 캘린더</b
-                  ><span>기기에 저장된 일정을 확인합니다.</span>
+                  <b>기본 캘린더</b><span>기기에 저장된 일정을 불러와요.</span>
                 </div>
               </button>
             </div>
@@ -4030,13 +4032,13 @@
                     </div>
                   </div>
                   <p class="calendar-note">
-                    등록된 일정과 겹치는 시간은 후보 시간에서 제외됩니다.
+                    등록된 일정과 겹치는 시간은 후보 시간에서 제외돼요.
                   </p>
                   <div class="extra-schedule">
                     <div class="extra-schedule-head">
                       <div>
                         <h4>추가할 일정이 있나요?</h4>
-                        <p>추가된 일정도 회의 후보 시간에서 제외됩니다.</p>
+                        <p>직접 추가한 일정도 회의 후보 시간에서 제외돼요.</p>
                       </div>
                       <button
                         id="extraScheduleToggleBtn"
@@ -4113,9 +4115,6 @@
                   <div class="manual-calendar-head">
                     <div>
                       <h3>날짜별 가능한 시간을 선택해주세요.</h3>
-                      <p class="manual-calendar-help">
-                        회의에 참석 가능한 시간 칸을 선택합니다.
-                      </p>
                     </div>
                     <button
                       type="button"
@@ -4138,7 +4137,7 @@
                   <div class="manual-calendar-legend">
                     <i></i
                     ><span
-                      >파란색 칸이 내가 회의에 참석할 수 있는 시간입니다.</span
+                      >파란색 칸은 내가 회의에 참석할 수 있는 시간이에요.</span
                     >
                   </div>
                 </div>
@@ -4225,7 +4224,7 @@
             <div class="confirm-block">
               <h3>참가자</h3>
               <p class="muted" id="selectedIdentityText">
-                선택한 참가자 정보가 표시됩니다.
+                선택한 참가자 정보가 여기에 표시돼요.
               </p>
             </div>
             <div class="confirm-block">
@@ -4243,10 +4242,10 @@
             </button>
           </div>
           <div class="join-step" data-step="6">
-            <h2>제출이 완료되었습니다.</h2>
-            <p class="lead" id="doneText">최유진님의 조건이 반영되었습니다.</p>
+            <h2>제출을 완료했어요.</h2>
+            <p class="lead" id="doneText">최유진님의 조건이 반영됐어요.</p>
             <p class="completion-note">
-              주최자가 모든 응답을 확인한 뒤 회의 시간을 확정할 예정입니다.
+              모든 응답이 모이면 주최자가 회의 시간을 확정할 예정이에요.
             </p>
             <div class="btnrow completion-actions">
               <button class="secondary" onclick="go('home')">홈으로</button>
@@ -4260,7 +4259,7 @@
               <div>
                 <h2>응답 현황</h2>
                 <p class="lead">
-                  참가자들의 일정 제출 상태를 확인할 수 있습니다.
+                  참가자들의 일정 제출 상태를 한눈에 확인할 수 있어요.
                 </p>
               </div>
               <span id="participantStatusCount" class="pill">0 / 0 제출</span>
@@ -4273,7 +4272,7 @@
               class="status-list participant-status-list"
             ></div>
             <div class="status-notice">
-              회의 시간은 모든 응답을 확인한 뒤 주최자가 확정합니다.
+              모든 응답을 확인한 뒤 주최자가 회의 시간을 확정해요.
             </div>
             <div class="btnrow completion-actions">
               <button class="secondary" onclick="refreshParticipantStatus()">
@@ -4315,14 +4314,14 @@
             name: "한도윤",
             role: "Operation",
             essential: true,
-            done: false,
+            done: true,
             conditions: "",
           },
           {
             name: "정수민",
             role: "Content",
             essential: false,
-            done: true,
+            done: false,
             conditions: "직접 입력 · 화/수/목 가능",
           },
         ],
@@ -4333,23 +4332,23 @@
       const criteria = [
         {
           title: "회의 목적에 맞는 시간",
-          desc: "회의 목적에 적합한 시간대를 우선 추천합니다.",
+          desc: "회의 목적에 잘 맞는 시간대를 먼저 추천해요.",
         },
         {
           title: "필수 참석자 우선",
-          desc: "필수 참석자가 모두 가능한 시간을 우선 추천합니다.",
+          desc: "필수 참석자가 모두 가능한 시간을 먼저 추천해요.",
         },
         {
           title: "가장 빠른 일정",
-          desc: "설정한 기간 안에서 가장 빠른 시간을 우선 추천합니다.",
+          desc: "설정한 기간 안에서 가장 빠른 시간을 먼저 추천해요.",
         },
         {
           title: "참석률 최대",
-          desc: "가장 많은 사람이 참석 가능한 시간을 우선 추천합니다.",
+          desc: "가장 많은 사람이 참석할 수 있는 시간을 먼저 추천해요.",
         },
         {
           title: "개인 선호 조건 반영",
-          desc: "참석자가 선택한 선호 시간과 업무 흐름 조건을 우선 반영합니다.",
+          desc: "참석자가 선택한 선호 시간과 업무 흐름 조건을 함께 고려해요.",
         },
       ];
       function syncAccessInfo() {
@@ -4698,7 +4697,7 @@
         state.people.forEach((p) =>
           box.insertAdjacentHTML(
             "beforeend",
-            `<div class="status-person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role} · ${p.essential ? "필수 참석자" : "일반 참석자"}</span><div class="small">${p.done ? p.conditions : "아직 조건을 제출하지 않았습니다."}</div></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span>${p.done ? "" : '<button class="secondary" onclick="copyToast()">링크 복사</button>'}</div>`,
+            `<div class="status-person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role} · ${p.essential ? "필수 참석자" : "일반 참석자"}</span><div class="small">${p.done ? p.conditions : "아직 조건을 제출하지 않았어요."}</div></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span>${p.done ? "" : '<button class="secondary" onclick="copyToast()">링크 복사</button>'}</div>`,
           ),
         );
       }
@@ -4706,7 +4705,7 @@
         const purpose = getMeetingPurposeText();
         const profiles = {
           킥오프: {
-            summary: "킥오프에 적합한 오전 시간대를 우선 반영했습니다.",
+            summary: "킥오프를 진행하기 좋은 오전 시간대를 먼저 고려했어요.",
             candidates: [
               [
                 "07/14(화) 10:00 ~ 11:00",
@@ -4730,7 +4729,7 @@
           },
           의사결정: {
             summary:
-              "집중도가 높고 핵심 참석자가 논의하기 좋은 시간을 우선 반영했습니다.",
+              "집중도가 높고 핵심 참석자가 논의하기 좋은 시간을 먼저 고려했어요.",
             candidates: [
               [
                 "07/15(수) 10:00 ~ 11:00",
@@ -4754,7 +4753,7 @@
           },
           브레인스토밍: {
             summary:
-              "아이디어를 자유롭게 나누기 좋은 오후 시간대를 우선 반영했습니다.",
+              "아이디어를 자유롭게 나누기 좋은 오후 시간대를 먼저 고려했어요.",
             candidates: [
               [
                 "07/15(수) 14:00 ~ 15:00",
@@ -4778,7 +4777,7 @@
           },
           "진행 상황 공유": {
             summary:
-              "당일 업무 진행 내용을 정리해 공유하기 좋은 시간을 우선 반영했습니다.",
+              "당일 업무 진행 내용을 정리해 공유하기 좋은 시간을 먼저 고려했어요.",
             candidates: [
               [
                 "07/16(목) 16:00 ~ 17:00",
@@ -4802,7 +4801,7 @@
           },
           회고: {
             summary:
-              "업무를 마무리하고 경험을 돌아보기 좋은 시간을 우선 반영했습니다.",
+              "업무를 마무리하고 경험을 돌아보기 좋은 시간을 먼저 고려했어요.",
             candidates: [
               [
                 "07/17(금) 16:00 ~ 17:00",
@@ -4826,7 +4825,7 @@
           },
         };
         const profile = profiles[purpose] || {
-          summary: `${purpose} 목적과 참석 조건을 함께 고려해 적합한 시간을 추천했습니다.`,
+          summary: `${purpose} 목적과 참석 조건을 함께 고려해 적합한 시간을 추천해요.`,
           candidates: [
             [
               "07/15(수) 14:00 ~ 15:00",
@@ -4869,7 +4868,7 @@
         const purposePreset = getPurposeRecommendationPreset();
         const presets = {
           "필수 참석자 우선": {
-            summary: "필수 참석자 참석 여부를 가장 먼저 반영했습니다.",
+            summary: "필수 참석자의 참석 가능 여부를 가장 먼저 고려했어요.",
             data: [
               [
                 "BEST MATCH",
@@ -4907,7 +4906,7 @@
             ],
           },
           "가장 빠른 일정": {
-            summary: "설정한 기간 안에서 가장 빠른 시간을 우선 반영했습니다.",
+            summary: "설정한 기간 안에서 가장 빠른 시간을 먼저 고려했어요.",
             data: [
               [
                 "BEST MATCH",
@@ -4946,7 +4945,7 @@
           },
           "회의 목적에 맞는 시간": purposePreset,
           "참석률 최대": {
-            summary: "가장 많은 사람이 참석 가능한 시간을 우선 반영했습니다.",
+            summary: "가장 많은 사람이 참석할 수 있는 시간을 먼저 고려했어요.",
             data: [
               [
                 "BEST MATCH",
@@ -4985,7 +4984,7 @@
           },
           "개인 선호 조건 반영": {
             summary:
-              "참석자가 선택한 선호 시간과 업무 흐름 조건을 우선 반영했습니다.",
+              "참석자가 선택한 선호 시간과 업무 흐름 조건을 함께 고려했어요.",
             data: [
               [
                 "BEST MATCH",
@@ -5064,7 +5063,7 @@
             const selected = selectedRecommendationTime === displayTime;
             const extraClass =
               i > 1 ? `more-result ${moreResultsOpen ? "" : "hidden"}` : "";
-            return `<div class="result ${i === 0 ? "best" : ""} ${selected ? "selected" : ""} ${extraClass} ${animate ? "rank-change" : ""}" data-time="${displayTime}"><span class="selection-badge">선택됨</span><div class="result-top"><div><span class="pill">${r[0]}</span><h3>${displayTime}</h3><p class="muted">${preset.summary} · 회의 길이 ${getMeetingLengthText()}</p></div><div class="score">${r[2]}<div class="small">적합도</div></div></div><div class="reason">${r[3].map((x) => `<span>${x}</span>`).join("")}<span>회의 길이 ${getMeetingLengthText()}</span></div><button class="primary" onclick="selectRecommendation('${displayTime}')">${selected ? "선택됨" : "확정하기"}</button></div>`;
+            return `<div class="result ${i === 0 ? "best" : ""} ${selected ? "selected" : ""} ${extraClass} ${animate ? "rank-change" : ""}" data-time="${displayTime}"><span class="selection-badge">선택됨</span><div class="result-top"><div><span class="pill">${r[0]}</span><h3>${displayTime}</h3><p class="muted">${preset.summary}</p></div><div class="score">${r[2]}<div class="small">적합도</div></div></div><div class="reason">${r[3].map((x) => `<span>${x}</span>`).join("")}<span>회의 길이 ${getMeetingLengthText()}</span></div><button class="primary" onclick="selectRecommendation('${displayTime}')">${selected ? "선택됨" : "확정하기"}</button></div>`;
           })
           .join("");
         const moreBtn = document.getElementById("moreResultsBtn");
@@ -5313,7 +5312,7 @@
         }
         if (endHour <= startHour) {
           if (error)
-            error.textContent = "종료 시간은 시작 시간보다 늦어야 합니다.";
+            error.textContent = "종료 시간은 시작 시간보다 늦어야 해요.";
           return;
         }
         extraCalendarEvents.push({ id: Date.now(), title, date, start, end });
@@ -5599,7 +5598,7 @@
             (getSelectedConditions() || "추가 조건 없음");
         }
         document.getElementById("doneText").textContent =
-          state.selected + "님의 조건이 반영되었습니다.";
+          state.selected + "님의 조건이 반영됐어요.";
         renderStatus();
         renderResults();
         renderIdentity();
