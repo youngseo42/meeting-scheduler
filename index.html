@@ -2583,39 +2583,520 @@
           word-break: keep-all;
         }
       }
+
+      /* ===== product landing page ===== */
+      .landing-page {
+        padding: 0;
+        background:
+          radial-gradient(
+            circle at 78% 18%,
+            rgba(49, 130, 246, 0.12),
+            transparent 28%
+          ),
+          linear-gradient(180deg, #ffffff 0%, #f6f8fb 76%);
+      }
+      .landing-wrap {
+        width: min(1360px, calc(100% - 96px));
+        max-width: 1360px;
+        min-height: 100vh;
+        padding: 28px 0 44px;
+      }
+      .landing-nav {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 54px;
+      }
+      .landing-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        padding: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 24px;
+        font-weight: 950;
+        letter-spacing: -0.035em;
+      }
+      .landing-brand-mark {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 18px;
+        font-weight: 950;
+      }
+      .landing-nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .landing-nav-link {
+        height: 46px;
+        padding: 0 17px;
+        border-radius: 12px;
+        background: transparent;
+        color: #4e5968;
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .landing-nav-link:hover {
+        background: #f2f4f6;
+      }
+      .landing-nav-link.strong {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+      }
+      .landing-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(440px, 0.92fr);
+        align-items: center;
+        gap: 72px;
+      }
+      .landing-copy {
+        min-width: 0;
+        padding: 24px 0 30px;
+      }
+      .landing-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: #eef4ff;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+      }
+      .landing-copy h1 {
+        max-width: 730px;
+        margin: 24px 0 22px;
+        font-size: clamp(46px, 4.25vw, 68px);
+        line-height: 1.2;
+        letter-spacing: -0.055em;
+        word-break: keep-all;
+      }
+      #create .field select {
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 52px;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M4 7L9 12L14 7' stroke='%23191F28' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 18px 18px;
+      }
+      #create input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 26px;
+        min-width: 26px;
+        height: 26px;
+        margin: 0;
+        border: 2px solid #c7cdd4;
+        border-radius: 8px;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 17px 17px;
+        cursor: pointer;
+        transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      #create input[type="checkbox"]:checked {
+        border-color: var(--blue);
+        background-color: var(--blue);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M3.5 9.2L7.1 12.7L14.5 5.3' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      }
+      #create input[type="checkbox"]:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(49, 130, 246, 0.16);
+      }
+      .landing-description {
+        max-width: 670px;
+        margin: 0;
+        color: var(--sub);
+        font-size: 19px;
+        line-height: 1.7;
+        word-break: keep-all;
+      }
+      .landing-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 34px;
+      }
+      .landing-primary,
+      .landing-secondary {
+        min-width: 156px;
+        height: 60px;
+        border-radius: 16px;
+        font-size: 17px;
+      }
+      .landing-preview {
+        position: relative;
+        overflow: hidden;
+        min-width: 0;
+        padding: 30px;
+        border: 1px solid rgba(49, 130, 246, 0.24);
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 26px 70px rgba(25, 31, 40, 0.12);
+      }
+      .landing-preview::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        top: -118px;
+        right: -84px;
+        border-radius: 50%;
+        background: rgba(49, 130, 246, 0.08);
+      }
+      .landing-preview-head {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+      }
+      .landing-preview-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: 0.06em;
+      }
+      .landing-preview-head h2 {
+        margin: 0;
+        font-size: 25px;
+        line-height: 1.35;
+      }
+      .landing-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: #e9f8f2;
+        color: #00a87e;
+        font-size: 12px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+      .landing-live i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .landing-best-row {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 28px 0 22px;
+        padding: 22px;
+        border-radius: 18px;
+        background: #f7fbff;
+      }
+      .landing-best-badge {
+        display: inline-flex;
+        margin-bottom: 13px;
+        color: var(--blue);
+        font-size: 11px;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+      }
+      .landing-best-row strong,
+      .landing-best-row b {
+        display: block;
+      }
+      .landing-best-row strong {
+        margin-bottom: 6px;
+        font-size: 19px;
+      }
+      .landing-best-row b {
+        font-size: 30px;
+        letter-spacing: -0.04em;
+      }
+      .landing-score {
+        text-align: right;
+      }
+      .landing-score strong {
+        margin: 0;
+        color: var(--blue);
+        font-size: 48px;
+        line-height: 1;
+      }
+      .landing-score span {
+        display: block;
+        margin-top: 6px;
+        color: var(--sub);
+        font-size: 12px;
+        font-weight: 850;
+      }
+      .landing-reasons {
+        display: grid;
+        gap: 10px;
+      }
+      .landing-reasons span {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #4e5968;
+        font-size: 14px;
+        font-weight: 850;
+      }
+      .landing-reasons i {
+        width: 22px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        border-radius: 7px;
+        background: #eaf3ff;
+        color: var(--blue);
+        font-size: 12px;
+        font-style: normal;
+      }
+      .landing-preview-button {
+        width: 100%;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 26px;
+        padding: 0 18px;
+        border-radius: 14px;
+        background: #191f28;
+        color: #fff;
+        font-weight: 900;
+        cursor: default;
+        user-select: none;
+      }
+      .landing-features {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 52px;
+      }
+      .landing-feature {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 15px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.82);
+      }
+      .landing-feature-number {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: #eef4ff;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 950;
+      }
+      .landing-feature h3 {
+        margin: 1px 0 7px;
+        font-size: 18px;
+      }
+      .landing-feature p {
+        margin: 0;
+        color: var(--sub);
+        font-size: 14px;
+        line-height: 1.55;
+        word-break: keep-all;
+      }
+      @media (max-width: 1080px) {
+        .landing-wrap {
+          width: min(920px, calc(100% - 56px));
+        }
+        .landing-hero {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .landing-copy {
+          padding-bottom: 0;
+        }
+        .landing-preview {
+          max-width: 680px;
+        }
+      }
+      @media (max-width: 700px) {
+        .landing-page {
+          padding: 0;
+        }
+        .landing-wrap {
+          width: min(100% - 32px, 620px);
+          padding: 18px 0 30px;
+        }
+        .landing-nav {
+          align-items: flex-start;
+          margin-bottom: 34px;
+        }
+        .landing-nav-actions {
+          align-items: flex-end;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .landing-nav-link {
+          height: 38px;
+          padding: 0 10px;
+        }
+        .landing-copy h1 {
+          font-size: 41px;
+        }
+        .landing-description {
+          font-size: 17px;
+        }
+        .landing-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .landing-primary,
+        .landing-secondary {
+          width: 100%;
+        }
+        .landing-preview {
+          padding: 22px;
+          border-radius: 22px;
+        }
+        .landing-preview-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .landing-best-row {
+          align-items: flex-start;
+        }
+        .landing-best-row b {
+          font-size: 25px;
+        }
+        .landing-features {
+          grid-template-columns: 1fr;
+          margin-top: 28px;
+        }
+      }
     </style>
   </head>
   <body>
-    <section id="home" class="page active">
-      <div class="wrap">
-        <div class="top">
-          <div class="brand">MeetFit</div>
-          <span class="pill">Best time recommendation</span>
-        </div>
-        <h1>
-          가능한 시간이 아니라,<br />회의에 가장 적합한 시간을 추천합니다.
-        </h1>
-        <p class="lead">
-          회의 목적, 필수 참석자, 참석자의 가능 조건을 반영해 주최자가 바로
-          결정할 수 있는 후보 시간을 정리합니다.
-        </p>
-        <div class="grid3">
-          <button class="card entry" onclick="go('create')">
-            <div class="icon">＋</div>
-            <h3>회의 만들기</h3>
-            <p>회의 기준을 설정하고 초대코드를 생성합니다.</p>
+    <section id="home" class="page active landing-page">
+      <div class="wrap landing-wrap">
+        <header class="landing-nav">
+          <button
+            class="landing-brand"
+            onclick="go('home')"
+            aria-label="MeetFit 홈"
+          >
+            <span class="landing-brand-mark">M</span>
+            <span>MeetFit</span>
           </button>
-          <button class="card entry" onclick="startJoin()">
-            <div class="icon">↗</div>
-            <h3>초대코드 입력하기</h3>
-            <p>초대코드로 들어와 내 조건을 제출합니다.</p>
-          </button>
-          <button class="card entry" onclick="startManageGate()">
-            <div class="icon">✓</div>
-            <h3>회의 시간 정하기</h3>
-            <p>초대코드와 비밀번호로 응답 현황을 확인합니다.</p>
-          </button>
-        </div>
+          <nav class="landing-nav-actions" aria-label="서비스 메뉴">
+            <button class="landing-nav-link" onclick="startJoin()">
+              초대코드로 참여
+            </button>
+            <button class="landing-nav-link strong" onclick="startManageGate()">
+              주최자 관리
+            </button>
+          </nav>
+        </header>
+
+        <main class="landing-hero">
+          <div class="landing-copy">
+            <span class="landing-eyebrow">AI MEETING SCHEDULER</span>
+            <h1>
+              가능한 시간이 아니라,<br />회의에 가장 적합한 시간을 추천합니다.
+            </h1>
+            <p class="landing-description">
+              참석 가능 시간부터 필수 참석자, 회의 목적과 개인 선호 조건까지
+              비교해 가장 적합한 회의 시간을 추천합니다.
+            </p>
+            <div class="landing-actions">
+              <button class="primary landing-primary" onclick="go('create')">
+                회의 만들기
+              </button>
+              <button class="secondary landing-secondary" onclick="startJoin()">
+                초대코드로 참여
+              </button>
+            </div>
+          </div>
+
+          <aside class="landing-preview" aria-label="추천 결과 미리보기">
+            <div class="landing-preview-head">
+              <div>
+                <span class="landing-preview-label">추천 결과 미리보기</span>
+                <h2>가장 적합한 시간이에요</h2>
+              </div>
+              <span class="landing-live"><i></i>분석 완료</span>
+            </div>
+            <div class="landing-best-row">
+              <div>
+                <span class="landing-best-badge">BEST MATCH</span>
+                <strong>07/15(수)</strong>
+                <b>10:00–11:00</b>
+              </div>
+              <div class="landing-score">
+                <strong>92</strong><span>적합도</span>
+              </div>
+            </div>
+            <div class="landing-reasons">
+              <span><i>✓</i>필수 참석자 4/4</span>
+              <span><i>✓</i>전체 참석자 5/6</span>
+              <span><i>✓</i>오전 선호 충족</span>
+            </div>
+            <div class="landing-preview-button" aria-label="추천 결과 예시">
+              <span>추천 결과 확인하기</span><span>→</span>
+            </div>
+          </aside>
+        </main>
+
+        <section class="landing-features" aria-label="MeetFit 핵심 기능">
+          <article class="landing-feature">
+            <span class="landing-feature-number">01</span>
+            <div>
+              <h3>각자의 일정을 한곳에 모아요</h3>
+              <p>
+                캘린더를 불러오거나 가능한 시간을 직접 입력하면 6명의 일정이
+                한곳에 모여요.
+              </p>
+            </div>
+          </article>
+          <article class="landing-feature">
+            <span class="landing-feature-number">02</span>
+            <div>
+              <h3>여러 조건을 함께 비교해요</h3>
+              <p>
+                누가 참석 가능한지, 필수 참석자가 포함되는지, 선호 조건이 맞는지
+                함께 살펴봐요.
+              </p>
+            </div>
+          </article>
+          <article class="landing-feature">
+            <span class="landing-feature-number">03</span>
+            <div>
+              <h3>가장 적합한 한 시간을 알려줘요</h3>
+              <p>
+                가능한 시간만 나열하지 않고, 추천 이유와 함께 가장 적합한 시간을
+                알려줘요.
+              </p>
+            </div>
+          </article>
+        </section>
       </div>
     </section>
 
