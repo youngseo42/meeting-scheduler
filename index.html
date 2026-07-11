@@ -2048,6 +2048,9 @@
       .completion-actions {
         margin-top: 26px;
       }
+      .completion-actions.three-actions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
       .participant-status-head {
         display: flex;
         align-items: flex-start;
@@ -2081,6 +2084,16 @@
         font-size: 16px;
         font-weight: 900;
       }
+      .edit-response-btn {
+        height: 42px;
+        padding: 0 16px;
+        border-radius: 12px;
+        background: #eef4ff;
+        color: var(--blue);
+        font-size: 16px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
       .status-notice {
         margin-top: 24px;
         padding: 18px;
@@ -2097,7 +2110,17 @@
         .participant-status-head .pill {
           flex-shrink: 0;
         }
+        .participant-status-list .status-person {
+          flex-wrap: wrap;
+        }
+        .participant-status-list .edit-response-btn {
+          width: 100%;
+          margin-left: 56px;
+        }
         .completion-actions {
+          grid-template-columns: 1fr;
+        }
+        .completion-actions.three-actions {
           grid-template-columns: 1fr;
         }
       }
@@ -4217,7 +4240,7 @@
             </div>
           </div>
           <div class="join-step" data-step="5">
-            <h2>이 조건으로 제출할까요?</h2>
+            <h2 id="joinSubmitTitle">이 조건으로 제출할까요?</h2>
             <div class="confirm-block">
               <h3>참가자</h3>
               <p class="muted" id="selectedIdentityText">
@@ -4234,18 +4257,26 @@
                 오전 선호 · 점심 직후 제외
               </p>
             </div>
-            <button class="primary" style="width: 100%" onclick="submitJoin()">
+            <button
+              id="joinSubmitButton"
+              class="primary"
+              style="width: 100%"
+              onclick="submitJoin()"
+            >
               조건 제출
             </button>
           </div>
           <div class="join-step" data-step="6">
-            <h2>제출을 완료했어요.</h2>
+            <h2 id="joinCompletionTitle">제출을 완료했어요.</h2>
             <p class="lead" id="doneText">최유진님의 조건이 반영됐어요.</p>
             <p class="completion-note">
               모든 응답이 모이면 주최자가 회의 시간을 확정할 예정이에요.
             </p>
-            <div class="btnrow completion-actions">
+            <div class="btnrow completion-actions three-actions">
               <button class="secondary" onclick="go('home')">홈으로</button>
+              <button class="secondary" onclick="editCurrentResponse()">
+                응답 수정하기
+              </button>
               <button class="primary" onclick="showParticipantStatus()">
                 응답 현황 보기
               </button>
@@ -4325,6 +4356,8 @@
         selected: "",
         method: "직접 입력하기",
         calendarProvider: "Google Calendar",
+        editingResponse: false,
+        editableParticipant: "",
       };
       const criteria = [
         {
@@ -5158,7 +5191,7 @@
       function startJoin() {
         joinStep = 0;
         state.selected = "";
-        state.calendarProvider = "Google Calendar";
+        state.editingResponse = false;
         go("join");
         renderJoin();
       }
@@ -5188,6 +5221,18 @@
             : getManualScheduleSummary();
           summary.textContent = base + " · " + (selected || "추가 조건 없음");
         }
+        const submitTitle = document.getElementById("joinSubmitTitle");
+        const submitButton = document.getElementById("joinSubmitButton");
+        if (submitTitle) {
+          submitTitle.textContent = state.editingResponse
+            ? "수정한 조건을 저장할까요?"
+            : "이 조건으로 제출할까요?";
+        }
+        if (submitButton) {
+          submitButton.textContent = state.editingResponse
+            ? "수정 완료"
+            : "조건 제출";
+        }
         renderIdentity();
       }
       function renderIdentity() {
@@ -5196,9 +5241,20 @@
         box.innerHTML = "";
         state.people.forEach((p) => {
           const selected = state.selected === p.name;
+          const canEdit = p.done && p.name === state.editableParticipant;
+          const disabled = p.done && !canEdit;
+          const badgeText = canEdit
+            ? selected
+              ? "수정 중"
+              : "응답 수정"
+            : p.done
+              ? "제출 완료"
+              : selected
+                ? "선택됨"
+                : "선택";
           box.insertAdjacentHTML(
             "beforeend",
-            `<button class="name-card ${p.done ? "disabled" : ""} ${selected ? "selected" : ""}" ${p.done ? "disabled" : ""} onclick="selectIdentity('${p.name}','${p.role}')"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : selected ? "선택됨" : "선택"}</span></button>`,
+            `<button class="name-card ${disabled ? "disabled" : ""} ${selected ? "selected" : ""}" ${disabled ? "disabled" : ""} onclick="selectIdentity('${p.name}','${p.role}')"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><span class="badge ${p.done ? "done" : "pending"}">${badgeText}</span></button>`,
           );
         });
         const btn = document.getElementById("identityNext");
@@ -5206,6 +5262,10 @@
       }
       function selectIdentity(n, r) {
         state.selected = n;
+        const person = state.people.find((p) => p.name === n);
+        state.editingResponse = Boolean(
+          person?.done && n === state.editableParticipant,
+        );
         document.getElementById("selectedIdentityText").textContent =
           n + " · " + r;
         renderIdentity();
@@ -5554,6 +5614,41 @@
         renderParticipantStatus();
         renderJoin();
       }
+      function editCurrentResponse() {
+        const name = state.selected || state.editableParticipant;
+        const person = state.people.find((p) => p.name === name && p.done);
+        if (!person) return;
+        state.selected = person.name;
+        state.editableParticipant = person.name;
+        state.editingResponse = true;
+        document.getElementById("selectedIdentityText").textContent =
+          person.name + " · " + person.role;
+        document.getElementById("methodText").textContent = state.method;
+
+        const flow = document.getElementById("conditionFlow");
+        const title = document.getElementById("conditionTitle");
+        if (state.method.startsWith("캘린더")) {
+          if (flow) flow.className = "calendar-mode";
+          if (title) title.textContent = "일정을 확인해주세요.";
+          const provider = document.getElementById("calendarProviderText");
+          if (provider) provider.textContent = state.calendarProvider;
+          document
+            .querySelectorAll(".calendar-option")
+            .forEach((button) =>
+              button.classList.toggle(
+                "selected",
+                button.dataset.provider === state.calendarProvider,
+              ),
+            );
+        } else {
+          if (flow) flow.className = "manual-mode";
+          if (title) title.textContent = "가능한 시간과 조건을 선택해주세요.";
+          renderManualSchedule();
+        }
+        joinStep = 4;
+        go("join");
+        renderJoin();
+      }
       function renderParticipantStatus() {
         const list = document.getElementById("participantStatusList");
         if (!list) return;
@@ -5568,7 +5663,7 @@
           const isMe = p.name === state.selected;
           list.insertAdjacentHTML(
             "beforeend",
-            `<div class="status-person ${isMe ? "current-user" : ""}"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}${isMe ? '<span class="you-badge">나</span>' : ""}</b><span>${p.role}</span></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span></div>`,
+            `<div class="status-person ${isMe ? "current-user" : ""}"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}${isMe ? '<span class="you-badge">나</span>' : ""}</b><span>${p.role}</span></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span>${isMe && p.done ? '<button class="edit-response-btn" onclick="editCurrentResponse()">수정</button>' : ""}</div>`,
           );
         });
       }
@@ -5584,8 +5679,10 @@
       }
       function submitJoin() {
         const person = state.people.find((p) => p.name === state.selected);
+        const wasEditing = state.editingResponse;
         if (person) {
           person.done = true;
+          state.editableParticipant = person.name;
           person.conditions =
             state.method +
             " · " +
@@ -5594,8 +5691,15 @@
               : "") +
             (getSelectedConditions() || "추가 조건 없음");
         }
+        const completionTitle = document.getElementById("joinCompletionTitle");
+        if (completionTitle) {
+          completionTitle.textContent = wasEditing
+            ? "수정을 완료했어요."
+            : "제출을 완료했어요.";
+        }
         document.getElementById("doneText").textContent =
-          state.selected + "님의 조건이 반영됐어요.";
+          state.selected +
+          (wasEditing ? "님의 조건이 수정됐어요." : "님의 조건이 반영됐어요.");
         renderStatus();
         renderResults();
         renderIdentity();
