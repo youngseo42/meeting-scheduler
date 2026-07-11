@@ -406,6 +406,9 @@
         width: 50%;
         background: var(--blue);
       }
+      #status .organizer-progress {
+        margin: 14px 0 30px;
+      }
       .results {
         display: flex;
         flex-direction: column;
@@ -1722,6 +1725,16 @@
       }
       .mg-slot.active {
         position: relative;
+        min-height: 58px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+          "total best"
+          "required required";
+        align-content: center;
+        align-items: center;
+        gap: 8px 6px;
+        padding: 12px !important;
         outline: 3px solid var(--blue);
         outline-offset: -3px;
         background: #eaf3ff;
@@ -1729,16 +1742,38 @@
       }
       .mg-slot.active::after {
         content: "BEST";
-        position: absolute;
-        right: 7px;
-        top: 6px;
-        padding: 3px 6px;
+        position: static;
+        grid-area: best;
+        justify-self: end;
+        align-self: center;
+        padding: 4px 7px;
         border-radius: 999px;
         background: var(--blue);
         color: #fff;
-        font-size: 16px;
+        font-size: 12px;
+        line-height: 1;
         font-weight: 950;
         letter-spacing: 0.04em;
+        z-index: 2;
+      }
+      .mg-slot.active .mg-total {
+        grid-area: total;
+        min-width: 0;
+        white-space: nowrap;
+      }
+      .mg-slot.active .mg-required {
+        grid-area: required;
+        justify-self: start;
+        margin-top: 0;
+      }
+      .mg-schedule .mg-cell,
+      .mg-schedule .mg-total,
+      .mg-schedule .mg-required {
+        font-size: 13px;
+      }
+      .mg-schedule .mg-total,
+      .mg-schedule .mg-required {
+        line-height: 1.3;
       }
 
       /* ===== recommendation more button ===== */
@@ -3028,10 +3063,11 @@
           <div class="landing-copy">
             <span class="landing-eyebrow">AI MEETING SCHEDULER</span>
             <h1>
-              가능한 시간이 아니라,<br />회의에 가장 적합한 시간을 추천합니다.
+              모두가 참석 가능한 시간이 아니라,<br />회의에 가장 적합한 시간을
+              추천합니다.
             </h1>
             <p class="landing-description">
-              참석 가능 시간부터 필수 참석자, 회의 목적과 개인 선호 조건까지
+              참석 가능 여부부터 필수 참석자, 회의 목적과 개인 선호 조건까지
               비교해 가장 적합한 회의 시간을 추천합니다.
             </p>
             <div class="landing-actions">
@@ -3097,7 +3133,7 @@
           <article class="landing-feature">
             <span class="landing-feature-number">03</span>
             <div>
-              <h3>가장 적합한 한 시간을 알려줘요</h3>
+              <h3>가장 적합한 회의 시간을 추천해요</h3>
               <p>
                 추천 이유와 함께 해당 회의를 진행하기에 가장 적합한 시간을
                 알려줘요.
@@ -3114,7 +3150,7 @@
         <div class="layout" style="margin-top: 28px">
           <aside class="card">
             <h2>회의 만들기</h2>
-            <p class="muted">회의 시간 추천에 필요한 기준을 설정합니다.</p>
+            <p class="muted">회의 시간 추천에 필요한 정보를 입력합니다.</p>
             <div class="field">
               <label>회의명</label
               ><input
@@ -3236,7 +3272,7 @@
               <div class="people-head">
                 <div>
                   <h2>참가자 추가</h2>
-                  <p class="muted">주최자를 포함해 참석자를 관리합니다.</p>
+                  <p class="muted">회의 참석자를 관리합니다.</p>
                 </div>
                 <span class="pill" id="totalCount">총 6명</span>
               </div>
@@ -3260,7 +3296,7 @@
               <div class="criteria-header">
                 <h2>추천 기준 우선순위</h2>
                 <p class="criteria-help">
-                  회의에 중요한 기준을 위로 드래그하여 추천 우선순위를
+                  회의에 중요한 기준을 위아래로 드래그하여 우선순위를
                   변경해보세요.
                 </p>
               </div>
@@ -3321,11 +3357,11 @@
         <div class="manage-hero">
           <div>
             <h1>
-              가능한 시간이 아니라,<br />회의에 가장 적합한 시간을 추천합니다.
+              추천 결과를 확인하고<br />회의에 가장 적합한 시간을 선택하세요.
             </h1>
             <p>
-              참석자의 응답 현황과 필수 참석자, 회의 목적, 추천 기준을 함께
-              비교해 가장 적합한 후보 시간을 확인합니다.
+              참석자의 응답 현황과 입력한 회의 정보를 바탕으로 회의에 가장
+              적합한 시간을 추천합니다.
             </p>
           </div>
           <div class="invite-card" style="min-width: 280px; margin-top: 0">
@@ -3434,9 +3470,11 @@
             <section id="status" class="mg-section">
               <div class="mg-title">
                 <h2><span class="mg-num">1</span>참석자 응답 현황</h2>
-                <span class="mg-tag">3 / 5 제출</span>
+                <span id="organizerStatusCount" class="mg-tag">0 / 0 제출</span>
               </div>
-              <div class="bar"><div style="width: 60%"></div></div>
+              <div class="bar organizer-progress">
+                <div id="organizerStatusBar" style="width: 0%"></div>
+              </div>
               <div id="statusList" class="status-list"></div>
             </section>
 
@@ -4277,14 +4315,14 @@
             name: "한도윤",
             role: "Operation",
             essential: true,
-            done: true,
+            done: false,
             conditions: "",
           },
           {
             name: "정수민",
             role: "Content",
             essential: false,
-            done: false,
+            done: true,
             conditions: "직접 입력 · 화/수/목 가능",
           },
         ],
@@ -4650,6 +4688,12 @@
       function renderStatus() {
         const box = document.getElementById("statusList");
         if (!box) return;
+        const total = state.people.length;
+        const done = state.people.filter((p) => p.done).length;
+        const count = document.getElementById("organizerStatusCount");
+        const bar = document.getElementById("organizerStatusBar");
+        if (count) count.textContent = done + " / " + total + " 제출";
+        if (bar) bar.style.width = (total ? (done / total) * 100 : 0) + "%";
         box.innerHTML = "";
         state.people.forEach((p) =>
           box.insertAdjacentHTML(
@@ -4658,8 +4702,171 @@
           ),
         );
       }
+      function getPurposeRecommendationPreset() {
+        const purpose = getMeetingPurposeText();
+        const profiles = {
+          킥오프: {
+            summary: "킥오프에 적합한 오전 시간대를 우선 반영했습니다.",
+            candidates: [
+              [
+                "07/14(화) 10:00 ~ 11:00",
+                "93",
+                "킥오프에 적합한 오전",
+                "업무 시작 전 방향 정렬",
+              ],
+              [
+                "07/15(수) 10:00 ~ 11:00",
+                "91",
+                "킥오프에 적합한 오전",
+                "오전 선호 충족",
+              ],
+              [
+                "07/13(월) 10:00 ~ 11:00",
+                "89",
+                "가장 빠른 오전",
+                "준비 시간 확보 가능",
+              ],
+            ],
+          },
+          의사결정: {
+            summary:
+              "집중도가 높고 핵심 참석자가 논의하기 좋은 시간을 우선 반영했습니다.",
+            candidates: [
+              [
+                "07/15(수) 10:00 ~ 11:00",
+                "95",
+                "의사결정에 적합한 오전",
+                "핵심 참석자 논의 적합",
+              ],
+              [
+                "07/14(화) 14:00 ~ 15:00",
+                "92",
+                "검토 후 결정하기 좋은 시간",
+                "참석률 최대",
+              ],
+              [
+                "07/16(목) 10:00 ~ 11:00",
+                "89",
+                "집중도가 높은 오전",
+                "오전 선호 충족",
+              ],
+            ],
+          },
+          브레인스토밍: {
+            summary:
+              "아이디어를 자유롭게 나누기 좋은 오후 시간대를 우선 반영했습니다.",
+            candidates: [
+              [
+                "07/15(수) 14:00 ~ 15:00",
+                "95",
+                "아이디어 발산에 적합한 오후",
+                "참석률 최대",
+              ],
+              [
+                "07/16(목) 16:00 ~ 17:00",
+                "91",
+                "집중 업무 후 협업 시간",
+                "개인 선호 일부 반영",
+              ],
+              [
+                "07/14(화) 14:00 ~ 15:00",
+                "89",
+                "브레인스토밍에 적합한 오후",
+                "점심 직후 시간 회피",
+              ],
+            ],
+          },
+          "진행 상황 공유": {
+            summary:
+              "당일 업무 진행 내용을 정리해 공유하기 좋은 시간을 우선 반영했습니다.",
+            candidates: [
+              [
+                "07/16(목) 16:00 ~ 17:00",
+                "94",
+                "업무 진행 후 공유에 적합",
+                "참석률 최대",
+              ],
+              [
+                "07/15(수) 14:00 ~ 15:00",
+                "92",
+                "진행 내용을 정리하기 좋은 오후",
+                "필수 참석자 모두 가능",
+              ],
+              [
+                "07/17(금) 10:00 ~ 11:00",
+                "88",
+                "주간 진행 상황 공유에 적합",
+                "오전 선호 충족",
+              ],
+            ],
+          },
+          회고: {
+            summary:
+              "업무를 마무리하고 경험을 돌아보기 좋은 시간을 우선 반영했습니다.",
+            candidates: [
+              [
+                "07/17(금) 16:00 ~ 17:00",
+                "95",
+                "주간 업무 후 회고에 적합",
+                "업무 마무리 시간",
+              ],
+              [
+                "07/16(목) 16:00 ~ 17:00",
+                "92",
+                "업무 종료 전 회고 가능",
+                "참석률 최대",
+              ],
+              [
+                "07/15(수) 14:00 ~ 15:00",
+                "89",
+                "중간 회고에 적합한 오후",
+                "필수 참석자 모두 가능",
+              ],
+            ],
+          },
+        };
+        const profile = profiles[purpose] || {
+          summary: `${purpose} 목적과 참석 조건을 함께 고려해 적합한 시간을 추천했습니다.`,
+          candidates: [
+            [
+              "07/15(수) 14:00 ~ 15:00",
+              "92",
+              `${purpose} 목적에 적합`,
+              "참석률 최대",
+            ],
+            [
+              "07/16(목) 10:00 ~ 11:00",
+              "90",
+              `${purpose} 목적을 고려한 후보`,
+              "필수 참석자 모두 가능",
+            ],
+            [
+              "07/14(화) 14:00 ~ 15:00",
+              "88",
+              `${purpose} 목적을 일부 반영`,
+              "개인 선호 일부 반영",
+            ],
+          ],
+        };
+        return {
+          summary: profile.summary,
+          data: profile.candidates.map((candidate, index) => [
+            index === 0 ? "BEST MATCH" : `OPTION ${index + 1}`,
+            candidate[0],
+            candidate[1],
+            [
+              candidate[2],
+              "필수 참석자 모두 가능",
+              index === 1 ? "참석률 6/6" : "참석률 5/6",
+              candidate[3],
+            ],
+          ]),
+        };
+      }
       function getRecommendationPreset() {
         const top = criteria[0]?.title || "필수 참석자 우선";
+        const purpose = getMeetingPurposeText();
+        const purposePreset = getPurposeRecommendationPreset();
         const presets = {
           "필수 참석자 우선": {
             summary: "필수 참석자 참석 여부를 가장 먼저 반영했습니다.",
@@ -4671,7 +4878,7 @@
                 [
                   "필수 참석자 모두 가능",
                   "참석률 5/6",
-                  "회의 목적에 맞는 시간",
+                  `${purpose} 목적 고려`,
                   "오전 선호 충족",
                 ],
               ],
@@ -4694,7 +4901,7 @@
                   "필수 참석자 모두 가능",
                   "참석률 5/6",
                   "오전 선호 반영",
-                  "회의 목적에 맞는 시간",
+                  `${purpose} 목적 고려`,
                 ],
               ],
             ],
@@ -4710,7 +4917,7 @@
                   "가장 빠른 후보",
                   "필수 참석자 모두 가능",
                   "참석률 5/6",
-                  "킥오프 오전 적합",
+                  `${purpose} 목적 고려`,
                 ],
               ],
               [
@@ -4737,44 +4944,7 @@
               ],
             ],
           },
-          "회의 목적에 맞는 시간": {
-            summary: "킥오프 목적에 적합한 오전 시간대를 우선 반영했습니다.",
-            data: [
-              [
-                "BEST MATCH",
-                "07/14(화) 10:00 ~ 11:00",
-                "93",
-                [
-                  "킥오프에 적합한 오전",
-                  "필수 참석자 모두 가능",
-                  "참석률 5/6",
-                  "업무 시작 전 정렬",
-                ],
-              ],
-              [
-                "OPTION 2",
-                "07/15(수) 10:00 ~ 11:00",
-                "91",
-                [
-                  "킥오프에 적합한 오전",
-                  "필수 참석자 모두 가능",
-                  "참석률 5/6",
-                  "오전 선호 충족",
-                ],
-              ],
-              [
-                "OPTION 3",
-                "07/13(월) 10:00 ~ 11:00",
-                "89",
-                [
-                  "가장 빠른 오전",
-                  "필수 참석자 모두 가능",
-                  "참석률 5/6",
-                  "준비 시간 짧음",
-                ],
-              ],
-            ],
-          },
+          "회의 목적에 맞는 시간": purposePreset,
           "참석률 최대": {
             summary: "가장 많은 사람이 참석 가능한 시간을 우선 반영했습니다.",
             data: [
@@ -4807,7 +4977,7 @@
                 [
                   "참석률 5/6",
                   "필수 참석자 모두 가능",
-                  "킥오프 오전 적합",
+                  `${purpose} 목적 고려`,
                   "오전 선호 반영",
                 ],
               ],
