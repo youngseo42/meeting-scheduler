@@ -2422,8 +2422,9 @@
         white-space: nowrap;
       }
       .mini-calendar.hourly .mc-event-block.user-added-event {
-        background: #dceaff;
-        box-shadow: inset 0 0 0 2px rgba(49, 130, 246, 0.24);
+        background: #eaf7df;
+        color: #4f8a38;
+        box-shadow: none;
         white-space: normal;
         word-break: keep-all;
         overflow: hidden;
@@ -5682,6 +5683,9 @@
           if (dateIndex < 0 || startHour < 9 || startHour > 18) return;
           const block = document.createElement("div");
           block.className = "mc-event-block user-added-event";
+          block.style.background = "#eaf7df";
+          block.style.color = "#4f8a38";
+          block.style.boxShadow = "none";
           block.style.gridColumn = String(dateIndex + 2);
           block.style.gridRow = `${startHour - 7} / span ${Math.max(1, endHour - startHour)}`;
           const label = document.createElement("span");
