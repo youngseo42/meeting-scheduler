@@ -2351,12 +2351,17 @@
         width: 100%;
         min-width: 0;
         height: 48px;
-        padding: 0 46px 0 12px;
         border: 1px solid var(--line);
         border-radius: 12px;
+        background-color: #fff;
+      }
+      .extra-schedule-fields input {
+        padding: 0 12px;
+      }
+      .extra-schedule-fields select {
+        padding: 0 46px 0 12px;
         appearance: none;
         -webkit-appearance: none;
-        background-color: #fff;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M4 7L9 12L14 7' stroke='%23191F28' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 20px center;
@@ -3366,8 +3371,8 @@
             <div id="createdInvite" class="invite-card hidden">
               <span class="pill">개인 링크 생성 완료</span>
               <p class="personal-invite-guide">
-                참가자 목록에서 개인 참여 링크를 복사해 전달해주세요. 개인
-                링크로 본인의 응답만 제출하고 수정할 수 있어요.
+                참가자 목록에서 개인 참여 링크를 복사해 각자에게 전달해주세요.
+                개인 링크로 본인의 응답만 제출하고 수정할 수 있어요.
               </p>
               <div class="pass-chip">
                 비밀번호 <span id="createdPassword">2407</span>
@@ -3399,7 +3404,7 @@
                     class="copy-all-links-button"
                     onclick="copyAllParticipantLinks()"
                   >
-                    전체 코드 복사
+                    전체 링크 복사
                   </button>
                 </div>
               </div>
@@ -5357,8 +5362,8 @@
       }
       function copyAllParticipantLinks() {
         const lines = [
-          "[MeetFit 개인 참여 코드]",
-          "각 코드를 해당 참가자에게 전달해주세요.",
+          "[MeetFit 개인 참여 링크]",
+          "각 링크를 해당 참가자에게 개별로 전달해주세요.",
           "",
           ...state.people.flatMap((person) => [
             `${person.name} · ${person.role} · ${person.inviteCode}`,
@@ -5369,7 +5374,9 @@
         if (navigator.clipboard?.writeText) {
           navigator.clipboard.writeText(lines.join("\n")).catch(() => {});
         }
-        showToastMessage("전체 코드 목록을 복사했어요.");
+        showToastMessage(
+          "전체 링크 목록을 복사했어요. 참가자별로 전달해주세요.",
+        );
       }
       function getParticipantStorageKey(code) {
         return `meetfit:response:${code}`;
