@@ -226,7 +226,26 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 18px;
         margin-bottom: 22px;
+      }
+      .people-head-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .copy-all-links-button {
+        height: 46px;
+        padding: 0 18px;
+        border: 1px solid #d7e7ff;
+        border-radius: 12px;
+        background: #fff;
+        color: var(--blue);
+        font-size: 16px;
+        font-weight: 900;
+        white-space: nowrap;
       }
       .addline {
         display: grid;
@@ -253,6 +272,7 @@
         align-items: center;
         gap: 14px;
         background: white;
+        flex-wrap: wrap;
       }
       .avatar {
         width: 46px;
@@ -286,6 +306,55 @@
         background: #f2f4f6;
         color: #6b7684;
         font-weight: 900;
+      }
+      .participant-code {
+        display: block;
+        width: max-content;
+        margin-top: 6px;
+        color: var(--blue);
+        font-size: 16px;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+      .person .person-info > span {
+        display: block;
+        margin-top: 2px;
+      }
+      .participant-link-button {
+        flex: 1 0 100%;
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        background: #eef4ff;
+        color: var(--blue);
+        font-size: 16px;
+        font-weight: 900;
+      }
+      .personal-invite-guide {
+        margin: 18px 0 22px;
+        color: var(--sub);
+        font-size: 16px;
+        line-height: 1.6;
+        word-break: keep-all;
+      }
+      .participant-confirm {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .participant-confirm .person-info {
+        min-width: 0;
+      }
+      .participant-confirm-status {
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .code-error {
+        min-height: 24px;
+        margin: 10px 0 0;
+        color: #e42939;
+        font-size: 16px;
+        font-weight: 700;
       }
       .criteria {
         display: flex;
@@ -569,12 +638,13 @@
         padding: 0 16px;
         border-radius: 99px;
         background: #f2f4f6;
-        font-weight: 900;
+        font-weight: 500;
         color: #6b7684;
       }
       .chip.on {
         background: var(--blue);
         color: white;
+        font-weight: 900;
       }
       .confirm-block {
         border: 1px solid var(--line);
@@ -769,6 +839,17 @@
         .page {
           padding: 28px 18px;
         }
+        .people-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .people-head-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .copy-all-links-button {
+          flex: 1;
+        }
         .row,
         .addline,
         .people-grid,
@@ -812,7 +893,7 @@
         line-height: 1.7;
         color: #4b5563;
         margin: 0;
-        max-width: 720px;
+        max-width: 860px;
       }
       .manage-grid {
         display: grid;
@@ -1480,6 +1561,15 @@
       #manageCriteriaList.editing .mg-priority-item.drag-over {
         border-color: #9cc7ff;
         background: #f7fbff;
+      }
+      .criterion.fixed-priority,
+      #manageCriteriaList .mg-priority-item.fixed-priority {
+        border-color: #d7e7ff;
+        background: #f7fbff;
+      }
+      .fixed-priority .handle {
+        color: var(--blue) !important;
+        cursor: not-allowed !important;
       }
       #manageCriteriaHelp {
         margin: 0 0 14px;
@@ -2261,10 +2351,16 @@
         width: 100%;
         min-width: 0;
         height: 48px;
-        padding: 0 12px;
+        padding: 0 46px 0 12px;
         border: 1px solid var(--line);
         border-radius: 12px;
-        background: #fff;
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M4 7L9 12L14 7' stroke='%23191F28' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        background-size: 18px 18px;
       }
       .extra-schedule-actions {
         display: flex;
@@ -3095,7 +3191,7 @@
                 회의 만들기
               </button>
               <button class="secondary landing-secondary" onclick="startJoin()">
-                초대코드로 참여
+                개인 코드로 참여
               </button>
             </div>
           </div>
@@ -3268,17 +3364,16 @@
               회의 정보 저장하기
             </button>
             <div id="createdInvite" class="invite-card hidden">
-              <span class="pill">초대코드</span>
-              <div class="code">XCZ7NS</div>
+              <span class="pill">개인 링크 생성 완료</span>
+              <p class="personal-invite-guide">
+                참가자 목록에서 개인 참여 링크를 복사해 전달해주세요. 개인
+                링크로 본인의 응답만 제출하고 수정할 수 있어요.
+              </p>
               <div class="pass-chip">
                 비밀번호 <span id="createdPassword">2407</span>
               </div>
               <div class="btnrow">
-                <button class="secondary" onclick="copyToast()">
-                  링크 복사</button
-                ><button class="secondary" onclick="copyCodeToast()">
-                  코드 복사</button
-                ><button
+                <button
                   class="primary manage-time-button"
                   onclick="go('manage')"
                 >
@@ -3297,7 +3392,16 @@
                     설정해주세요.
                   </p>
                 </div>
-                <span class="pill" id="totalCount">총 6명</span>
+                <div class="people-head-actions">
+                  <span class="pill" id="totalCount">총 6명</span>
+                  <button
+                    type="button"
+                    class="copy-all-links-button"
+                    onclick="copyAllParticipantLinks()"
+                  >
+                    전체 코드 복사
+                  </button>
+                </div>
               </div>
               <div class="hostbox">
                 <span class="pill">HOST</span><b id="hostPreviewName">박서연</b
@@ -3319,8 +3423,8 @@
               <div class="criteria-header">
                 <h2>추천 기준 우선순위</h2>
                 <p class="criteria-help">
-                  회의에 중요한 기준을 위아래로 드래그하여 우선순위를
-                  변경해보세요.
+                  필수 참석자 우선은 1순위로 고정돼요. 나머지 기준은 위아래로
+                  드래그해 순서를 변경할 수 있어요.
                 </p>
               </div>
               <div id="criteriaList" class="criteria"></div>
@@ -3342,11 +3446,11 @@
               관리 정보를 입력하고 참석자 응답 현황과 추천 시간을 확인해보세요.
             </p>
             <div class="field">
-              <label>초대코드</label
+              <label>회의 코드</label
               ><input
                 id="manageCodeInput"
                 value="XCZ7NS"
-                placeholder="초대코드 입력"
+                placeholder="회의 코드 입력"
                 oninput="checkManageGate()"
               />
             </div>
@@ -3386,16 +3490,6 @@
               참석자의 응답 현황과 입력한 회의 정보를 바탕으로 회의에 가장
               적합한 시간을 추천해요.
             </p>
-          </div>
-          <div class="invite-card" style="min-width: 280px; margin-top: 0">
-            <span class="pill">초대코드</span>
-            <div class="code" style="font-size: 36px">XCZ7NS</div>
-            <div class="btnrow">
-              <button class="secondary" onclick="copyToast()">링크 복사</button
-              ><button class="secondary" onclick="copyCodeToast()">
-                코드 복사
-              </button>
-            </div>
           </div>
         </div>
 
@@ -3441,8 +3535,8 @@
                 </button>
               </div>
               <p id="manageCriteriaHelp" class="mg-priority-help">
-                회의에 중요한 기준을 위로 드래그하여 추천 우선순위를
-                변경해보세요.
+                필수 참석자 우선은 1순위로 고정돼요. 나머지 기준을 드래그해 추천
+                우선순위를 변경해보세요.
               </p>
               <div id="manageCriteriaList" class="mg-priority readonly">
                 <div class="mg-priority-item">
@@ -3640,13 +3734,26 @@
             <div id="joinProgress" style="width: 16%"></div>
           </div>
           <div class="join-step active" data-step="0">
-            <h2>초대코드를 입력해주세요.</h2>
-            <p class="lead">받은 초대코드로 회의에 참여해요.</p>
-            <div class="field"><input value="XCZ7NS" /></div>
+            <h2>개인 참여 코드를 입력해주세요.</h2>
+            <p class="lead">
+              주최자에게 받은 개인 코드로 내 응답을 제출하거나 수정해요.
+            </p>
+            <div class="field">
+              <input
+                id="participantCodeInput"
+                value="H3VF8N"
+                maxlength="12"
+                autocomplete="off"
+                placeholder="개인 참여 코드"
+                oninput="clearParticipantCodeError()"
+                onkeydown="if (event.key === 'Enter') enterParticipantCode();"
+              />
+              <p id="participantCodeError" class="code-error"></p>
+            </div>
             <button
               class="primary"
               style="width: 100%; margin-top: 20px"
-              onclick="joinNext()"
+              onclick="enterParticipantCode()"
             >
               참여하기
             </button>
@@ -3660,14 +3767,24 @@
                 <span id="joinLength">1시간</span>
               </p>
             </div>
-            <h3>누구신가요?</h3>
-            <div class="name-list" id="identityList"></div>
+            <h3>참가자 정보</h3>
+            <div class="confirm-block participant-confirm">
+              <div class="avatar" id="joinParticipantAvatar">최</div>
+              <div class="person-info">
+                <b id="joinParticipantName">최유진</b>
+                <span id="joinParticipantRole">Marketing</span>
+              </div>
+              <span
+                id="joinParticipantStatus"
+                class="pill participant-confirm-status"
+                >응답 전</span
+              >
+            </div>
             <button
               id="identityNext"
               class="primary"
               style="width: 100%; margin-top: 20px"
               onclick="joinNext()"
-              disabled
             >
               다음
             </button>
@@ -4320,6 +4437,7 @@
           {
             name: "김민준",
             role: "Designer",
+            inviteCode: "A7KM2P",
             essential: true,
             done: true,
             conditions: "Google Calendar · 오전 선호 · 점심 직후 제외",
@@ -4327,6 +4445,7 @@
           {
             name: "이지훈",
             role: "Developer",
+            inviteCode: "D9QX4L",
             essential: true,
             done: true,
             conditions: "직접 입력 · 월/수 가능 · 오전 선호",
@@ -4334,6 +4453,7 @@
           {
             name: "최유진",
             role: "Marketing",
+            inviteCode: "H3VF8N",
             essential: false,
             done: false,
             conditions: "",
@@ -4341,6 +4461,7 @@
           {
             name: "한도윤",
             role: "Operation",
+            inviteCode: "R6TN9C",
             essential: true,
             done: true,
             conditions: "",
@@ -4348,6 +4469,7 @@
           {
             name: "정수민",
             role: "Content",
+            inviteCode: "B4SJ7W",
             essential: false,
             done: false,
             conditions: "직접 입력 · 화/수/목 가능",
@@ -4361,12 +4483,12 @@
       };
       const criteria = [
         {
-          title: "회의 목적에 맞는 시간",
-          desc: "회의 목적에 잘 맞는 시간대를 먼저 추천해요.",
-        },
-        {
           title: "필수 참석자 우선",
           desc: "필수 참석자가 모두 가능한 시간을 먼저 추천해요.",
+        },
+        {
+          title: "회의 목적에 맞는 시간",
+          desc: "회의 목적에 잘 맞는 시간대를 먼저 추천해요.",
         },
         {
           title: "가장 빠른 일정",
@@ -4515,6 +4637,17 @@
         state.host.essential = document.getElementById("hostEssential").checked;
         renderPeople();
       }
+      function generateParticipantCode() {
+        const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let code = "";
+        do {
+          code = Array.from(
+            { length: 6 },
+            () => alphabet[Math.floor(Math.random() * alphabet.length)],
+          ).join("");
+        } while (state.people.some((p) => p.inviteCode === code));
+        return code;
+      }
       function renderPeople() {
         document.getElementById("hostPreviewName").textContent =
           state.host.name;
@@ -4527,9 +4660,10 @@
         const box = document.getElementById("peopleList");
         box.innerHTML = "";
         state.people.forEach((p, i) => {
+          if (!p.inviteCode) p.inviteCode = generateParticipantCode();
           box.insertAdjacentHTML(
             "beforeend",
-            `<div class="person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><input class="mini-check" type="checkbox" ${p.essential ? "checked" : ""} onchange="state.people[${i}].essential=this.checked"><button class="remove" onclick="removePerson(${i})">×</button></div>`,
+            `<div class="person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span><small class="participant-code">개인 코드 ${p.inviteCode}</small></div><input class="mini-check" type="checkbox" ${p.essential ? "checked" : ""} onchange="state.people[${i}].essential=this.checked"><button class="remove" onclick="removePerson(${i})">×</button><button class="participant-link-button" onclick="copyParticipantLink('${p.inviteCode}','${p.name}')">개인 링크 복사</button></div>`,
           );
         });
         renderIdentity();
@@ -4542,6 +4676,7 @@
         state.people.push({
           name: n,
           role: r,
+          inviteCode: generateParticipantCode(),
           essential: false,
           done: false,
           conditions: "",
@@ -4561,7 +4696,7 @@
         criteria.forEach((c, i) =>
           box.insertAdjacentHTML(
             "beforeend",
-            `<div class="criterion" draggable="true" data-index="${i}"><span class="handle" aria-hidden="true">☰</span><span class="num">${i + 1}</span><div><b>${c.title}</b><div class="small">${c.desc}</div></div></div>`,
+            `<div class="criterion ${i === 0 ? "fixed-priority" : ""}" ${i === 0 ? 'draggable="false"' : 'draggable="true"'} data-index="${i}"><span class="handle" aria-hidden="true">${i === 0 ? "🔒" : "☰"}</span><span class="num">${i + 1}</span><div><b>${c.title}</b><div class="small">${c.desc}</div></div></div>`,
           ),
         );
         enableDrag();
@@ -4570,43 +4705,51 @@
         const list = document.getElementById("criteriaList");
         if (!list) return;
         let dragged = null;
-        list.querySelectorAll(".criterion").forEach((card) => {
-          card.addEventListener("dragstart", (e) => {
-            dragged = card;
-            card.classList.add("dragging");
-            e.dataTransfer.effectAllowed = "move";
-            e.dataTransfer.setData("text/plain", "");
+        list
+          .querySelectorAll(".criterion:not(.fixed-priority)")
+          .forEach((card) => {
+            card.addEventListener("dragstart", (e) => {
+              dragged = card;
+              card.classList.add("dragging");
+              e.dataTransfer.effectAllowed = "move";
+              e.dataTransfer.setData("text/plain", "");
+            });
+            card.addEventListener("dragend", () => {
+              card.classList.remove("dragging");
+              list
+                .querySelectorAll(".criterion")
+                .forEach((item) => item.classList.remove("drag-over"));
+              dragged = null;
+              updateCriteriaNumbers();
+            });
+            card.addEventListener("dragover", (e) => {
+              e.preventDefault();
+              if (!dragged || dragged === card) return;
+              card.classList.add("drag-over");
+              const rect = card.getBoundingClientRect();
+              const after = e.clientY > rect.top + rect.height / 2;
+              list.insertBefore(dragged, after ? card.nextSibling : card);
+            });
+            card.addEventListener("dragleave", () =>
+              card.classList.remove("drag-over"),
+            );
+            card.addEventListener("drop", (e) => {
+              e.preventDefault();
+              card.classList.remove("drag-over");
+              updateCriteriaNumbers();
+            });
           });
-          card.addEventListener("dragend", () => {
-            card.classList.remove("dragging");
-            list
-              .querySelectorAll(".criterion")
-              .forEach((item) => item.classList.remove("drag-over"));
-            dragged = null;
-            updateCriteriaNumbers();
-          });
-          card.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            if (!dragged || dragged === card) return;
-            card.classList.add("drag-over");
-            const rect = card.getBoundingClientRect();
-            const after = e.clientY > rect.top + rect.height / 2;
-            list.insertBefore(dragged, after ? card.nextSibling : card);
-          });
-          card.addEventListener("dragleave", () =>
-            card.classList.remove("drag-over"),
-          );
-          card.addEventListener("drop", (e) => {
-            e.preventDefault();
-            card.classList.remove("drag-over");
-            updateCriteriaNumbers();
-          });
-        });
       }
       function updateCriteriaNumbers() {
-        const cards = [
-          ...document.querySelectorAll("#criteriaList .criterion"),
-        ];
+        const list = document.getElementById("criteriaList");
+        let cards = [...document.querySelectorAll("#criteriaList .criterion")];
+        const fixed = cards.find(
+          (card) => card.querySelector("b")?.textContent === "필수 참석자 우선",
+        );
+        if (list && fixed && list.firstElementChild !== fixed) {
+          list.prepend(fixed);
+          cards = [...document.querySelectorAll("#criteriaList .criterion")];
+        }
         cards.forEach((card, i) => {
           const num = card.querySelector(".num");
           if (num) num.textContent = i + 1;
@@ -4629,7 +4772,7 @@
         box.innerHTML = criteria
           .map(
             (c, i) =>
-              `<div class="mg-priority-item" ${manageCriteriaEditing ? 'draggable="true"' : ""}>${manageCriteriaEditing ? '<span class="handle" aria-hidden="true">☰</span>' : ""}<div class="mg-order">${i + 1}</div><div class="mg-priority-copy"><b>${c.title}</b><span>${c.desc}</span></div></div>`,
+              `<div class="mg-priority-item ${i === 0 ? "fixed-priority" : ""}" ${manageCriteriaEditing && i > 0 ? 'draggable="true"' : 'draggable="false"'}>${manageCriteriaEditing ? `<span class="handle" aria-hidden="true">${i === 0 ? "🔒" : "☰"}</span>` : ""}<div class="mg-order">${i + 1}</div><div class="mg-priority-copy"><b>${c.title}</b><span>${c.desc}</span></div></div>`,
           )
           .join("");
         const btn = document.getElementById("manageCriteriaBtn");
@@ -4653,39 +4796,41 @@
         const list = document.getElementById("manageCriteriaList");
         if (!list) return;
         let dragged = null;
-        list.querySelectorAll(".mg-priority-item").forEach((card) => {
-          card.addEventListener("dragstart", (e) => {
-            dragged = card;
-            card.classList.add("dragging");
-            e.dataTransfer.effectAllowed = "move";
-            e.dataTransfer.setData("text/plain", "");
+        list
+          .querySelectorAll(".mg-priority-item:not(.fixed-priority)")
+          .forEach((card) => {
+            card.addEventListener("dragstart", (e) => {
+              dragged = card;
+              card.classList.add("dragging");
+              e.dataTransfer.effectAllowed = "move";
+              e.dataTransfer.setData("text/plain", "");
+            });
+            card.addEventListener("dragend", () => {
+              card.classList.remove("dragging");
+              list
+                .querySelectorAll(".mg-priority-item")
+                .forEach((item) => item.classList.remove("drag-over"));
+              updateManageCriteriaFromDom();
+              dragged = null;
+            });
+            card.addEventListener("dragover", (e) => {
+              e.preventDefault();
+              if (!dragged || dragged === card) return;
+              card.classList.add("drag-over");
+              const rect = card.getBoundingClientRect();
+              const after = e.clientY > rect.top + rect.height / 2;
+              list.insertBefore(dragged, after ? card.nextSibling : card);
+              updateManageCriteriaNumbersOnly();
+            });
+            card.addEventListener("dragleave", () =>
+              card.classList.remove("drag-over"),
+            );
+            card.addEventListener("drop", (e) => {
+              e.preventDefault();
+              card.classList.remove("drag-over");
+              updateManageCriteriaFromDom();
+            });
           });
-          card.addEventListener("dragend", () => {
-            card.classList.remove("dragging");
-            list
-              .querySelectorAll(".mg-priority-item")
-              .forEach((item) => item.classList.remove("drag-over"));
-            updateManageCriteriaFromDom();
-            dragged = null;
-          });
-          card.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            if (!dragged || dragged === card) return;
-            card.classList.add("drag-over");
-            const rect = card.getBoundingClientRect();
-            const after = e.clientY > rect.top + rect.height / 2;
-            list.insertBefore(dragged, after ? card.nextSibling : card);
-            updateManageCriteriaNumbersOnly();
-          });
-          card.addEventListener("dragleave", () =>
-            card.classList.remove("drag-over"),
-          );
-          card.addEventListener("drop", (e) => {
-            e.preventDefault();
-            card.classList.remove("drag-over");
-            updateManageCriteriaFromDom();
-          });
-        });
       }
       function updateManageCriteriaNumbersOnly() {
         document
@@ -4693,9 +4838,21 @@
           .forEach((n, i) => (n.textContent = i + 1));
       }
       function updateManageCriteriaFromDom() {
-        const cards = [
+        const list = document.getElementById("manageCriteriaList");
+        let cards = [
           ...document.querySelectorAll("#manageCriteriaList .mg-priority-item"),
         ];
+        const fixed = cards.find(
+          (card) => card.querySelector("b")?.textContent === "필수 참석자 우선",
+        );
+        if (list && fixed && list.firstElementChild !== fixed) {
+          list.prepend(fixed);
+          cards = [
+            ...document.querySelectorAll(
+              "#manageCriteriaList .mg-priority-item",
+            ),
+          ];
+        }
         const next = cards.map((card) => ({
           title: card.querySelector("b")?.textContent || "",
           desc:
@@ -4712,7 +4869,7 @@
 
       function showInvite() {
         document.getElementById("createdInvite").classList.remove("hidden");
-        copyToast();
+        showToastMessage("참가자별 개인 링크를 만들었어요.");
       }
       function renderStatus() {
         const box = document.getElementById("statusList");
@@ -4727,7 +4884,7 @@
         state.people.forEach((p) =>
           box.insertAdjacentHTML(
             "beforeend",
-            `<div class="status-person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role} · ${p.essential ? "필수 참석자" : "일반 참석자"}</span><div class="small">${p.done ? p.conditions : "아직 조건을 제출하지 않았어요."}</div></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span>${p.done ? "" : '<button class="secondary" onclick="copyToast()">링크 복사</button>'}</div>`,
+            `<div class="status-person"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role} · ${p.essential ? "필수 참석자" : "일반 참석자"}</span><div class="small">${p.done ? p.conditions : "아직 조건을 제출하지 않았어요."}</div></div><span class="badge ${p.done ? "done" : "pending"}">${p.done ? "제출 완료" : "대기 중"}</span><button class="secondary" onclick="copyParticipantLink('${p.inviteCode}','${p.name}')">개인 링크 복사</button></div>`,
           ),
         );
       }
@@ -4893,7 +5050,9 @@
         };
       }
       function getRecommendationPreset() {
-        const top = criteria[0]?.title || "필수 참석자 우선";
+        // 필수 참석자 우선은 모든 추천에 고정 적용하고,
+        // 그다음 순위의 기준으로 후보 간 우선순위를 결정해요.
+        const top = criteria[1]?.title || "필수 참석자 우선";
         const purpose = getMeetingPurposeText();
         const purposePreset = getPurposeRecommendationPreset();
         const presets = {
@@ -5174,12 +5333,102 @@
       }
       function copyCodeToast() {
         const t = document.getElementById("toast");
-        t.textContent = "초대코드가 복사되었습니다.";
+        t.textContent = "회의 코드가 복사됐어요.";
         t.classList.add("show");
         setTimeout(() => {
           t.classList.remove("show");
           t.textContent = "복사되었습니다.";
         }, 1300);
+      }
+      function getParticipantLink(code) {
+        const url = new URL(window.location.href);
+        url.search = "";
+        url.hash = "";
+        url.searchParams.set("participant", code);
+        return url.toString();
+      }
+      function copyParticipantLink(code, name) {
+        const link = getParticipantLink(code);
+        const message = `${name}님의 개인 참여 링크를 복사했어요.`;
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(link).catch(() => {});
+        }
+        showToastMessage(message);
+      }
+      function copyAllParticipantLinks() {
+        const lines = [
+          "[MeetFit 개인 참여 코드]",
+          "각 코드를 해당 참가자에게 전달해주세요.",
+          "",
+          ...state.people.flatMap((person) => [
+            `${person.name} · ${person.role} · ${person.inviteCode}`,
+            getParticipantLink(person.inviteCode),
+            "",
+          ]),
+        ];
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(lines.join("\n")).catch(() => {});
+        }
+        showToastMessage("전체 코드 목록을 복사했어요.");
+      }
+      function getParticipantStorageKey(code) {
+        return `meetfit:response:${code}`;
+      }
+      function loadSavedParticipantResponses() {
+        state.people.forEach((person) => {
+          try {
+            const saved = JSON.parse(
+              localStorage.getItem(
+                getParticipantStorageKey(person.inviteCode),
+              ) || "null",
+            );
+            if (!saved) return;
+            person.done = Boolean(saved.done);
+            person.conditions = saved.conditions || person.conditions;
+            person.responseData = saved;
+          } catch (_) {}
+        });
+      }
+      function saveParticipantResponse(person) {
+        const responseData = {
+          done: true,
+          conditions: person.conditions,
+          method: state.method,
+          calendarProvider: state.calendarProvider,
+          selectedConditions: getSelectedConditions()
+            .split(" · ")
+            .filter(Boolean),
+          manualSelected: [...manualSchedule.selected],
+          updatedAt: new Date().toISOString(),
+        };
+        person.responseData = responseData;
+        try {
+          localStorage.setItem(
+            getParticipantStorageKey(person.inviteCode),
+            JSON.stringify(responseData),
+          );
+        } catch (_) {}
+      }
+      function restoreParticipantResponse(person) {
+        const saved = person.responseData;
+        if (!saved) return;
+        state.method = saved.method || state.method;
+        state.calendarProvider =
+          saved.calendarProvider || state.calendarProvider;
+        manualSchedule.selected.clear();
+        (saved.manualSelected || []).forEach((slot) =>
+          manualSchedule.selected.add(slot),
+        );
+        const selectedConditions = new Set(saved.selectedConditions || []);
+        document
+          .querySelectorAll('.join-step[data-step="4"] .chip')
+          .forEach((chip) =>
+            chip.classList.toggle(
+              "on",
+              selectedConditions.has(chip.textContent.trim()),
+            ),
+          );
+        renderManualSchedule();
       }
       function copyToast() {
         const t = document.getElementById("toast");
@@ -5188,11 +5437,57 @@
         setTimeout(() => t.classList.remove("show"), 1300);
       }
       let joinStep = 0;
-      function startJoin() {
+      function startJoin(code = "") {
         joinStep = 0;
         state.selected = "";
         state.editingResponse = false;
         go("join");
+        renderJoin();
+        if (code) {
+          const input = document.getElementById("participantCodeInput");
+          if (input) input.value = code;
+          enterParticipantCode();
+        }
+      }
+      function clearParticipantCodeError() {
+        const error = document.getElementById("participantCodeError");
+        if (error) error.textContent = "";
+      }
+      function enterParticipantCode() {
+        const input = document.getElementById("participantCodeInput");
+        const code = String(input?.value || "")
+          .trim()
+          .toUpperCase();
+        const person = state.people.find(
+          (participant) => participant.inviteCode === code,
+        );
+        if (!person) {
+          const error = document.getElementById("participantCodeError");
+          if (error) error.textContent = "개인 참여 코드를 다시 확인해주세요.";
+          return;
+        }
+        clearParticipantCodeError();
+        state.selected = person.name;
+        state.editableParticipant = person.name;
+        state.editingResponse = person.done;
+        if (person.responseData) {
+          restoreParticipantResponse(person);
+        } else if (!person.done) {
+          state.method = "직접 입력하기";
+          state.calendarProvider = "Google Calendar";
+        } else if (person.conditions.startsWith("직접 입력")) {
+          state.method = "직접 입력하기";
+        } else if (person.conditions.includes("기본 캘린더")) {
+          state.method = "캘린더 가져오기 · 기본 캘린더";
+          state.calendarProvider = "기본 캘린더";
+        } else if (person.conditions.includes("Google Calendar")) {
+          state.method = "캘린더 가져오기 · Google Calendar";
+          state.calendarProvider = "Google Calendar";
+        }
+        document.getElementById("selectedIdentityText").textContent =
+          person.name + " · " + person.role;
+        document.getElementById("methodText").textContent = state.method;
+        joinStep = 1;
         renderJoin();
       }
       function joinNext() {
@@ -5236,39 +5531,21 @@
         renderIdentity();
       }
       function renderIdentity() {
-        const box = document.getElementById("identityList");
-        if (!box) return;
-        box.innerHTML = "";
-        state.people.forEach((p) => {
-          const selected = state.selected === p.name;
-          const canEdit = p.done && p.name === state.editableParticipant;
-          const disabled = p.done && !canEdit;
-          const badgeText = canEdit
-            ? selected
-              ? "수정 중"
-              : "응답 수정"
-            : p.done
-              ? "제출 완료"
-              : selected
-                ? "선택됨"
-                : "선택";
-          box.insertAdjacentHTML(
-            "beforeend",
-            `<button class="name-card ${disabled ? "disabled" : ""} ${selected ? "selected" : ""}" ${disabled ? "disabled" : ""} onclick="selectIdentity('${p.name}','${p.role}')"><div class="avatar">${p.name[0]}</div><div class="person-info"><b>${p.name}</b><span>${p.role}</span></div><span class="badge ${p.done ? "done" : "pending"}">${badgeText}</span></button>`,
-          );
-        });
+        const person = state.people.find((p) => p.name === state.selected);
+        if (!person) return;
+        const avatar = document.getElementById("joinParticipantAvatar");
+        const name = document.getElementById("joinParticipantName");
+        const role = document.getElementById("joinParticipantRole");
+        const status = document.getElementById("joinParticipantStatus");
         const btn = document.getElementById("identityNext");
-        if (btn) btn.disabled = !state.selected;
-      }
-      function selectIdentity(n, r) {
-        state.selected = n;
-        const person = state.people.find((p) => p.name === n);
-        state.editingResponse = Boolean(
-          person?.done && n === state.editableParticipant,
-        );
-        document.getElementById("selectedIdentityText").textContent =
-          n + " · " + r;
-        renderIdentity();
+        if (avatar) avatar.textContent = person.name[0];
+        if (name) name.textContent = person.name;
+        if (role) role.textContent = person.role;
+        if (status) {
+          status.textContent = person.done ? "제출 완료" : "응답 전";
+          status.classList.toggle("done", person.done);
+        }
+        if (btn) btn.textContent = person.done ? "응답 수정하기" : "다음";
       }
       const manualSchedule = {
         selected: new Set(),
@@ -5690,6 +5967,7 @@
               ? getManualScheduleSummary() + " · "
               : "") +
             (getSelectedConditions() || "추가 조건 없음");
+          saveParticipantResponse(person);
         }
         const completionTitle = document.getElementById("joinCompletionTitle");
         if (completionTitle) {
@@ -5724,7 +6002,12 @@
         )
           e.target.classList.toggle("on");
       });
+      loadSavedParticipantResponses();
       renderAll();
+      const incomingParticipantCode = new URLSearchParams(
+        window.location.search,
+      ).get("participant");
+      if (incomingParticipantCode) startJoin(incomingParticipantCode);
     </script>
   </body>
 </html>
