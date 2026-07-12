@@ -3373,7 +3373,7 @@
               <span class="pill">개인 링크 생성 완료</span>
               <p class="personal-invite-guide">
                 참가자 목록에서 개인 참여 링크를 복사해 각자에게 전달해주세요.
-                개인 링크로 본인의 응답만 제출하고 수정할 수 있어요.
+                개인 링크로 본인의 응답을 제출하고 수정할 수 있어요.
               </p>
               <div class="pass-chip">
                 비밀번호 <span id="createdPassword">2407</span>
@@ -5328,23 +5328,32 @@
           .getElementById(id)
           .scrollIntoView({ behavior: "smooth", block: "start" });
       }
+      let toastTimer = null;
+
       function showToastMessage(message) {
-        const t = document.getElementById("toast");
-        t.textContent = message;
-        t.classList.add("show");
-        setTimeout(() => {
-          t.classList.remove("show");
-          t.textContent = "복사되었습니다.";
-        }, 1500);
+        const toast = document.getElementById("toast");
+        if (!toast) return;
+
+        // 이전 알림의 종료 타이머가 새 알림을 닫지 않도록 취소해요.
+        if (toastTimer) {
+          clearTimeout(toastTimer);
+          toastTimer = null;
+        }
+
+        // 같은 알림을 연속 실행해도 애니메이션이 처음부터 시작되게 해요.
+        toast.classList.remove("show");
+        toast.textContent = message;
+        void toast.offsetWidth;
+        toast.classList.add("show");
+
+        // CSS 애니메이션 시간(1.3초)과 동일하게 맞춰요.
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+          toastTimer = null;
+        }, 1300);
       }
       function copyCodeToast() {
-        const t = document.getElementById("toast");
-        t.textContent = "회의 코드가 복사됐어요.";
-        t.classList.add("show");
-        setTimeout(() => {
-          t.classList.remove("show");
-          t.textContent = "복사되었습니다.";
-        }, 1300);
+        showToastMessage("회의 코드가 복사됐어요.");
       }
       function getParticipantLink(code) {
         const url = new URL(window.location.href);
@@ -5363,8 +5372,8 @@
       }
       function copyAllParticipantLinks() {
         const lines = [
-          "[MeetFit 개인 참여 링크]",
-          "각 링크를 해당 참가자에게 개별로 전달해주세요.",
+          "[MeetFit 개인 참여 코드]",
+          "각 코드를 해당 참가자에게 개별로 전달해주세요.",
           "",
           ...state.people.flatMap((person) => [
             `${person.name} · ${person.role} · ${person.inviteCode}`,
@@ -5375,9 +5384,7 @@
         if (navigator.clipboard?.writeText) {
           navigator.clipboard.writeText(lines.join("\n")).catch(() => {});
         }
-        showToastMessage(
-          "전체 링크 목록을 복사했어요. 참가자별로 전달해주세요.",
-        );
+        showToastMessage("전체 코드 목록을 복사했어요.");
       }
       function getParticipantStorageKey(code) {
         return `meetfit:response:${code}`;
@@ -5439,10 +5446,7 @@
         renderManualSchedule();
       }
       function copyToast() {
-        const t = document.getElementById("toast");
-        t.textContent = "복사되었습니다.";
-        t.classList.add("show");
-        setTimeout(() => t.classList.remove("show"), 1300);
+        showToastMessage("복사되었습니다.");
       }
       let joinStep = 0;
       function startJoin(code = "") {
@@ -5957,13 +5961,7 @@
       }
       function refreshParticipantStatus() {
         renderParticipantStatus();
-        const t = document.getElementById("toast");
-        t.textContent = "응답 현황을 새로고침했습니다.";
-        t.classList.add("show");
-        setTimeout(() => {
-          t.classList.remove("show");
-          t.textContent = "복사되었습니다.";
-        }, 1300);
+        showToastMessage("응답 현황을 새로고침했어요.");
       }
       function submitJoin() {
         const person = state.people.find((p) => p.name === state.selected);
